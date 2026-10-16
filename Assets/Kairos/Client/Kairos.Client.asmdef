@@ -1,0 +1,4 @@
+{
+  "name": "Kairos.Client",
+  "references": ["Kairos.Engine", "Kairos.Ai", "Unity.ugui"]
+}

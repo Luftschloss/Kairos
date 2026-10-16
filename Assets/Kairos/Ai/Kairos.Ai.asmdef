@@ -1,0 +1,5 @@
+{
+  "name": "Kairos.Ai",
+  "references": ["Kairos.Engine"],
+  "noEngineReferences": true
+}

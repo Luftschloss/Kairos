@@ -1,0 +1,7 @@
+{
+  "name": "Kairos.Engine",
+  "rootNamespace": "Kairos.Engine",
+  "references": [],
+  "noEngineReferences": true,
+  "autoReferenced": true
+}

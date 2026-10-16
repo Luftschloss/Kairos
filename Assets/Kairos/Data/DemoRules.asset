@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04b58888bc4135147a72e8f9fb8b159e, type: 3}
+  m_Name: DemoRules
+  m_EditorClassIdentifier: 
+  Values:
+    TimelineEnd: 64
+    BarLength: 4
+    LifeStart: 20
+    LifeMax: 20
+    DeckSize: 30
+    CopyLimit: 2
+    LegendaryLimit: 1
+    MaxSchools: 2
+    HandStart: 5
+    SecondPlayerBonusCards: 1
+    HandMax: 8
+    BoardMax: 5
+    SigilMax: 3
+    ChannelMax: 2
+    OmenMax: 3
+    OmenSetCost: 2
+    OmenOffsetMin: 1
+    OmenOffsetMax: 6
+    FocusCost: 2
+    FocusPerBar: 1
+    HorizonBase: 2
+    HorizonMax: 7
+    InterjectTax: 1
+    MinActionCost: 1
+    RewindMaxGap: 4
+    PushSingleMax: 3
+    PushPerBarMax: 4
+    SandMax: 10
+    RefluxThreshold: 10
+    RefluxRewind: 2
+    EmptyDeckDamage: 2
+    KairosLineMax: 60
+    DuskBellLines: 3000000034000000380000003c000000
+    DuskBellDamage: 01000000020000000300000004000000
+    InterjectTimeoutMs: 8000

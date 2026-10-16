@@ -1,0 +1,477 @@
+{
+  "version": "0.1.0",
+  "schemaDoc": "docs/KAIROS_规则规格书.md#15-效果-dsl",
+  "cards": [
+    {
+      "key": "N_GEAR_APPRENTICE", "name": "齿轮学徒", "school": "NEUTRAL", "type": "UNIT", "rarity": "COMMON",
+      "time": 1, "atk": 1, "hp": 2, "cadence": 1, "keywords": [],
+      "abilities": [{ "trigger": "ON_PLAY", "effects": [{ "op": "SCRY", "player": "$you", "count": 1 }] }],
+      "text": "部署：预见 1。",
+      "flavor": "“师傅说，先学会听齿轮咬合的声音，再学会看表。”"
+    },
+    {
+      "key": "N_BELL_GUARD", "name": "钟楼守卫", "school": "NEUTRAL", "type": "UNIT", "rarity": "COMMON",
+      "time": 2, "atk": 1, "hp": 3, "cadence": 1, "keywords": ["GUARD"],
+      "abilities": [{ "trigger": "ON_PLAY", "effects": [{ "op": "HEAL", "target": "$youKeeper", "amount": 2 }] }],
+      "text": "守卫。部署：恢复 2 点命烛。",
+      "flavor": "钟碎之后，他仍每天准点上岗。没人排他的班，是他自己想来。"
+    },
+    {
+      "key": "N_WANDERING_TIMEKEEPER", "name": "流浪计时者", "school": "NEUTRAL", "type": "UNIT", "rarity": "COMMON",
+      "time": 3, "atk": 2, "hp": 2, "cadence": 1, "keywords": [],
+      "abilities": [{ "trigger": "ON_PLAY", "effects": [{ "op": "DRAW", "player": "$you", "count": 1 }] }],
+      "text": "部署：抽 1 张牌。",
+      "flavor": "腕钟摘下以后，他第一次发现一天可以有很多种长度。"
+    },
+    {
+      "key": "N_BRASS_GOLEM", "name": "黄铜魔像", "school": "NEUTRAL", "type": "UNIT", "rarity": "COMMON",
+      "time": 4, "atk": 5, "hp": 5, "cadence": 2, "keywords": [],
+      "abilities": [],
+      "text": "（节奏 2）",
+      "flavor": "司辰时代的流水线工人。它不累，只是慢。"
+    },
+    {
+      "key": "N_HOURGLASS", "name": "沙漏", "school": "NEUTRAL", "type": "SPELL", "rarity": "COMMON",
+      "time": 1,
+      "abilities": [{ "trigger": "ON_PLAY", "effects": [
+        { "op": "DRAW", "player": "$you", "count": 1 },
+        { "op": "IF", "cond": "KAIROS", "then": [{ "op": "DRAW", "player": "$you", "count": 1 }] }
+      ] }],
+      "text": "抽 1 张牌。契机：再抽 1 张。",
+      "flavor": "翻过来的那一瞬，是唯一不属于任何人的时间。"
+    },
+    {
+      "key": "N_PENDULUM_BLADE", "name": "钟摆刃", "school": "NEUTRAL", "type": "SPELL", "rarity": "COMMON",
+      "time": 2,
+      "targets": [{ "id": "t1", "selector": "ANY_CHARACTER" }],
+      "abilities": [{ "trigger": "ON_PLAY", "effects": [
+        { "op": "DAMAGE", "target": "$t1", "amount": 3 },
+        { "op": "IF", "cond": { "TARGET_DIED": "$t1" }, "then": [{ "op": "PUSH_MARKER", "player": "$opponent", "amount": 1 }] }
+      ] }],
+      "text": "造成 3 点伤害。如果它消灭了一名侍从，推迟对手时标 1 刻。"
+    },
+
+    {
+      "key": "DAWN_SCOUT", "name": "晨光斥候", "school": "DAWN", "type": "UNIT", "rarity": "COMMON",
+      "time": 1, "atk": 2, "hp": 1, "cadence": 1, "keywords": ["SWIFT"],
+      "abilities": [],
+      "text": "迅捷。",
+      "flavor": "“系统给我 28 分钟，我用 19 分钟。剩下 9 分钟是我的。”"
+    },
+    {
+      "key": "DAWN_COURIER", "name": "疾行信使", "school": "DAWN", "type": "UNIT", "rarity": "COMMON",
+      "time": 2, "atk": 2, "hp": 1, "cadence": 1, "keywords": ["SWIFT"],
+      "abilities": [{ "trigger": "ON_PLAY", "effects": [
+        { "op": "IF", "cond": "CHAIN_BEAT", "then": [{ "op": "DRAW", "player": "$you", "count": 1 }] }
+      ] }],
+      "text": "迅捷。连拍：抽 1 张牌。"
+    },
+    {
+      "key": "DAWN_FIRST_LIGHT_STRIKE", "name": "破晓一击", "school": "DAWN", "type": "SPELL", "rarity": "COMMON",
+      "time": 1, "interject": true, "interjectCondition": "ANY",
+      "targets": [{ "id": "t1", "selector": "ANY_CHARACTER" }],
+      "abilities": [{ "trigger": "ON_PLAY", "effects": [{ "op": "DAMAGE", "target": "$t1", "amount": 2 }] }],
+      "text": "抢拍。造成 2 点伤害。",
+      "flavor": "抢在倒计时归零之前。"
+    },
+    {
+      "key": "DAWN_INTERCEPTOR", "name": "拦截者", "school": "DAWN", "type": "UNIT", "rarity": "RARE",
+      "time": 2, "atk": 2, "hp": 2, "cadence": 1, "keywords": [],
+      "interject": true, "interjectOnly": true, "interjectCondition": "DECLARED_ATTACK",
+      "abilities": [{ "trigger": "ON_PLAY", "effects": [
+        { "op": "IF", "cond": "INTERJECTING", "then": [{ "op": "REDIRECT_ATTACK", "to": "$self" }] }
+      ] }],
+      "text": "抢拍（仅限对手宣言攻击时）。部署：该攻击的目标改为这名侍从。"
+    },
+    {
+      "key": "DAWN_GALE_CHORUS", "name": "疾风连奏", "school": "DAWN", "type": "SPELL", "rarity": "COMMON",
+      "time": 2,
+      "targets": [{ "id": "t1", "selector": "FRIENDLY_UNIT", "optional": true }],
+      "abilities": [{ "trigger": "ON_PLAY", "effects": [
+        { "op": "BUFF_ALL", "selector": "FRIENDLY_UNITS", "atk": 1, "hp": 0, "duration": "UNTIL_CONTROLLER_NEXT_CHIME" },
+        { "op": "IF", "cond": "CHAIN_BEAT", "then": [{ "op": "REFRESH", "target": "$t1" }] }
+      ] }],
+      "text": "本小节内，友方侍从 +1 攻。连拍：重整一名友方侍从。"
+    },
+    {
+      "key": "DAWN_RIDER", "name": "黎明骑手", "school": "DAWN", "type": "UNIT", "rarity": "RARE",
+      "time": 3, "atk": 3, "hp": 3, "cadence": 1, "keywords": ["SWIFT"],
+      "abilities": [{ "trigger": "ON_PLAY", "effects": [
+        { "op": "IF", "cond": "CHAIN_BEAT", "then": [{ "op": "BUFF", "target": "$self", "atk": 1, "hp": 1, "duration": "PERMANENT" }] }
+      ] }],
+      "text": "迅捷。连拍：+1/+1。"
+    },
+    {
+      "key": "DAWN_LAW_OF_INITIATIVE", "name": "先手之律", "school": "DAWN", "type": "SIGIL", "rarity": "RARE",
+      "time": 2,
+      "static": [{ "kind": "COST_MOD", "appliesTo": "YOUR_ACTIONS", "cond": "CHAIN_BEAT", "delta": -1, "limit": "ONCE_PER_YOUR_BAR" }],
+      "text": "每小节你的第一次连拍行动，时值 -1。",
+      "flavor": "规则写着“先到先得”。没写的是：谁定的起跑线。"
+    },
+    {
+      "key": "DAWN_SUNRISE_TORRENT", "name": "曙光洪流", "school": "DAWN", "type": "SPELL", "rarity": "LEGENDARY",
+      "time": 5,
+      "abilities": [{ "trigger": "ON_PLAY", "effects": [
+        { "op": "IF", "cond": "CHAIN_BEAT",
+          "then": [{ "op": "DAMAGE_ALL", "selector": "ENEMY_UNITS", "amount": 3 }],
+          "else": [{ "op": "DAMAGE_ALL", "selector": "ENEMY_UNITS", "amount": 2 }] }
+      ] }],
+      "text": "对所有敌方侍从造成 2 点伤害。连拍：改为 3 点。"
+    },
+
+    {
+      "key": "NOON_MORNING_PRAYER", "name": "晨祷修士", "school": "NOON", "type": "UNIT", "rarity": "COMMON",
+      "time": 1, "atk": 1, "hp": 2, "cadence": 1, "keywords": [],
+      "abilities": [{ "trigger": "ON_PLAY", "effects": [{ "op": "HEAL", "target": "$youKeeper", "amount": 2 }] }],
+      "text": "部署：恢复 2 点命烛。"
+    },
+    {
+      "key": "NOON_ZENITH_WARDEN", "name": "正午卫士", "school": "NOON", "type": "UNIT", "rarity": "COMMON",
+      "time": 2, "atk": 1, "hp": 4, "cadence": 1, "keywords": ["GUARD"],
+      "abilities": [],
+      "text": "守卫。",
+      "flavor": "“下班时间到了。这一条，我替你守着。”"
+    },
+    {
+      "key": "NOON_RADIANT_BARRIER", "name": "圣辉屏障", "school": "NOON", "type": "SPELL", "rarity": "COMMON",
+      "time": 1, "interject": true, "interjectCondition": "ANY",
+      "targets": [{ "id": "t1", "selector": "FRIENDLY_UNIT" }],
+      "abilities": [{ "trigger": "ON_PLAY", "effects": [{ "op": "SHIELD", "target": "$t1" }] }],
+      "text": "抢拍。一名友方侍从获得护盾。"
+    },
+    {
+      "key": "NOON_MOMENT_OF_ORDER", "name": "秩序之刻", "school": "NOON", "type": "SPELL", "rarity": "RARE",
+      "time": 1, "interject": true, "interjectCondition": "ANY",
+      "targets": [{ "id": "t1", "selector": "TIMELINE_OBJECT" }],
+      "abilities": [{ "trigger": "ON_PLAY", "effects": [{ "op": "PUSH_OBJECT", "target": "$t1", "amount": 3 }] }],
+      "text": "抢拍。推迟一个时轴物件 3 刻。",
+      "flavor": "“这个议题，下次例会再讨论。”"
+    },
+    {
+      "key": "NOON_SUNDIAL_JUDGE", "name": "日晷法官", "school": "NOON", "type": "UNIT", "rarity": "RARE",
+      "time": 4, "atk": 3, "hp": 6, "cadence": 1, "keywords": ["GUARD"],
+      "static": [{ "kind": "COST_MOD", "appliesTo": "OPPONENT_CARDS", "filter": { "hasChannel": true }, "delta": 1 }],
+      "abilities": [],
+      "text": "守卫。对手的咏唱牌时值 +1。"
+    },
+    {
+      "key": "NOON_NOON_JUDGMENT", "name": "正午审判", "school": "NOON", "type": "SPELL", "rarity": "COMMON",
+      "time": 4,
+      "targets": [{ "id": "t1", "selector": "ANY_UNIT", "filter": { "minAtk": 4 } }],
+      "abilities": [{ "trigger": "ON_PLAY", "effects": [{ "op": "DESTROY", "target": "$t1" }] }],
+      "text": "消灭一名攻击力 ≥4 的侍从。"
+    },
+    {
+      "key": "NOON_COVENANT_OF_RADIANCE", "name": "光辉圣约", "school": "NOON", "type": "SIGIL", "rarity": "RARE",
+      "time": 3,
+      "abilities": [{ "trigger": "ON_YOUR_CHIME", "effects": [
+        { "op": "HEAL", "target": "$youKeeper", "amount": 2 },
+        { "op": "BUFF", "target": "FRIENDLY_UNIT_LOWEST_HP", "atk": 0, "hp": 1, "duration": "PERMANENT" }
+      ] }],
+      "text": "你每次鸣钟时，恢复 2 点命烛，并使你生命值最低的友方侍从 +0/+1。"
+    },
+    {
+      "key": "NOON_SOLAR_ANGEL", "name": "烈阳天使", "school": "NOON", "type": "UNIT", "rarity": "LEGENDARY",
+      "time": 6, "atk": 5, "hp": 7, "cadence": 2, "keywords": ["GUARD"],
+      "abilities": [{ "trigger": "ON_PLAY", "effects": [{ "op": "PUSH_ALL_OBJECTS", "selector": "ENEMY_OBJECTS", "amount": 2 }] }],
+      "text": "（节奏 2）守卫。部署：推迟所有敌方时轴物件 2 刻。"
+    },
+
+    {
+      "key": "DUSK_ASH_ACOLYTE", "name": "灰烬侍僧", "school": "DUSK", "type": "UNIT", "rarity": "COMMON",
+      "time": 1, "atk": 1, "hp": 1, "cadence": 1, "keywords": [],
+      "abilities": [{ "trigger": "ON_DEATH", "effects": [{ "op": "GAIN_SAND", "player": "$you", "amount": 1 }] }],
+      "text": "余音：获得 1 时砂。",
+      "flavor": "被浪费的时间不会消失，它会沉下来，结成砂。"
+    },
+    {
+      "key": "DUSK_RITE_OF_OFFERING", "name": "献祭仪式", "school": "DUSK", "type": "SPELL", "rarity": "COMMON",
+      "time": 1,
+      "targets": [{ "id": "t1", "selector": "FRIENDLY_UNIT" }],
+      "abilities": [{ "trigger": "ON_PLAY", "effects": [
+        { "op": "SACRIFICE", "target": "$t1" },
+        { "op": "GAIN_SAND", "player": "$you", "fromSacrificed": true, "max": 3 }
+      ] }],
+      "text": "牺牲一名友方侍从，获得等同于其时值的时砂（最多 3）。"
+    },
+    {
+      "key": "DUSK_WHISPERER_OF_PAST", "name": "往昔低语者", "school": "DUSK", "type": "UNIT", "rarity": "COMMON",
+      "time": 2, "atk": 2, "hp": 2, "cadence": 1, "keywords": [],
+      "abilities": [{ "trigger": "ON_PLAY", "effects": [
+        { "op": "IF", "cond": "ANY_UNIT_DIED_THIS_BAR", "then": [{ "op": "DRAW", "player": "$you", "count": 1 }] }
+      ] }],
+      "text": "部署：如果本小节有侍从死亡，抽 1 张牌。"
+    },
+    {
+      "key": "DUSK_ECHO_OF_THE_DEAD", "name": "亡者回响", "school": "DUSK", "type": "UNIT", "rarity": "RARE",
+      "time": 3, "atk": 2, "hp": 3, "cadence": 1, "keywords": [],
+      "abilities": [{ "trigger": "ON_PLAY", "effects": [
+        { "op": "SUMMON_FROM_PAST", "player": "$you", "filter": { "type": "UNIT", "maxBaseTime": 2 } }
+      ] }],
+      "text": "部署：从你的往昔召回一名时值 ≤2 的侍从。",
+      "flavor": "“它说话的语气和他一模一样。可我知道，那只是我记得的他。”"
+    },
+    {
+      "key": "DUSK_WITHERING_TOUCH", "name": "凋零之触", "school": "DUSK", "type": "SPELL", "rarity": "COMMON",
+      "time": 2, "interject": true, "interjectCondition": "ANY",
+      "targets": [{ "id": "t1", "selector": "ANY_UNIT" }],
+      "abilities": [{ "trigger": "ON_PLAY", "effects": [{ "op": "BUFF", "target": "$t1", "atk": -2, "hp": -2, "duration": "PERMANENT" }] }],
+      "text": "抢拍。一名侍从 -2/-2。"
+    },
+    {
+      "key": "DUSK_TWILIGHT_PACT", "name": "黄昏契约", "school": "DUSK", "type": "OMEN", "rarity": "RARE",
+      "time": 0,
+      "abilities": [{ "trigger": "ON_REVEAL", "effects": [
+        { "op": "IF", "cond": "TRIGGERER_IS_OPPONENT",
+          "then": [{ "op": "DESTROY", "target": "ENEMY_UNIT_HIGHEST_ATK" }],
+          "else": [{ "op": "GAIN_SAND", "player": "$you", "amount": 2 }] }
+      ] }],
+      "text": "伏笔。揭示时：如果触发者是对手，消灭其攻击力最高的侍从；否则你获得 2 时砂。"
+    },
+    {
+      "key": "DUSK_REAPER", "name": "暮色收割者", "school": "DUSK", "type": "UNIT", "rarity": "EPIC",
+      "time": 5, "atk": 4, "hp": 5, "cadence": 1, "keywords": [],
+      "abilities": [{ "trigger": "ON_ANY_UNIT_DEATH", "effects": [{ "op": "BUFF", "target": "$self", "atk": 1, "hp": 0, "duration": "PERMANENT" }] }],
+      "text": "每当一名侍从死亡，+1 攻。"
+    },
+    {
+      "key": "DUSK_EMBER_COLOSSUS", "name": "余烬巨像", "school": "DUSK", "type": "UNIT", "rarity": "LEGENDARY",
+      "time": 6, "atk": 6, "hp": 6, "cadence": 2, "keywords": [],
+      "abilities": [{ "trigger": "ON_DEATH", "effects": [{ "op": "DAMAGE_ALL", "selector": "ALL_UNITS", "amount": 3 }] }],
+      "text": "（节奏 2）余音：对所有侍从造成 3 点伤害。",
+      "flavor": "它燃烧了三十年，从没请过一天假。倒下的那天，整条街都被照亮了。"
+    },
+
+    {
+      "key": "NIGHT_STARGAZER_APPRENTICE", "name": "观星学徒", "school": "NIGHT", "type": "UNIT", "rarity": "COMMON",
+      "time": 1, "atk": 1, "hp": 2, "cadence": 1, "keywords": [],
+      "abilities": [{ "trigger": "ON_PLAY", "effects": [{ "op": "SCRY", "player": "$you", "count": 2 }] }],
+      "text": "部署：预见 2。"
+    },
+    {
+      "key": "NIGHT_STARFALL", "name": "星陨", "school": "NIGHT", "type": "SPELL", "rarity": "COMMON",
+      "time": 1, "channel": 4,
+      "targets": [{ "id": "t1", "selector": "ANY_CHARACTER" }],
+      "abilities": [{ "trigger": "ON_PLAY", "effects": [{ "op": "DAMAGE", "target": "$t1", "amount": 4 }] }],
+      "text": "咏唱 4。造成 4 点伤害。",
+      "flavor": "预测本身不会伤人。伤人的是：所有人都信了它。"
+    },
+    {
+      "key": "NIGHT_FATE_WEAVER", "name": "命运织者", "school": "NIGHT", "type": "UNIT", "rarity": "RARE",
+      "time": 3, "atk": 2, "hp": 4, "cadence": 1, "keywords": [],
+      "static": [{ "kind": "OMEN_CAP_MOD", "delta": 1 }],
+      "abilities": [{ "trigger": "ON_OWN_OMEN_REVEALED", "effects": [{ "op": "DRAW", "player": "$you", "count": 1 }] }],
+      "text": "你的伏笔上限 +1。每当你的伏笔揭示，抽 1 张牌。"
+    },
+    {
+      "key": "NIGHT_PROPHECY", "name": "天命预言", "school": "NIGHT", "type": "SPELL", "rarity": "RARE",
+      "time": 1, "choice": ["UNIT", "SPELL", "ATTACK", "OTHER"],
+      "abilities": [{ "trigger": "ON_PLAY", "effects": [{ "op": "PROPHECY", "target": "$opponent", "predicted": "$choice" }] }],
+      "text": "宣言一种行动类型。如果对手的下一个行动属于该类型：你抽 2 张牌，且该行动时值 +1。",
+      "flavor": "“根据你的历史行为，你接下来会——”“闭嘴。”"
+    },
+    {
+      "key": "NIGHT_VOID_GAZE", "name": "虚空凝视", "school": "NIGHT", "type": "OMEN", "rarity": "COMMON",
+      "time": 0,
+      "abilities": [{ "trigger": "ON_REVEAL", "effects": [{ "op": "NEXT_CARD_COST", "player": "$triggerer", "delta": 2, "duration": "UNTIL_USED" }] }],
+      "text": "伏笔。揭示时：触发者打出的下一张牌时值 +2。",
+      "flavor": "你只是想看一眼。抬头时，一小时已经过去了。"
+    },
+    {
+      "key": "NIGHT_TEMPORAL_REWIND", "name": "时空回溯", "school": "NIGHT", "type": "SPELL", "rarity": "EPIC",
+      "time": 3, "interject": true, "interjectOnly": true, "interjectCondition": "DECLARED_SPELL",
+      "abilities": [{ "trigger": "ON_PLAY", "effects": [{ "op": "COUNTER_DECLARED", "destination": "DECK_BOTTOM" }] }],
+      "text": "抢拍（仅限对手宣言术式或刻印时）。使其无效（对手照付时间），并将其置于对手牌库底。"
+    },
+    {
+      "key": "NIGHT_MIRROR_MOMENT", "name": "镜中之刻", "school": "NIGHT", "type": "OMEN", "rarity": "LEGENDARY",
+      "time": 0,
+      "abilities": [{ "trigger": "ON_REVEAL", "effects": [{ "op": "COPY_LAST_PLAYED", "from": "$triggerer", "to": "$you" }] }],
+      "text": "伏笔。揭示时：将触发者最后打出的一张牌的复制置入你的手牌。"
+    },
+    {
+      "key": "NIGHT_STARS_REALIGN", "name": "群星归位", "school": "NIGHT", "type": "SPELL", "rarity": "LEGENDARY",
+      "time": 2, "channel": 6,
+      "abilities": [{ "trigger": "ON_PLAY", "effects": [{ "op": "DESTROY_ALL", "selector": "ALL_UNITS" }] }],
+      "text": "咏唱 6。消灭所有侍从。"
+    },
+
+    {
+      "key": "ETERNAL_SPROUT", "name": "萌芽种子", "school": "ETERNAL", "type": "UNIT", "rarity": "COMMON",
+      "time": 1, "atk": 0, "hp": 2, "cadence": 1, "keywords": ["GROWTH"],
+      "abilities": [],
+      "text": "蓄力。",
+      "flavor": "古尔德种下它的时候，没打算活着看它长大。"
+    },
+    {
+      "key": "ETERNAL_MOSS_WATCHER", "name": "苔藓守望者", "school": "ETERNAL", "type": "UNIT", "rarity": "COMMON",
+      "time": 2, "atk": 1, "hp": 3, "cadence": 1, "keywords": ["GROWTH"],
+      "abilities": [],
+      "text": "蓄力。"
+    },
+    {
+      "key": "ETERNAL_AMBER_SEAL", "name": "琥珀封印", "school": "ETERNAL", "type": "SPELL", "rarity": "COMMON",
+      "time": 2,
+      "targets": [{ "id": "t1", "selector": "ANY_UNIT" }],
+      "abilities": [{ "trigger": "ON_PLAY", "effects": [{ "op": "STASIS", "target": "$t1" }] }],
+      "text": "停滞一名侍从。"
+    },
+    {
+      "key": "ETERNAL_SLOW_CURRENT", "name": "缓流", "school": "ETERNAL", "type": "SPELL", "rarity": "COMMON",
+      "time": 2,
+      "abilities": [{ "trigger": "ON_PLAY", "effects": [
+        { "op": "IF", "cond": "KAIROS",
+          "then": [{ "op": "PUSH_MARKER", "player": "$opponent", "amount": 3 }],
+          "else": [{ "op": "PUSH_MARKER", "player": "$opponent", "amount": 2 }] }
+      ] }],
+      "text": "推迟对手时标 2 刻。契机：改为 3 刻。",
+      "flavor": "“急什么。”"
+    },
+    {
+      "key": "ETERNAL_RING_TREE", "name": "年轮古树", "school": "ETERNAL", "type": "UNIT", "rarity": "RARE",
+      "time": 5, "atk": 3, "hp": 6, "cadence": 1, "keywords": ["GUARD", "GROWTH"],
+      "abilities": [],
+      "text": "守卫。蓄力。"
+    },
+    {
+      "key": "ETERNAL_STASIS_FIELD", "name": "静滞领域", "school": "ETERNAL", "type": "SIGIL", "rarity": "RARE",
+      "time": 3,
+      "static": [{ "kind": "COST_MOD", "appliesTo": "OPPONENT_ATTACKS", "delta": 1 }],
+      "text": "敌方侍从的节奏 +1。"
+    },
+    {
+      "key": "ETERNAL_MILLENNIUM_INSTANT", "name": "千年一瞬", "school": "ETERNAL", "type": "SPELL", "rarity": "EPIC",
+      "time": 4,
+      "abilities": [{ "trigger": "ON_PLAY", "effects": [{ "op": "GROW_ALL", "selector": "FRIENDLY_GROWTH_UNITS", "times": 2 }] }],
+      "text": "所有友方蓄力侍从立即蓄力 2 次。"
+    },
+    {
+      "key": "ETERNAL_EVERLASTING_GUARDIAN", "name": "永恒守护者", "school": "ETERNAL", "type": "UNIT", "rarity": "LEGENDARY",
+      "time": 7, "atk": 6, "hp": 9, "cadence": 2, "keywords": ["GUARD"],
+      "abilities": [{ "trigger": "ON_PLAY", "effects": [{ "op": "STASIS_ALL", "selector": "ENEMY_UNITS" }] }],
+      "text": "（节奏 2）守卫。部署：停滞所有敌方侍从。"
+    }
+  ],
+
+  "keepers": [
+    {
+      "key": "K_DAWN_IRIN", "name": "破晓者 · 伊琳", "school": "DAWN",
+      "passive": { "static": [{ "kind": "INTERJECT_TAX_FREE", "limit": "ONCE_PER_YOUR_BAR" }] },
+      "ability": {
+        "name": "晨鸣", "cost": 1, "cooldownBars": 1,
+        "targets": [{ "id": "t1", "selector": "FRIENDLY_UNIT", "filter": { "enteredThisBar": true, "notAttacked": true, "exhausted": true, "notStasis": true } }],
+        "effects": [{ "op": "REFRESH", "target": "$t1" }]
+      },
+      "text": "被动：每小节你的第一次抢拍免税。晨鸣（1 刻，每小节 1 次）：重整一名本小节入场、尚未攻击的友方侍从。"
+    },
+    {
+      "key": "K_DAWN_AXUN", "name": "倍速者 · 阿迅", "school": "DAWN",
+      "passive": { "abilities": [{ "trigger": "ON_CHAIN_LENGTH", "length": 3, "limit": "ONCE_PER_YOUR_BAR", "effects": [{ "op": "DRAW", "player": "$you", "count": 1 }] }] },
+      "ability": {
+        "name": "二倍速", "cost": 1, "cooldownBars": 2,
+        "effects": [{ "op": "NEXT_CARD_COST", "player": "$you", "delta": -1, "minBaseTime": 2, "duration": "UNTIL_CONTROLLER_NEXT_CHIME" }]
+      },
+      "text": "被动：每小节你第一次连续宣言达到 3 次时，抽 1 张。二倍速（1 刻，每 2 小节 1 次）：本小节你打出的下一张时值 ≥2 的牌，时值 -1。"
+    },
+    {
+      "key": "K_NOON_ORIS", "name": "执钟者 · 奥瑞斯", "school": "NOON",
+      "passive": { "static": [{ "kind": "STAT_AURA", "selector": "FRIENDLY_UNITS", "filter": { "keyword": "GUARD" }, "atk": 0, "hp": 1 }] },
+      "ability": {
+        "name": "正午裁定", "cost": 1, "cooldownBars": 2,
+        "targets": [{ "id": "t1", "selector": "TIMELINE_OBJECT" }],
+        "effects": [{ "op": "PUSH_OBJECT", "target": "$t1", "amount": 2 }]
+      },
+      "text": "被动：你的守卫侍从 +0/+1。正午裁定（1 刻，每 2 小节 1 次）：推迟一个时轴物件 2 刻。"
+    },
+    {
+      "key": "K_NOON_KELAI", "name": "守夜人 · 珂莱", "school": "NOON",
+      "passive": { "abilities": [{ "trigger": "ON_FRIENDLY_SHIELD_BROKEN", "effects": [{ "op": "HEAL", "target": "$youKeeper", "amount": 1 }] }] },
+      "ability": {
+        "name": "守夜", "cost": 1, "cooldownBars": 2,
+        "targets": [{ "id": "t1", "selector": "FRIENDLY_UNIT" }],
+        "effects": [{ "op": "SHIELD", "target": "$t1" }]
+      },
+      "text": "被动：每当友方护盾被打破，恢复 1 点命烛。守夜（1 刻，每 2 小节 1 次）：一名友方侍从获得护盾。"
+    },
+    {
+      "key": "K_DUSK_MORGAN", "name": "焚时者 · 摩尔甘", "school": "DUSK",
+      "passive": { "abilities": [{ "trigger": "ON_FRIENDLY_UNIT_DEATH", "limit": "ONCE_PER_YOUR_BAR", "effects": [{ "op": "GAIN_SAND", "player": "$you", "amount": 1 }] }] },
+      "ability": {
+        "name": "焚时", "cost": 1, "cooldownBars": 1,
+        "effects": [{ "op": "PAY_LIFE", "player": "$you", "amount": 2 }, { "op": "DRAW", "player": "$you", "count": 1 }]
+      },
+      "text": "被动：每小节第一个死亡的友方侍从使你获得 1 时砂。焚时（1 刻，每小节 1 次）：支付 2 点命烛，抽 1 张。"
+    },
+    {
+      "key": "K_DUSK_SHENMO", "name": "忆者 · 沈默", "school": "DUSK",
+      "passive": { "static": [{ "kind": "ENTER_ATK_PER_PAST_UNITS", "per": 5, "atk": 1 }] },
+      "ability": {
+        "name": "回声", "cost": 2, "cooldownBars": 3,
+        "effects": [{ "op": "SUMMON_FROM_PAST", "player": "$you", "filter": { "type": "UNIT", "maxBaseTime": 3 } }]
+      },
+      "text": "被动：你的往昔中每有 5 张侍从牌，你的侍从入场时 +1 攻。回声（2 刻，每 3 小节 1 次）：从往昔召回一名时值 ≤3 的侍从。"
+    },
+    {
+      "key": "K_NIGHT_SELENE", "name": "观星者 · 塞勒涅", "school": "NIGHT",
+      "passive": { "static": [{ "kind": "REVEAL_TOP_TO_OWNER" }] },
+      "ability": {
+        "name": "窥时", "cost": 1, "cooldownBars": 3,
+        "effects": [{ "op": "PICK_FROM_TOP", "player": "$you", "count": 3, "pick": 1 }]
+      },
+      "text": "被动：你随时可以查看自己的牌库顶。窥时（1 刻，每 3 小节 1 次）：从牌库顶 3 张中选 1 张加入手牌，其余置底。"
+    },
+    {
+      "key": "K_NIGHT_ZERO", "name": "未名代理 · 零", "school": "NIGHT",
+      "passive": { "static": [{ "kind": "OMEN_CAP_MOD", "delta": 1 }] },
+      "ability": {
+        "name": "学习", "cost": 1, "cooldownBars": 2,
+        "effects": [{ "op": "COPY_LAST_PLAYED", "from": "$opponent", "to": "$you", "costDelta": 1 }]
+      },
+      "text": "被动：你的伏笔上限 +1。学习（1 刻，每 2 小节 1 次）：将对手最后打出的一张牌的复制置入你的手牌，其时值 +1。"
+    },
+    {
+      "key": "K_ETERNAL_GOULD", "name": "守年人 · 古尔德", "school": "ETERNAL",
+      "passive": { "abilities": [{ "trigger": "ON_FRIENDLY_UNIT_ENTER", "cond": "KAIROS", "effects": [{ "op": "BUFF", "target": "$entered", "atk": 1, "hp": 1, "duration": "PERMANENT" }] }] },
+      "ability": {
+        "name": "凝滞", "cost": 2, "cooldownBars": 2,
+        "targets": [{ "id": "t1", "selector": "ANY_UNIT", "filter": { "maxBaseTime": 3 } }],
+        "effects": [{ "op": "STASIS", "target": "$t1" }]
+      },
+      "text": "被动：你的侍从以契机入场时 +1/+1。凝滞（2 刻，每 2 小节 1 次）：停滞一名时值 ≤3 的侍从。"
+    },
+    {
+      "key": "K_ETERNAL_XIAOMAN", "name": "归乡人 · 小满", "school": "ETERNAL",
+      "passive": { "abilities": [{ "trigger": "ON_YOUR_WAIT", "effects": [{ "op": "GROW_ALL", "selector": "FRIENDLY_GROWTH_UNITS", "times": 1 }] }] },
+      "ability": {
+        "name": "小满", "cost": 1, "cooldownBars": 2,
+        "effects": [{ "op": "IF", "cond": "YOUR_LIFE_LT_OPPONENT",
+          "then": [{ "op": "PUSH_MARKER", "player": "$opponent", "amount": 2 }],
+          "else": [{ "op": "PUSH_MARKER", "player": "$opponent", "amount": 1 }] }]
+      },
+      "text": "被动：你静候时，所有友方蓄力侍从蓄力 1 次。小满（1 刻，每 2 小节 1 次）：推迟对手时标 1 刻；如果你的命烛低于对手，改为 2 刻。"
+    }
+  ],
+
+  "precons": [
+    {
+      "key": "PRECON_DAWN_NIGHT", "name": "破晓星轨", "keeper": "K_DAWN_IRIN",
+      "cards": {
+        "DAWN_SCOUT": 2, "DAWN_COURIER": 2, "DAWN_FIRST_LIGHT_STRIKE": 2, "DAWN_INTERCEPTOR": 2,
+        "DAWN_GALE_CHORUS": 2, "DAWN_RIDER": 2, "DAWN_SUNRISE_TORRENT": 1,
+        "NIGHT_STARGAZER_APPRENTICE": 2, "NIGHT_STARFALL": 2, "NIGHT_PROPHECY": 2, "NIGHT_VOID_GAZE": 2,
+        "NIGHT_TEMPORAL_REWIND": 2, "NIGHT_MIRROR_MOMENT": 1,
+        "N_GEAR_APPRENTICE": 2, "N_HOURGLASS": 2, "N_PENDULUM_BLADE": 2
+      }
+    },
+    {
+      "key": "PRECON_NOON_ETERNAL", "name": "烈阳琥珀", "keeper": "K_NOON_ORIS",
+      "cards": {
+        "NOON_MORNING_PRAYER": 2, "NOON_ZENITH_WARDEN": 2, "NOON_RADIANT_BARRIER": 2, "NOON_MOMENT_OF_ORDER": 1,
+        "NOON_SUNDIAL_JUDGE": 2, "NOON_NOON_JUDGMENT": 2, "NOON_SOLAR_ANGEL": 1,
+        "ETERNAL_SPROUT": 2, "ETERNAL_MOSS_WATCHER": 2, "ETERNAL_AMBER_SEAL": 2, "ETERNAL_SLOW_CURRENT": 2,
+        "ETERNAL_RING_TREE": 2, "ETERNAL_EVERLASTING_GUARDIAN": 1,
+        "N_BELL_GUARD": 2, "N_WANDERING_TIMEKEEPER": 2, "N_BRASS_GOLEM": 2, "N_HOURGLASS": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "name": "Kairos.Editor",
+  "references": ["Kairos.Engine", "Kairos.Client", "UnityEditor.TestRunner", "UnityEngine.TestRunner"],
+  "includePlatforms": ["Editor"]
+}
