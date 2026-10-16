@@ -45,7 +45,8 @@ namespace Kairos.Client
         }
         void Clear()
         {
-            timerLabel = previewLabel = null;
+            timerLabel = previewLabel = timeSummary = windowTitle = null;
+            dragging = false; targetRects.Clear(); sourceRect = futureRect = null;
             for (int i = root.childCount - 1; i >= 0; i--) { var go = root.GetChild(i).gameObject; go.SetActive(false); Destroy(go); }
         }
         void Header(string subtitle)
@@ -56,42 +57,31 @@ namespace Kairos.Client
         }
         void ShowMenu()
         {
-            lesson = null; tutorialIntro = false; help = false; leaving = false;
-            State = null; PrivacyCurtain = false; Clear(); Header("钟碎之日  ·  可玩规则原型  /  DEMO 01");
-            Button(root, new Rect(1310, 18, 252, 38), "规则手册 / 随时查阅", () => OpenRules(), true, panel, 18);
-            Label(root, new Rect(100, 155, 760, 95), "谁拥有你的时间？", 52, gold);
-            Label(root, new Rect(104, 252, 850, 88), "没有回合，没有法力。\n落后者行动；每一张牌，都把未来让给对手。", 24, ink);
-            var art = Box(root, new Rect(1060, 148, 380, 190), panel);
-            Label(art, new Rect(24, 24, 336, 46), "00  ─  04  ─  08  ─  64", 28, gold, TextAnchor.MiddleCenter);
-            Label(art, new Rect(35, 93, 310, 70), "鸣钟 · 预见 · 一呼一应\n黄铜钟盘上的下一种可能", 20, muted, TextAnchor.MiddleCenter);
-            Label(root, new Rect(104, 376, 1350, 32), "对局准备", 23, gold);
-            Button(root, new Rect(104, 427, 620, 70), "P1 / 你的预组：" + Database.Precons[FirstDeck].Name + "\n" + Database.Keeper(Database.Precons[FirstDeck].Keeper).Name, () => { FirstDeck = 1 - FirstDeck; ShowMenu(); });
-            Button(root, new Rect(758, 427, 620, 70), "P2 / 对手预组：" + Database.Precons[SecondDeck].Name + "\n" + Database.Keeper(Database.Precons[SecondDeck].Keeper).Name, () => { SecondDeck = 1 - SecondDeck; ShowMenu(); });
-            Label(root, new Rect(104, 526, 100, 32), "对局种子", 18, muted);
-            var inputRect = Box(root, new Rect(210, 517, 516, 46), panel); var input = inputRect.gameObject.AddComponent<InputField>(); var inputText = Label(inputRect, new Rect(14, 8, 480, 30), Seed, 19); input.textComponent = inputText; input.text = Seed; input.onValueChanged.AddListener(value => Seed = string.IsNullOrWhiteSpace(value) ? "kairos" : value);
-            Button(root, new Rect(758, 516, 620, 54), TutorialCompleted ? "新手教学 · 已完成，可重玩" : "新手教学 · 约 2 分钟，边玩边学（推荐）", StartTutorial, true, new Color32(30, 75, 79, 255), 21);
-            Button(root, new Rect(104, 617, 402, 96), "本地 PVP\n双人热座 · 隐私交接", () => RequestMode(() => StartMatch(DemoMode.Hotseat)), true, new Color32(80, 68, 46, 255), 23);
-            Button(root, new Rect(530, 617, 402, 96), "对战练习\n与本地 AI 切磋", () => RequestMode(() => StartMatch(DemoMode.Practice)), true, new Color32(30, 75, 79, 255), 23);
-            Button(root, new Rect(956, 617, 422, 96), "逆流之塔\nPVE 基础短流程", () => RequestMode(StartTower), true, new Color32(64, 54, 80, 255), 23);
-            Label(root, new Rect(104, 753, 1290, 82), "先读这一条：时标较小的一方行动，相同时后到者先行。每过 4 刻鸣钟：抽牌、重整、扩大视界。\n选手牌或侍从 → 点目标 → 确认。卡牌可盖成伏笔；抢拍仅一层。", 19, muted);
+            lesson = null; tutorialIntro = false; help = false; leaving = false; retrySave = null; aiCommand = null;
+            State = null; PrivacyCurtain = false; Clear();
+            if (progression == null) { InitFailure(new Exception("档案尚未加载")); return; }
+            SyncRun(); DrawMetaHome();
         }
         void RebuildBattle()
         {
             if (State == null) return; Clear();
-            Header(lesson != null ? "新手教学 / 固定残局 · 跟随金色高亮" : Mode == DemoMode.Hotseat ? "本地 PVP  /  双人热座" : Mode == DemoMode.Tower ? "逆流之塔  /  " + CampaignRun.EnemyNames[Run.Encounter] : "对战练习  /  本地 AI");
+            Header(lesson != null ? "新手教学 / 固定残局 · 跟随金色高亮" : Mode == DemoMode.Hotseat ? "本地 PVP  /  双人热座" : Mode == DemoMode.Tower ? "逆流之塔  /  " + CampaignRun.EnemyNames[Run.Encounter] : trialMatch ? "全卡试用 / 无成长收益" : "收藏 AI 对战 / 永久成长收益");
             if (PrivacyCurtain)
             {
                 int next = GameEngine.NextActor(State);
                 Label(root, new Rect(350, 260, 900, 85), "请把屏幕交给 P" + (next + 1), 44, gold, TextAnchor.MiddleCenter);
                 Label(root, new Rect(380, 365, 840, 80), "手牌与伏笔已隐藏。\n对方移开视线后，再揭开你的牌面。", 24, muted, TextAnchor.MiddleCenter);
-                Button(root, new Rect(600, 505, 400, 76), "我是 P" + (next + 1) + "，开始操作", AcceptHandoff, true, new Color32(30, 75, 79, 255), 25); return;
+                Button(root, new Rect(600, 505, 400, 76), "我是 P" + (next + 1) + "，开始操作", AcceptHandoff, true, new Color32(30, 75, 79, 255), 25);
+                Button(root, new Rect(600, 615, 400, 58), "保存并返回菜单", ShowMenu, true, panel, 21); return;
             }
             View = ViewRedactor.For(State, viewer);
-            DrawPlayer(1 - viewer, 90, false); DrawBoard(1 - viewer, 180);
+            actionWindow = ActionAvailability.For(View); DrawActionWindow();
+            DrawPlayer(1 - viewer, 141, false); DrawBoard(1 - viewer, 215);
             DrawTimeline(); DrawBoard(viewer, 487); DrawPlayer(viewer, 610, true); DrawHand();
             if (lesson != null) DrawTutorialSidebar(); else DrawSidebar();
             Button(root, new Rect(1310, 18, 130, 36), "规则手册", () => OpenRules());
             Button(root, new Rect(1454, 18, 110, 36), "离开", () => { leaving = true; RebuildBattle(); });
+            DrawActionLinks();
             if (!View.MainPhase && CanAct) DrawMulligan();
             else if (View.Pending != null && View.Pending.Kind != PendingKind.Interject) DrawChoice();
             if (State.Outcome != Outcome.Ongoing) { if (lesson != null) DrawTutorialComplete(); else DrawResult(); }
@@ -103,58 +93,43 @@ namespace Kairos.Client
         {
             var player = View.Players[p]; var k = Database.Keeper(player.Keeper); Color accent = friendly ? teal : red;
             var target = new Target(TargetKind.Keeper, p);
-            var keeperButton = Button(root, new Rect(32, y, 298, 73), (friendly ? "P" + (p + 1) + "  " : EnemyName + "  ") + k.Name + "\n命烛 " + player.Life + " / " + View.Config.LifeMax, () => SelectTarget(target), lesson == null ? CanAct : TargetAvailable(target), selectedTarget.Equals(target) ? new Color32(92, 77, 43, 255) : panel, 20);
+            var keeperButton = Button(root, new Rect(32, y, 298, friendly ? 73 : 65), (friendly ? "P" + (p + 1) + "  " : EnemyName + "  ") + k.Name + "\n命烛 " + player.Life + " / " + View.Config.LifeMax, () => SelectTarget(target), lesson == null ? CanAct : TargetAvailable(target), selectedTarget.Equals(target) ? new Color32(92, 77, 43, 255) : panel, 20);
+            BindTarget(keeperButton, target);
             Highlight(keeperButton, TargetAvailable(target));
             Label(root, new Rect(350, y + 2, 725, 31), "时标 " + player.Marker + "   |   视界 " + Math.Min(View.Config.HorizonMax, View.Config.HorizonBase + player.ChimesRung) + "   |   时砂 " + player.Sand + "   |   牌库 " + View.DeckCounts[p] + "   |   手牌 " + View.HandCounts[p], 21, accent);
             string sigils = "刻印："; foreach (var c in player.Sigils) sigils += Database.Card(c.Key).Name + "  ";
-            if (player.Sigils.Count == 0) sigils += "—";
+            if (player.Sigils.Count == 0) sigils += friendly && actionWindow.CanUseHand ? "—  /  无目标牌可拖到此处打出" : "—";
+            if (friendly)
+            {
+                var playZone = Box(root, new Rect(345, y + 35, 843, 37), background); playZone.name = "PlayZone";
+                BindHit(playZone, BattleHitKind.Deploy);
+            }
             Label(root, new Rect(350, y + 39, 810, 32), sigils + (player.Prophecy != null ? "  /  预言 " + player.Prophecy : ""), 17, muted);
         }
         void DrawBoard(int p, int y)
         {
             var board = View.Players[p].Board;
+            int height = p == viewer ? 110 : 76;
+            if (p == viewer)
+            {
+                var zone = Box(root, new Rect(32, y, 1156, 110), background); zone.name = "DeployZone";
+                BindHit(zone, BattleHitKind.Deploy);
+            }
             for (int i = 0; i < 5; i++)
             {
                 int x = 32 + i * 234;
-                if (i >= board.Count) { var empty = Box(root, new Rect(x, y, 220, 110), panel * new Color(1, 1, 1, 0.4f)); Label(empty, new Rect(0, 40, 220, 30), "—", 22, muted, TextAnchor.MiddleCenter); continue; }
+                if (i >= board.Count) { var empty = Box(root, new Rect(x, y, 220, height), panel * new Color(1, 1, 1, 0.4f)); if (p == viewer) BindHit(empty, BattleHitKind.Deploy); Label(empty, new Rect(0, 10, 220, height - 15), p == viewer && i == board.Count ? actionWindow.Normal ? "拖到此处出牌\n侍从从最右侧入场" : "部署区\n" + (actionWindow.Response ? "仅可部署合法抢拍侍从" : "等待行动权") : "—", 16, muted, TextAnchor.MiddleCenter); continue; }
                 var u = board[i]; var d = Database.Card(u.Card.Key); int id = u.Id;
-                string state = u.Stasis ? "停滞" : u.Exhausted ? "疲惫" : "可攻击";
+                bool canAttack = p == viewer && BattleInput && HasAction(CommandKind.Attack, id);
+                string state = u.Stasis ? "停滞" : u.Exhausted ? "疲惫" : p != viewer ? "就绪" : canAttack ? "可攻击" : "就绪 · 暂不能攻击";
                 string tags = ((u.Keywords & Keyword.Guard) != 0 ? " 守卫" : "") + ((u.Keywords & Keyword.Growth) != 0 ? " 蓄力" : "") + (u.Shield ? " 护盾" : "");
                 bool chosen = selectedUnit == id || selectedTarget.Equals(new Target(TargetKind.Unit, id));
-                var unitButton = Button(root, new Rect(x, y, 220, 110), d.Name + "\n" + u.Atk + " 攻 / " + u.Hp + " 血 / " + u.Cadence + " 刻\n" + state + tags,
-                    () => { if (p == viewer && selectedCard == 0 && !ability && (selectedUnit == 0 || lesson != null)) { selectedUnit = id; selectedTarget = default; RebuildBattle(); } else SelectTarget(new Target(TargetKind.Unit, id)); }, CanAct && TutorialUnitSelectable(p, id), chosen ? new Color32(92, 77, 43, 255) : panel, 18);
+                var unitButton = Button(root, new Rect(x, y, 220, height), d.Name + "\n" + u.Atk + " 攻 / " + u.Hp + " 血 / " + u.Cadence + " 刻\n" + state + tags,
+                    () => { if (p == viewer && selectedCard == 0 && !ability) { ClearSelection(); selectedUnit = id; RebuildBattle(); } else SelectTarget(new Target(TargetKind.Unit, id)); }, BattleInput && (p == viewer && selectedCard == 0 && !ability ? canAttack : TargetAvailable(new Target(TargetKind.Unit, id))), chosen ? new Color32(92, 77, 43, 255) : panel, p == viewer ? 18 : 16);
+                BindTarget(unitButton, new Target(TargetKind.Unit, id));
+                if (p == viewer) BindSource(unitButton.GetComponent<RectTransform>(), 0, id);
+                if (canAttack && Draft() == null) ActionOutline(unitButton, teal);
                 Highlight(unitButton, TargetAvailable(new Target(TargetKind.Unit, id)) || lesson != null && CanAct && TutorialUnitSelectable(p, id));
-            }
-        }
-        void DrawTimeline()
-        {
-            var strip = Box(root, new Rect(32, 306, 1156, 162), panel);
-            string active = State.Outcome != Outcome.Ongoing ? "对局结束" : !View.MainPhase ? "起手调度" : View.Pending != null ? "等待 P" + (View.Actor + 1) + " 选择" : "行动权：P" + (View.Actor + 1) + "  ·  落后者行动，相同则后到者先行";
-            var intent = Mode == DemoMode.Tower ? AiIntent() : null;
-            Label(strip, new Rect(16, 10, 1110, 25), intent ?? active, 18, gold);
-            for (int i = 0; i <= 64; i++)
-            {
-                float x = 24 + i * 17.2f; bool bell = i % 4 == 0;
-                Box(strip, new Rect(x, 63, 1, bell ? 28 : 11), i >= 48 ? red : muted);
-                if (bell) Label(strip, new Rect(x - 12, 95, 36, 23), i.ToString(), 13, muted, TextAnchor.MiddleCenter);
-            }
-            for (int p = 0; p < 2; p++)
-            {
-                float x = 24 + View.Players[p].Marker * 17.2f;
-                Label(strip, new Rect(x - 15, p == viewer ? 111 : 35, 56, 26), "P" + (p + 1), 18, p == viewer ? teal : red);
-                Box(strip, new Rect(x - 2, 62, 5, 25), p == viewer ? teal : red);
-            }
-            var draft = LegalDraft();
-            if (draft != null)
-            {
-                var previewView = View; previewView.Costs[PlayerView.CommandKey(draft)] = GameEngine.Cost(State, draft);
-                var preview = MarkerPreview.For(previewView, draft); float x = 24 + preview.FinalMarker * 17.2f;
-                Box(strip, new Rect(x - 3, 57, 7, 37), gold);
-            }
-            foreach (var o in View.Timeline)
-            {
-                float x = 24 + Mathf.Min(o.Pos, 64) * 17.2f;
-                Label(strip, new Rect(x - 5, 139, 60, 22), o.Kind == ObjectKind.Omen ? "?" : "◆", 15, gold);
             }
         }
         void DrawHand()
@@ -163,28 +138,40 @@ namespace Kairos.Client
             for (int i = 0; i < hand.Count; i++)
             {
                 var c = hand[i]; var d = Database.Card(c.Key); int id = c.Id;
-                Color color = selectedCard == id || selection.Contains(id) ? new Color32(93, 77, 44, 255) : panel;
-                var rt = Box(root, new Rect(32 + i * 145, 702, 136, 171), color);
-                var button = rt.gameObject.AddComponent<Button>(); button.targetGraphic = rt.GetComponent<Image>(); button.interactable = CanAct && TutorialCardSelectable(id);
-                Highlight(button, lesson != null && button.interactable);
+                var available = ActionAvailability.Card(View, id);
+                bool selectable = CanAct && TutorialCardSelectable(id) && (actionWindow.Window == ActionWindow.Mulligan || actionWindow.CanUseHand);
+                Color color = selectedCard == id || selection.Contains(id) ? new Color32(93, 77, 44, 255) : selectable && available.CanPlay ? new Color32(28, 53, 61, 255) : panel;
+                var rt = Box(root, new Rect(32 + i * 145, 702, 136, 171), color); rt.name = "HandCard-" + id;
+                var button = rt.gameObject.AddComponent<Button>(); button.targetGraphic = rt.GetComponent<Image>(); button.interactable = selectable;
+                var colors = button.colors; colors.disabledColor = new Color(.65f, .65f, .65f, 1); button.colors = colors;
+                if (selectable && available.CanPlay) ActionOutline(button, actionWindow.Response ? gold : teal);
+                else Highlight(button, lesson != null && button.interactable);
                 button.onClick.AddListener(() =>
                 {
                     if (!View.MainPhase) { if (!selection.Remove(id)) selection.Add(id); RebuildBattle(); return; }
-                    selectedCard = id; selectedUnit = 0; ability = false; placingOmen = d.Type == "OMEN"; selectedTarget = default; sand = 0; RebuildBattle();
+                    SelectHand(id); RebuildBattle();
                 });
-                Label(rt, new Rect(10, 7, 116, 26), (d.Type == "OMEN" ? "伏笔 2" : (d.Time + c.CostDelta) + " 刻") + " · " + KindName(d.Type), 15, gold);
+                Label(rt, new Rect(7, 7, 122, 26), (d.Type == "OMEN" ? "伏笔 2" : (d.Time + c.CostDelta) + " 刻") + (d.Type == "UNIT" ? " · " + d.Atk + "/" + d.Hp + " 节" + d.Cadence : " · " + KindName(d.Type)), 14, gold);
                 Label(rt, new Rect(10, 38, 116, 45), d.Name, 20, ink);
                 Label(rt, new Rect(10, 84, 116, 64), d.Text, 14, muted);
-                if (d.Type == "UNIT") Label(rt, new Rect(10, 147, 116, 22), d.Atk + " / " + d.Hp + "    节奏 " + d.Cadence, 14, teal);
+                var badge = Box(rt, new Rect(4, 148, 128, 21), selectable && available.CanPlay ? new Color32(30, 78, 78, 255) : background); badge.GetComponent<Image>().raycastTarget = false;
+                Label(badge, new Rect(0, 0, 128, 21), HandStatus(id, available), 14, selectable && available.CanPlay ? actionWindow.Response ? gold : teal : muted, TextAnchor.MiddleCenter).name = "Availability";
+                BindSource(rt, id, 0);
                 var trigger = rt.gameObject.AddComponent<EventTrigger>(); var entry = new EventTrigger.Entry { eventID = EventTriggerType.PointerEnter };
                 entry.callback.AddListener(_ => HoverCard(id)); trigger.triggers.Add(entry);
+                var exit = new EventTrigger.Entry { eventID = EventTriggerType.PointerExit };
+                exit.callback.AddListener(_ => { if (!dragging && timeSummary != null) timeSummary.text = PreviewText(Draft()); }); trigger.triggers.Add(exit);
             }
         }
         void HoverCard(int id)
         {
-            if (previewLabel == null || selectedCard != 0 || selectedUnit != 0 || ability) return;
+            if (previewLabel == null || selectedCard != 0 || selectedUnit != 0 || ability || selectedAction.HasValue) return;
+            var availability = ActionAvailability.Card(View, id);
+            previewLabel.text = CardUnavailableReason(id, availability);
+            if (!BattleInput || !availability.CanPlay) return;
             foreach (var c in View.Legal) if (c.CardId == id && c.Kind != CommandKind.Omen)
             {
+                if (timeSummary != null) timeSummary.text = PreviewText(c);
                 var p = MarkerPreview.For(View, c); previewLabel.text = "悬停预览：" + View.Players[viewer].Marker + " → " + p.FinalMarker + "\n对手窗口 " + p.OpponentWindow + " 刻；鸣钟 " + p.Chimes.Count + " 次" + (p.Kairos ? "；契机" : ""); return;
             }
             previewLabel.text = "当前不能正面打出。\n点击卡牌可查看原因或改为伏笔。";

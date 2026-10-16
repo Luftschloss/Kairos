@@ -11,7 +11,7 @@ namespace Kairos.Client
         TutorialLesson lesson;
         bool tutorialIntro;
         int helpPage;
-        public bool TutorialCompleted => PlayerPrefs.GetInt(TutorialPreference, 0) == 1;
+        public bool TutorialCompleted => progression != null && progression.Data.Profile.Entitlements.Contains(Kairos.Progression.ProgressionService.TutorialGrant);
         public bool IsTutorial => lesson != null;
         public TutorialStep LessonStep => lesson == null ? TutorialStep.Deploy : lesson.Step;
         bool LessonAllows(Command c) => lesson == null || !tutorialIntro && lesson.Allows(c);
@@ -31,6 +31,7 @@ namespace Kairos.Client
         }
         public void StartTutorial()
         {
+            retrySave = null;
             lesson = TutorialLesson.Create(Database); State = lesson.State; Run = null; Mode = DemoMode.Practice; viewer = 0;
             tutorialIntro = true; BeginMatch();
         }
@@ -65,13 +66,13 @@ namespace Kairos.Client
             {
                 case TutorialStep.Deploy:
                     explanation = "你在 0 刻，钟偶在 2 刻。\n你落后，所以由你行动。\n\n晨光斥候耗时 1 刻。\n另一张牌要 3 刻，超过开局视界 2，暂时不能出。";
-                    instruction = selectedCard == 0 ? "点下方金色的「晨光斥候」。" : "侍从入场无需选目标。\n点下方「确认行动」。"; break;
+                    instruction = selectedCard == 0 ? "将下方「晨光斥候」拖到己方部署区；也可点击选牌。" : "看中央 0 → 1 刻预览。\n拖入部署区，或点「确认行动」。"; break;
                 case TutorialStep.FirstAttack:
                     explanation = "出牌后，你在 1 刻，仍比钟偶的 2 刻落后，所以还是你行动。\n\n斥候有「迅捷」：入场即可攻击。2 攻 / 1 血 / 节奏 1，表示攻击造成 2 伤害、花 1 刻。";
-                    instruction = selectedUnit == 0 ? "点己方「晨光斥候」。" : selectedTarget.Kind == TargetKind.None ? "点上方金色的训练钟偶命烛面板。" : "目标已选好。点「确认行动」。"; break;
+                    instruction = selectedUnit == 0 ? "从己方斥候拖到上方钟偶；也可点击斥候。" : selectedTarget.Kind == TargetKind.None ? "拖到 / 点击钟偶命烛面板。\n先看预计到 2 刻，仍由你行动。" : "目标已选好。点「确认行动」。"; break;
                 case TutorialStep.Chime:
                     explanation = "钟偶命烛 4 → 2，斥候变为疲惫。\n双方都在 2 刻，但你后到，所以仍然由你行动。\n\n蓄势花 2 刻抽 1 张，每小节限一次。走到第 4 刻还会鸣钟。";
-                    instruction = "点「蓄势 · 2 刻」。\n观察抽牌、斥候重整和视界变化。"; break;
+                    instruction = selectedAction == CommandKind.Focus ? "中央显示预计鸣钟 1 次。\n点「确认行动」，观察抽牌与重整。" : "点「蓄势预览」，先看 2 → 4 刻。"; break;
                 case TutorialStep.OpponentWait:
                     explanation = "鸣钟完成！\n蓄势抽 1 张，鸣钟再抽 1 张；斥候恢复可攻击，视界 2 → 3。\n\n你到 4 刻，钟偶还在 2 刻：现在轮到它。它将静候到你的时标 +1，即第 5 刻。";
                     instruction = "点「让钟偶静候」，再观察行动权。"; break;
@@ -89,7 +90,7 @@ namespace Kairos.Client
                 int cost = GameEngine.Cost(State, draft);
                 previewLabel = Label(side, new Rect(18, 568, 322, 64), "支付 " + cost + " 刻：时标 " + State.Players[0].Marker + " → " + Math.Min(64, State.Players[0].Marker + cost) + "\n" + (selectedTarget.Kind == TargetKind.None ? "先看目标提示，再确认。" : "目标：训练钟偶"), 18, muted);
             }
-            if (lesson.Step == TutorialStep.Chime) Button(side, new Rect(18, 651, 322, 62), "蓄势 · 2 刻", () => Submit(new Command { Player = 0, Kind = CommandKind.Focus }), true, new Color32(96, 77, 40, 255), 24);
+            if (lesson.Step == TutorialStep.Chime && selectedAction != CommandKind.Focus) Button(side, new Rect(18, 651, 322, 62), "蓄势预览 · 2 → 4 刻", () => SelectAction(CommandKind.Focus), true, new Color32(96, 77, 40, 255), 24);
             else if (lesson.Step == TutorialStep.OpponentWait) Button(side, new Rect(18, 651, 322, 62), "让钟偶静候", () => Submit(lesson.ExpectedCommand()), true, new Color32(96, 77, 40, 255), 24);
             else Button(side, new Rect(18, 651, 322, 62), "确认行动", () => Submit(Draft()), LegalDraft() != null, new Color32(96, 77, 40, 255), 24);
             Label(side, new Rect(18, 731, 322, 42), message ?? "其他操作暂时锁定，避免误操作。", 16, muted);
@@ -98,7 +99,7 @@ namespace Kairos.Client
         {
             var box = Modal("教学完成 · 你掌握了第一段时间");
             Label(box, new Rect(40, 112, 1050, 86), "你亲手击败了训练钟偶。\n出牌、战斗与胜负均由正式规则引擎结算。", 26, teal);
-            Label(box, new Rect(40, 243, 1050, 142), "记住三件事就可以开始：\n① 落后者行动；相同时，后到者先行。\n② 先结算效果，再支付时间；每到新钟点抽牌、重整、扩大视界。\n③ 攻击需要未疲惫的侍从，先点侍从、再点目标、最后确认。", 23, ink);
+            Label(box, new Rect(40, 243, 1050, 142), "记住三件事就可以开始：\n① 落后者行动；相同时，后到者先行。\n② 先结算效果，再支付时间；每到新钟点抽牌、重整、扩大视界。\n③ 攻击需要未疲惫的侍从：拖到敌人；或点来源、点目标、再确认。", 23, ink);
             Label(box, new Rect(40, 405, 1050, 64), "正式对局有起手调度和更多机制。抢拍、伏笔、咏唱可随时在「规则手册」查阅。\n建议下一步先选 AI 练习，熟悉后再与朋友热座对战。", 19, muted);
             Button(box, new Rect(40, 517, 410, 64), "开始 AI 练习", () => StartMatch(DemoMode.Practice), true, new Color32(30, 88, 85, 255), 25);
             Button(box, new Rect(480, 517, 285, 64), "重玩教学", StartTutorial, true, background, 21);
@@ -109,7 +110,9 @@ namespace Kairos.Client
         bool TargetAvailable(Target target)
         {
             if (!CanAct || Draft() == null) return false;
-            var c = Draft(); c.Target = target;
+            var c = Draft();
+            if (c.Kind == CommandKind.Omen || c.Kind == CommandKind.Focus || c.Kind == CommandKind.Wait) return false;
+            c.Target = target;
             return LessonAllows(c) && GameEngine.IllegalReason(State, c) == null;
         }
         void Highlight(Button button, bool active)
@@ -128,11 +131,11 @@ namespace Kairos.Client
         }
         string ActionHint()
         {
-            if (!View.MainPhase) return "起手建议：保留 1～2 刻牌。点击要换的牌，再确认调度。";
-            if (View.Pending?.Kind == PendingKind.Interject) return "对手已宣言行动：可抢拍先结算一张牌，或点「放弃抢拍」。";
-            if (!CanAct) return "等待对手行动。观察双方时标；落后者将重新获得行动权。";
+            if (!actionWindow.CanUseHand) return actionWindow.Title + "：" + actionWindow.Explanation;
+            if (View.Pending?.Kind == PendingKind.Interject) return "仅可抢拍：只选金色亮边响应牌；不能普通出牌 / 攻击 / 用时器，也可放弃抢拍。";
             var draft = Draft();
-            if (draft == null) return "下一步：点手牌或未疲惫的己方侍从 → 点金色目标 → 确认。无牌可用时可蓄势或静候。";
+            if (draft == null) return "选牌先看中央时轴；拖牌到部署区 / 目标，拖侍从到敌人。也可点击选择后确认；右键 / Esc 取消。";
+            if (placingOmen) return "伏笔：直接点击时轴亮起的合法刻度，再确认；也可拖牌到该格松手提交。不是移动自己的时标。";
             string reason = GameEngine.IllegalReason(State, draft);
             if (reason == "最终时值超过视界") return "费用超过视界：等鸣钟提升上限，或使用时砂减费。也可取消，换一张便宜的牌。";
             if (reason == "请选择合法目标" || reason == "必须优先攻击守卫") return "请点金色边框的合法目标；攻击时必须先打守卫。没有高亮目标时可取消此行动。";

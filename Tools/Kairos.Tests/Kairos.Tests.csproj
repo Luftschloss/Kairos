@@ -2,6 +2,7 @@
   <PropertyGroup><TargetFramework>net8.0</TargetFramework><LangVersion>9.0</LangVersion><ImplicitUsings>disable</ImplicitUsings><Nullable>disable</Nullable><IsTestProject>true</IsTestProject></PropertyGroup>
   <ItemGroup>
     <Compile Include="../../Assets/Kairos/Engine/**/*.cs" LinkBase="Engine" />
+    <Compile Include="../../Assets/Kairos/Progression/**/*.cs" LinkBase="Progression" />
     <Compile Include="../../Assets/Kairos/Ai/**/*.cs" LinkBase="Ai" />
     <Compile Include="../../Assets/Tests/EditMode/Rules/**/*.cs" LinkBase="Tests" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />

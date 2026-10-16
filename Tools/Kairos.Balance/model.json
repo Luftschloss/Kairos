@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "name": "固定规则下的平衡诊断，不预测胜率",
+  "rules": {
+    "deck_size": 30, "copy_limit": 2, "legendary_limit": 1, "max_schools": 2,
+    "bar_length": 4, "horizon_base": 2, "horizon_max": 7,
+    "timeline_end": 64, "kairos_line_max": 60, "interject_tax": 1, "min_action_cost": 1,
+    "hand_start": 5, "second_bonus": 1, "hand_max": 8
+  },
+  "draw_samples": [5, 6, 8, 10, 12],
+  "growth_chimes": [0, 1, 3, 5],
+  "survival_per_chime": [0.5, 0.75, 1.0],
+  "condition_probabilities": [0.25, 0.5, 0.75],
+  "keeper_window_end": 16,
+  "probability_study": {
+    "name": "齿轮学徒的额外预见（仅数学候选，未接入引擎）",
+    "base": 1, "bonus": 1, "probability": 0.5,
+    "successes_in_pool": 8, "pool_size": 25,
+    "note": "固定预见1，50%再看1张；只改变可筛选的信息量，不随机化命中、伤害、费用、鸣钟或守卫。"
+  }
+}

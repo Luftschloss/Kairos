@@ -1,0 +1,3 @@
+﻿key,name,keeper,size,unit,ordinary_unit,early_unit,guard,growth,response_only,mean_time
+PRECON_DAWN_NIGHT,破晓星轨,K_DAWN_IRIN,30,12,10,8,0,0,4,1.5666666666666667
+PRECON_NOON_ETERNAL,烈阳琥珀,K_NOON_ORIS,30,20,20,10,10,6,0,2.7

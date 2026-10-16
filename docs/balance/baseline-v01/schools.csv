@@ -1,0 +1,7 @@
+﻿school,kinds,unit_kinds,early_ordinary_units,guard_kinds,growth_kinds,mean_unit_cost,note
+NEUTRAL,6,4,2,1,0,2.5,"pool coverage only, not a school win-rate"
+DAWN,8,4,2,0,0,2.0,"pool coverage only, not a school win-rate"
+NOON,8,4,2,3,0,3.25,"pool coverage only, not a school win-rate"
+DUSK,8,5,2,0,0,3.4,"pool coverage only, not a school win-rate"
+NIGHT,8,2,1,0,0,2.0,"pool coverage only, not a school win-rate"
+ETERNAL,8,4,2,2,3,3.75,"pool coverage only, not a school win-rate"

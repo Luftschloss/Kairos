@@ -6,7 +6,9 @@ namespace Kairos.Engine
 {
     public sealed class PlayerView
     {
-        public int Viewer, Actor;
+        public int Viewer, Actor, LastDeclaredActor;
+        // Only an already-public declaration is projected, never an undeclared hand card.
+        public InFlightAction Declaration;
         public Outcome Outcome;
         public bool MainPhase;
         public RulesConfig Config;
@@ -14,6 +16,8 @@ namespace Kairos.Engine
         public int[] HandCounts, DeckCounts;
         public List<TimelineObject> Timeline;
         public PendingDecision Pending;
+        // Public phase only; choice options and hidden cards stay private to their owner.
+        public PendingKind? PublicDecisionKind;
         public List<GameEvent> Events;
         public List<Command> Legal = new List<Command>();
         public Dictionary<string, int> Costs = new Dictionary<string, int>();
@@ -35,12 +39,16 @@ namespace Kairos.Engine
             }
             foreach (var a in s.Db.Keeper(s.Players[viewer].Keeper).Static) if (a.Kind == "REVEAL_TOP_TO_OWNER" && s.Players[viewer].Deck.Count > 0) v.TopCard = s.Players[viewer].Deck[0].Key;
             foreach (var o in s.Timeline) { var copy = o.Clone(); if (o.Kind == ObjectKind.Omen && o.Owner != viewer) { copy.Card = null; copy.Context = null; } v.Timeline.Add(copy); }
+            v.PublicDecisionKind = s.Pending?.Kind;
             if (s.Pending != null && s.Pending.Player == viewer)
             {
                 v.Pending = s.Pending.Clone();
                 if (s.Pending.Kind == PendingKind.Pick || s.Pending.Kind == PendingKind.Scry)
                     foreach (int id in s.Pending.Options) v.Players[viewer].Deck.Add(GameEngine.FindCard(s.Players[viewer].Deck, id).Clone());
             }
+            v.LastDeclaredActor = s.LastDeclaredActor;
+            if (s.Pending?.Kind == PendingKind.Interject && s.InFlight.Count > 0)
+                v.Declaration = s.InFlight[s.InFlight.Count - 1].Clone();
             foreach (var e in s.Events) if (e.PrivateTo < 0 || e.PrivateTo == viewer) v.Events.Add(e.Clone());
             GameEngine.LegalCommands(s, viewer, v.Legal);
             foreach (var c in v.Legal) if (c.Kind <= CommandKind.Interject && c.Kind != CommandKind.Mulligan) v.Costs[PlayerView.CommandKey(c)] = GameEngine.Cost(s, c);

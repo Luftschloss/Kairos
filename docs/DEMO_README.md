@@ -3,7 +3,7 @@
 ## 运行
 
 - Unity **2022.3.62f3**，Built-in Pipeline，Legacy Input Manager；未升级项目版本。
-- 最新 Windows 教学版：`Builds/KairosDemo-Tutorial/KairosDemo.exe`，保留同目录的 `_Data`、`MonoBleedingEdge` 与 DLL 一起运行；窗口关闭或 Alt+F4 退出。旧版 `Builds/KairosDemo/` 保留不覆盖。
+- 最新 Windows 时轴交互版：`Builds/KairosDemo-Timeline/KairosDemo.exe`，保留同目录的 `_Data`、`MonoBleedingEdge` 与 DLL 一起运行；窗口关闭或 Alt+F4 退出。旧教学版 `Builds/KairosDemo-Tutorial/` 与首版 `Builds/KairosDemo/` 保留不覆盖。
 - 打开 `Assets/Kairos/Scenes/KairosDemo.unity`，点击 **Play**。也可用菜单 **KAIROS → Open Demo**。
 - 建议 Game 窗口最大化、16:9、至少 1280×720；界面按 1600×900 等比适配。中文字体使用系统 Microsoft YaHei 等字体，不含可分发字体资产。
 - 主菜单点击预组按钮切换双方卡组，种子相同时可重现洗牌与先行者。
@@ -26,11 +26,22 @@
 
 1. 选择双方预组，进入本地 PVP。
 2. 点击手牌标记调度，再确认；另一位玩家接手时有隐私遮罩。
-3. 选择手牌或己方侍从，点目标，再点「确认行动」。无目标牌直接确认。
-4. 卡牌可切换为盖放伏笔，`+1…+6` 从支付 2 刻后的时标计算。伏笔牌只能盖放。
-5. 抢拍窗口只能抢拍或放弃，默认 8 秒自动放弃；交接遮罩与帮助/离开弹窗期间不消耗计时。
-6. 效果选择中按顺序点牌，再指定置顶张数；未置顶的牌按所选顺序置底。
-7. 结算页可导出回放到 `Application.persistentDataPath/Replays/`。回放含双方隐藏信息，只应赛后共享。
+3. 选手牌或侍从，先看中央时间预览：费用、预计落点、新鸣钟次数、契机/连拍、预计行动权。点击目标后可在时轴旁确认，也保留右侧确认。
+4. 可直接把手牌拖到己方部署区或合法目标、把侍从拖到敌方目标，合法落区松手提交。无目标牌也可拖到己方刻印信息条（满侍从场仍可用）；守卫/疲惫/视界限制不变。无效落区、右键、Esc 取消尚未提交的操作。
+5. 伏笔：选牌切到「盖放」，直接点时轴金色合法刻度再确认；也可拖牌到合法格。格子使用绝对刻数，不再手算偏移。时砂改为减/加按钮。
+6. 中央显示当前附近 16 刻与全局缩略轴，左右翻页、跟随时标；点击物件查看/选择，同格多个物件循环切换，右侧列表可精确选中。咏唱显示计算落点及锁定目标连线，不可自由改变落点。
+7. 蓄势/静候先选中预览，再确认；静候不是结束回合。时间预览是**仅支付推演**，不执行效果，不保证伤害、逆流、抢拍、伏笔或终局后的实际行动权。
+8. 抢拍展示对方公开宣言、目标与锁定费用；响应先结算，原行动随后继续。默认 8 秒自动放弃；交接遮罩与帮助/离开弹窗期间不消耗计时。
+9. 效果选择中按顺序点牌，再指定置顶张数；未置顶的牌按所选顺序置底。
+10. 结算页可导出回放到 `Application.persistentDataPath/Replays/`。回放含双方隐藏信息，只应赛后共享。
+
+### 行动状态提示（编辑器最新版本）
+
+- 顶部常驻状态栏：青色「你可行动」并显示可出手牌数量；金色「仅可抢拍」与倒计时；灰色「对手行动 / 等待对手响应 / 效果选择 / 终点」。同时解释时标或待结算原因，不使用“你的回合”。
+- 手牌亮边与底部标签区分「可打出 / 可抢拍 / 需时砂 / 仅可盖放 / 暂不可打出」。灰牌在己方可操作时可选择查看原因，等待时仅可悬停查看，不允许提交或拖出。
+- 侍从的「就绪」不再等同于「现在可攻击」；只有当前有合法攻击时才显示可攻击并亮边。时器、蓄势、静候依据合法动作启用。
+- 起手调度、热座隐私遮罩、抢拍与预见/召回继续沿用正式规则。只增加公开的待决策类型，不暴露对方选择项或隐藏手牌。
+- 验证：.NET与Unity EditMode均85/85（新增7项）；实测普通行动、等待、抢拍、教学、拖拽阻止与热座遮罩。尚未重新打包Windows版本。
 
 ### AI 与 PVE
 
@@ -60,13 +71,31 @@
 | `Assets/Kairos/Data/cards.json` | 从 docs 同步的卡池 TextAsset |
 | `Assets/Kairos/Data/DemoRules.asset` | 可调规则参数 |
 | `Assets/Kairos/Editor/DemoTools.cs` | 打开 Demo、验证并同步卡池、运行测试菜单 |
-| `Assets/Tests/EditMode/Rules/` | Unity/.NET 共用 54 项测试（含 7 项教学测试） |
+| `Assets/Tests/EditMode/Rules/` | Unity/.NET 共用 63 项测试（含 7 项教学、9 项时间预览测试） |
 | `Assets/Kairos/Engine/Setup/TutorialLesson.cs` | 五步固定教学残局与操作校验 |
 | `Assets/Kairos/Client/UI/TutorialScreen.cs` | 首次推荐、教学指引与完成/退出界面 |
+| `Assets/Kairos/Client/UI/TimelineScreen.cs` | 局部/全局时轴、直接选刻度、统一时间摘要 |
+| `Assets/Kairos/Client/UI/BattleInteraction.cs` | 拖拽生命周期、落区校验、目标连线 |
+| `Assets/Kairos/Engine/View/ActionPreview.cs` | 不执行效果、不读取隐藏信息的支付推演 |
 | `Tools/Kairos.Tests/` | .NET 8 NUnit 测试工程 |
 | `Tools/Kairos.Sim/` | 自动对局与回放一致性冒烟工具 |
+| `Tools/Kairos.Balance/` | 不依赖AI的数学评估：精确抽牌概率、断点、时间与成长/技能情景、候选对比及Machinations搭建说明 |
 
-修改卡牌后用 **KAIROS → Sync Card Data** 同步；保持 `docs/data/cards.json` 为数据源。未改动原始设计文档。
+修改卡牌后用 **KAIROS → Sync Card Data** 同步；保持 `docs/data/cards.json` 为数据源。战斗规则与卡牌数据不因局外机制设计而改变。
+
+### 数学平衡评估（研发工具）
+
+见 [属性计算与平衡评估](KAIROS_属性计算与平衡评估.md) 和 [Balance Lab 操作手册](../Tools/Kairos.Balance/README.md)。覆盖46牌、10钟主的属性路径与条件收益，提供源卡池/重构候选的可复现报告；不把AI胜率作为职业平衡结论。候选技能、配方与局部随机方案尚未同步可玩版本；研发期不做旧存档兼容。
+
+```sh
+python -m unittest discover -s Tools/Kairos.Balance -v
+python Tools/Kairos.Balance/balance.py --out Library/Locus/tmp/balance-current
+python Tools/Kairos.Balance/balance.py --patch Tools/Kairos.Balance/candidate-v02.json --out Library/Locus/tmp/balance-candidate
+```
+
+### 新增机制设计（尚未实现）
+
+[局外收藏与成长系统](KAIROS_局外收藏与成长系统.md) 已补充「收集构筑」方向：免费预组、收藏与牌组工坊、结算材料及指定合成、永久/旅程道具隔离、熟练度、存档去重与阶段验收。原概述和叙事文档增加了对应索引及范围说明。**当前可运行 Demo 仍没有收藏库存、合成、结算材料、熟练度或跨会话旅程存档；文档数值是待测试初值。**
 
 ## 已完成验证
 
@@ -75,16 +104,19 @@ dotnet test Tools/Kairos.Tests
 dotnet run --project Tools/Kairos.Sim -- 100
 ```
 
-- .NET 8：**54/54** 测试通过。
-- Unity EditMode：**54/54** 测试通过，菜单 **KAIROS → Run Engine Tests** 可复跑。
+- .NET 8：**63/63** 测试通过。
+- Unity EditMode：**63/63** 测试通过，菜单 **KAIROS → Run Engine Tests** 可复跑。
+- 本次时轴交互：新增 9 项预览测试（同刻后到者、交出行动权、旧鸣钟/终点、伏笔/咏唱落点、时砂、抢拍原行动待结算、隐藏信息与非修改性）。100 局 AI + 回放一致性重新通过，规则结果 hash 不变。
+- Play Mode 通过 EventSystem begin/drag/end 事件与实际射线命中完成教学、无效攻击取消、伏笔点击/拖拽、抢拍、帮助暂停计时；另验证满侍从场的无目标法术落区、取消不提交、守卫限制、咏唱锁定、热座遮罩/伏笔裁剪。测试夹具只存在于运行时；不是人工鼠标手感验收。
+- 截图检查局部时轴、卡牌/咏唱连线；检查代表性战场文字无容器溢出。教学完成记录保持测试前的值（1）。
 - 教学新增：固定残局与普通开局隔离、五步真实规则结算、错误操作不改状态、错误目标拦截、无响应计时、重开独立性、教学命令可重现。
-- 教学 Play Mode：逐个调用可用 UI 按钮完成五步并自然获胜；检查跳过/退出/重玩、完成记录、普通 PVP 隐私遮罩、帮助暂停 AI。五个教学步骤和五页规则手册的文字均未超出容器，截图确认高亮与布局。测试结束恢复原本的教学完成记录，用户仍可体验首次引导。
+- 首版教学验证：逐个调用可用 UI 按钮完成五步并自然获胜；检查跳过/退出/重玩、完成记录、普通 PVP 隐私遮罩、帮助暂停 AI。五个教学步骤和五页规则手册的文字均未超出容器，截图确认高亮与布局。首版测试曾恢复未完成记录；本次不重置已有完成记录。
 - 包含 50 个种子的随机合法对局、非法命令原子性、暂停状态克隆、反制目标重验、46 张卡牌与 10 名钟主操作冒烟、PVE 状态迁移、隐藏信息检查。
 - 100 局贪心 AI 对局全部终止，逐局序列化/读取回放得到一致状态。
 - `demo-0` 最终状态 Unity/.NET SHA-256 同为：`D50339906ACEE4F2268A52074ABF0334AAE4EFFD8D40D08501A48604CAB4E8C4`。
 - Play Mode：实际调用 UI 按钮完成两人调度、出牌、隐私交接；PVE 跑完一局至失败结算。胜利专用的奖励、休整、续战、通关界面用**临时运行时胜利夹具**检查，不代表自然通关测试。
 - 截图确认中文显示与主菜单/战场布局；玩法检查时 Console 无错误/警告。
-- 最新教学版 Windows x64 Development 构建成功（0 错误、0 警告），输出 `Builds/KairosDemo-Tutorial/KairosDemo.exe`。独立播放器以 Direct3D 11 窗口模式运行 8 秒，初始化日志无异常；完整教学按钮流程已在 Editor Play Mode 验证。
+- 最新时轴交互版 Windows x64 Development 构建成功（0 错误、0 警告），输出 `Builds/KairosDemo-Timeline/KairosDemo.exe`。独立播放器以 Direct3D 11 窗口模式运行 8 秒并正常关闭，初始化日志无异常；完整交互流程已在 Editor Play Mode 验证。旧教学版未覆盖。
 - 构建时需在 Editor 正常回调中调用 BuildPipeline：本次从工具执行栈直接调用曾触发 EditorCompilation 内部 InvalidCastException，改为 EditorApplication.delayCall 后成功。无图形模式会出现 UI shader 不支持日志，不能作为视觉验证。
 
 ## 边界与后续工作
@@ -95,5 +127,6 @@ dotnet run --project Tools/Kairos.Sim -- 100
 - 扩展用历法、净耗时自我后退护栏（T35）等不在当前基础卡池中，未完成验收。回声仅有基础处理，未作为本次已验证功能。
 - 当前目标枚举适配基础卡池的单目标卡；新增多目标卡、更多选择组合、可消失的生命光环等需要扩展与专门测试。
 - 数据校验覆盖牌组、未知 op、被动选择禁令等，但不是完整 JSON Schema 校验器；继续扩卡前补齐引用、必填参数、范围与光环生命周期校验。
-- 当前 UI 每次决策重建面板，适合低频卡牌 Demo；大规模动效/移动设备版本应改为增量绑定和对象复用。
+- 当前 UI 每次决策重建面板，拖拽期间只更新指针连线与提示，不逐帧重建；适合低频卡牌 Demo。大规模动效/移动设备版本应改为增量绑定和对象复用。
+- 当前时轴为支付推演而非完整效果模拟；同格物件以计数/循环选择加右侧精确列表处理。未增加伤害预测、自动多步行动、自由站位或自由拖动时标。
 - 建议人工连续玩三局：快攻对控制、双镜像；重点体验抢拍交接频率、伏笔位置选择、精确鸣钟与选牌可读性。

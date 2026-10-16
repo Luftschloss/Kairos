@@ -51,6 +51,10 @@ crashlytics-build.properties
 *.nupkg
 TestResults/
 
+# ===== Python balance tools =====
+__pycache__/
+*.py[cod]
+
 # ===== IDE =====
 .vs/
 .vscode/

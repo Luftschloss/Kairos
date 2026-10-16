@@ -40,48 +40,55 @@ namespace Kairos.Client
 
         void Awake()
         {
-            try { Database = CardDatabase.Load(cardsData.text); BuildCanvas(); ShowMenu(); if (!TutorialCompleted) ShowTutorialWelcome(null); }
-            catch (Exception ex) { Debug.LogException(ex); BuildCanvas(); Clear(); Label(root, new Rect(180, 250, 1240, 200), "Demo 初始化失败\n" + ex.Message, 24, gold); }
+            try { Database = CardDatabase.Load(cardsData.text); BuildCanvas(); LoadProgression(); ShowMenu(); if (!TutorialCompleted) ShowTutorialWelcome(null); }
+            catch (Exception ex) { InitFailure(ex); }
         }
         public void StartMatch(DemoMode mode)
         {
-            lesson = null; tutorialIntro = false;
-            Mode = mode; Run = null; viewer = 0;
-            matchDecks = new[] { Database.Precons[FirstDeck].Clone(), Database.Precons[SecondDeck].Clone() };
-            matchConfig = rules == null ? new RulesConfig() : rules.Values.Clone(); matchSeed = Seed;
-            State = GameEngine.Create(matchConfig, Database, matchDecks[0], matchDecks[1], matchSeed);
-            matchStartLife = State.Players[0].Life; enemyStartLife = State.Players[1].Life;
-            BeginMatch();
+            MetaTry(() =>
+            {
+                var own = chosenDeck ?? Database.Precons[FirstDeck]; var other = opponentDeck ?? Database.Precons[SecondDeck];
+                progression.StartMatch(mode == DemoMode.Hotseat ? Kairos.Progression.MatchMode.Hotseat : trialMatch ? Kairos.Progression.MatchMode.Trial : Kairos.Progression.MatchMode.Collection, own, other, Seed, rules == null ? new RulesConfig() : rules.Values.Clone());
+                EnterSavedMatch(false);
+            });
         }
         public void StartTower()
         {
-            lesson = null; tutorialIntro = false;
-            Mode = DemoMode.Tower; Run = CampaignRun.Create(Database, FirstDeck, Seed); State = null; ShowCampaign();
+            MetaTry(() => { progression.StartRun(FirstDeck, Seed); lesson = null; tutorialIntro = false; Mode = DemoMode.Tower; SyncRun(); State = null; ShowCampaign(); });
         }
         public void StartTowerBattle()
         {
-            State = Run.StartBattle(Database); viewer = 0; matchConfig = State.Config.Clone(); matchSeed = State.Seed;
-            matchDecks = new[] { Run.Deck.Clone(), Database.Precons[Run.Encounter == 1 ? 0 : 1].Clone() };
-            matchStartLife = State.Players[0].Life; enemyStartLife = State.Players[1].Life;
-            BeginMatch();
+            MetaTry(() => { progression.StartRunBattle(); EnterSavedMatch(false); });
         }
         void BeginMatch()
         {
             history.Clear(); foreach (var e in State.Events) history.Add(e.Clone());
+            decisionSerial++; timelineStart = -1;
             ClearSelection(); message = null; PrivacyCurtain = false; help = false; leaving = false; replyAt = 0; aiCommand = null;
             Refresh();
         }
-        void ClearSelection() { selectedCard = selectedUnit = sand = 0; ability = placingOmen = false; selectedTarget = default; selection.Clear(); choiceTop = 0; }
+        void ClearSelection() { selectedAction = null; selectedCard = selectedUnit = sand = 0; ability = placingOmen = false; selectedTarget = default; selection.Clear(); choiceTop = 0; }
         public void Submit(Command command)
         {
             if (State == null) return;
             try
             {
-                var events = lesson != null ? lesson.Apply(command) : GameEngine.Apply(State, command); foreach (var e in events) history.Add(e.Clone());
-                if (lesson != null && lesson.Complete) { PlayerPrefs.SetInt(TutorialPreference, 1); PlayerPrefs.Save(); }
+                if (lesson != null)
+                {
+                    var events = lesson.Apply(command); foreach (var e in events) history.Add(e.Clone());
+                    if (lesson.Complete) progression.CompleteTutorial(State.Commands);
+                }
+                else { State = progression.Advance(command, viewer); SyncRun(); foreach (var e in State.Events) history.Add(e.Clone()); }
                 decisionSerial++; ClearSelection(); message = null; replyAt = 0; aiCommand = null; Refresh();
             }
             catch (RulesViolationException ex) { message = ex.Message; RebuildBattle(); }
+            catch (Exception ex)
+            {
+                // A terminal command may be durably saved before reward application fails.
+                // Recover that receipt, never submit the command again.
+                if (lesson == null) { State = progression.RestoreMatch(); SyncRun(); }
+                ShowMetaError(ex.Message, () => { if (lesson != null && lesson.Complete) progression.CompleteTutorial(State.Commands); else progression.RecoverSettlement(); SyncRun(); retrySave = null; ClearSelection(); Refresh(); });
+            }
         }
         public void AcceptHandoff()
         {
@@ -102,18 +109,19 @@ namespace Kairos.Client
         }
         void Update()
         {
-            if (State == null || State.Outcome != Outcome.Ongoing || PrivacyCurtain) return;
+            if (retrySave != null || State == null || State.Outcome != Outcome.Ongoing || PrivacyCurtain) return;
             if (help || leaving || tutorialIntro) { if (replyAt > 0) replyAt += Time.unscaledDeltaTime; if (aiCommand != null) aiAt += Time.unscaledDeltaTime; return; }
+            if (BattleInput && (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1))) { CancelDraft(); return; }
             if (aiCommand != null && Time.unscaledTime >= aiAt) { var command = aiCommand; aiCommand = null; Submit(command); return; }
             if (replyAt > 0 && State.Pending != null && State.Pending.Kind == PendingKind.Interject && State.Pending.Player == viewer)
             {
-                if (timerLabel != null) timerLabel.text = "抢拍窗口  " + Mathf.Max(0, Mathf.CeilToInt(replyAt - Time.unscaledTime)) + " 秒";
+                UpdateResponseClock();
                 if (Time.unscaledTime >= replyAt) Submit(new Command { Player = viewer, Kind = CommandKind.Pass });
             }
         }
         void ContinueTower()
         {
-            Run.FinishBattle(State, Database); State = null; ShowCampaign();
+            CloseResultTo(ShowCampaign);
         }
         void SaveReplay()
         {
@@ -128,6 +136,7 @@ namespace Kairos.Client
         }
         Command Draft()
         {
+            if (selectedAction.HasValue) return new Command { Player = viewer, Kind = selectedAction.Value };
             if (selectedUnit != 0) return new Command { Player = viewer, Kind = CommandKind.Attack, UnitId = selectedUnit, Target = selectedTarget };
             if (ability) return new Command { Player = viewer, Kind = CommandKind.Ability, Target = selectedTarget };
             if (selectedCard == 0) return null;
@@ -139,7 +148,7 @@ namespace Kairos.Client
             // Unused choice is harmless; all other validation remains authoritative in Engine.
             return GameEngine.IllegalReason(State, c) == null && LessonAllows(c) ? c : null;
         }
-        void SelectTarget(Target target) { selectedTarget = target; RebuildBattle(); }
+        void SelectTarget(Target target) { if (!BattleInput) return; selectedTarget = target; RebuildBattle(); }
         string TargetName(Target target)
         {
             if (target.Kind == TargetKind.Keeper) return Database.Keeper(View.Players[target.Id].Keeper).Name;
@@ -147,7 +156,7 @@ namespace Kairos.Client
             if (target.Kind == TargetKind.Object) foreach (var o in View.Timeline) if (o.Id == target.Id) return (o.Card == null ? "未知伏笔" : Database.Card(o.Card.Key).Name) + " @" + o.Pos;
             return "未选择";
         }
-        bool CanAct => State != null && State.Outcome == Outcome.Ongoing && GameEngine.NextActor(State) == viewer && !PrivacyCurtain && !tutorialIntro;
+        bool CanAct => retrySave == null && State != null && State.Outcome == Outcome.Ongoing && GameEngine.NextActor(State) == viewer && !PrivacyCurtain && !tutorialIntro;
         static string KindName(string type) => type == "UNIT" ? "侍从" : type == "SPELL" ? "术式" : type == "SIGIL" ? "刻印" : "伏笔";
         string EnemyName => lesson != null ? "训练钟偶" : Mode == DemoMode.Tower ? CampaignRun.EnemyNames[Run.Encounter] : "P" + (2 - viewer);
         string AiIntent()

@@ -1,0 +1,67 @@
+﻿keeper,source,assumed_p,unit,output,time_paid_per_use,scenario
+K_DAWN_IRIN,ACTIVE/REFRESH,0.25,additional_attack_opportunities,0.25,1,one legal exhausted ally; p=usable before next chime/death/initiative loss; attack still pays cadence
+K_DAWN_IRIN,ACTIVE/REFRESH,0.5,additional_attack_opportunities,0.5,1,one legal exhausted ally; p=usable before next chime/death/initiative loss; attack still pays cadence
+K_DAWN_IRIN,ACTIVE/REFRESH,0.75,additional_attack_opportunities,0.75,1,one legal exhausted ally; p=usable before next chime/death/initiative loss; attack still pays cadence
+K_DAWN_IRIN,STATIC/INTERJECT_TAX_FREE,,tax_ticks_saved_upper_bound,1,0,at least one response in own bar; floor can erase actual savings; never multiply by card count
+K_DAWN_IRIN,STATIC/INTERJECT_TAX_FREE,,tax_ticks_saved_upper_bound,1,0,at least one response in own bar; floor can erase actual savings; never multiply by card count
+K_DAWN_IRIN,STATIC/INTERJECT_TAX_FREE,,tax_ticks_saved_upper_bound,1,0,at least one response in own bar; floor can erase actual savings; never multiply by card count
+K_DAWN_AXUN,ACTIVE/NEXT_CARD_COST,0.25,net_ticks_saved,-0.5,1,"next base-cost3 card; no aura; p=actually used before expiry, including payment crossing chime"
+K_DAWN_AXUN,ACTIVE/NEXT_CARD_COST,0.5,net_ticks_saved,0.0,1,"next base-cost3 card; no aura; p=actually used before expiry, including payment crossing chime"
+K_DAWN_AXUN,ACTIVE/NEXT_CARD_COST,0.75,net_ticks_saved,0.5,1,"next base-cost3 card; no aura; p=actually used before expiry, including payment crossing chime"
+K_DAWN_AXUN,ON_CHAIN_LENGTH,,cards,1,0,1 eligible events per own bar before cap; life/hand/resource caps may reduce gain
+K_DAWN_AXUN,ON_CHAIN_LENGTH,,cards,1,0,3 eligible events per own bar before cap; life/hand/resource caps may reduce gain
+K_DAWN_AXUN,ON_CHAIN_LENGTH,,cards,1,0,5 eligible events per own bar before cap; life/hand/resource caps may reduce gain
+K_NOON_ORIS,ACTIVE/PUSH_OBJECT,0.25,useful_object_delay_ticks,0.5,1,one enemy object; p=delay changes a relevant resolution window; NOT opponent action ticks
+K_NOON_ORIS,ACTIVE/PUSH_OBJECT,0.5,useful_object_delay_ticks,1.0,1,one enemy object; p=delay changes a relevant resolution window; NOT opponent action ticks
+K_NOON_ORIS,ACTIVE/PUSH_OBJECT,0.75,useful_object_delay_ticks,1.5,1,one enemy object; p=delay changes a relevant resolution window; NOT opponent action ticks
+K_NOON_ORIS,STATIC/STAT_AURA,,total_max_hp_added,1,0,"1 eligible guard entries; increases damage breakpoints, not damage reduction"
+K_NOON_ORIS,STATIC/STAT_AURA,,total_max_hp_added,3,0,"3 eligible guard entries; increases damage breakpoints, not damage reduction"
+K_NOON_ORIS,STATIC/STAT_AURA,,total_max_hp_added,5,0,"5 eligible guard entries; increases damage breakpoints, not damage reduction"
+K_NOON_KELAI,ACTIVE/SHIELD,0.25,prevented_hp_damage,0.75,1,unshielded ally later receives one 3-damage packet with probability p; excludes destroy/debuff
+K_NOON_KELAI,ACTIVE/SHIELD,0.5,prevented_hp_damage,1.5,1,unshielded ally later receives one 3-damage packet with probability p; excludes destroy/debuff
+K_NOON_KELAI,ACTIVE/SHIELD,0.75,prevented_hp_damage,2.25,1,unshielded ally later receives one 3-damage packet with probability p; excludes destroy/debuff
+K_NOON_KELAI,ON_FRIENDLY_SHIELD_BROKEN,,life_recovered,1,0,1 eligible events per own bar before cap; life/hand/resource caps may reduce gain
+K_NOON_KELAI,ON_FRIENDLY_SHIELD_BROKEN,,life_recovered,3,0,3 eligible events per own bar before cap; life/hand/resource caps may reduce gain
+K_NOON_KELAI,ON_FRIENDLY_SHIELD_BROKEN,,life_recovered,5,0,5 eligible events per own bar before cap; life/hand/resource caps may reduce gain
+K_DUSK_MORGAN,ACTIVE/PAY_LIFE,0.25,life_paid,2,1,certain payment once used; never subtract from expected value of unknown future draw
+K_DUSK_MORGAN,ACTIVE/DRAW,0.25,cards_retained,0.25,1,nonempty deck; p=free hand slot; excludes additional draw from payment chime
+K_DUSK_MORGAN,ACTIVE/PAY_LIFE,0.5,life_paid,2,1,certain payment once used; never subtract from expected value of unknown future draw
+K_DUSK_MORGAN,ACTIVE/DRAW,0.5,cards_retained,0.5,1,nonempty deck; p=free hand slot; excludes additional draw from payment chime
+K_DUSK_MORGAN,ACTIVE/PAY_LIFE,0.75,life_paid,2,1,certain payment once used; never subtract from expected value of unknown future draw
+K_DUSK_MORGAN,ACTIVE/DRAW,0.75,cards_retained,0.75,1,nonempty deck; p=free hand slot; excludes additional draw from payment chime
+K_DUSK_MORGAN,ON_FRIENDLY_UNIT_DEATH,,sand,1,0,1 eligible events per own bar before cap; life/hand/resource caps may reduce gain
+K_DUSK_MORGAN,ON_FRIENDLY_UNIT_DEATH,,sand,1,0,3 eligible events per own bar before cap; life/hand/resource caps may reduce gain
+K_DUSK_MORGAN,ON_FRIENDLY_UNIT_DEATH,,sand,1,0,5 eligible events per own bar before cap; life/hand/resource caps may reduce gain
+K_DUSK_SHENMO,ACTIVE/SUMMON_FROM_PAST,0.25,recalled_bodies,0.25,2,"one eligible past unit and free board slot with probability p; exhausted, no deployment, no raw stat credit"
+K_DUSK_SHENMO,ACTIVE/SUMMON_FROM_PAST,0.5,recalled_bodies,0.5,2,"one eligible past unit and free board slot with probability p; exhausted, no deployment, no raw stat credit"
+K_DUSK_SHENMO,ACTIVE/SUMMON_FROM_PAST,0.75,recalled_bodies,0.75,2,"one eligible past unit and free board slot with probability p; exhausted, no deployment, no raw stat credit"
+K_DUSK_SHENMO,STATIC/ENTER_ATK_PER_PAST_UNITS,,atk_on_next_unit_entry,0,0,"1 unit cards in past; staircase, not fractional power"
+K_DUSK_SHENMO,STATIC/ENTER_ATK_PER_PAST_UNITS,,atk_on_next_unit_entry,0,0,"3 unit cards in past; staircase, not fractional power"
+K_DUSK_SHENMO,STATIC/ENTER_ATK_PER_PAST_UNITS,,atk_on_next_unit_entry,1,0,"5 unit cards in past; staircase, not fractional power"
+K_NIGHT_SELENE,ACTIVE/PICK_FROM_TOP,0.25,chance_find_desired,0.7043478260869566,1,"25 remaining,8 desired; ignores p; exact find probability, not probability of winning"
+K_NIGHT_SELENE,ACTIVE/PICK_FROM_TOP,0.5,chance_find_desired,0.7043478260869566,1,"25 remaining,8 desired; ignores p; exact find probability, not probability of winning"
+K_NIGHT_SELENE,ACTIVE/PICK_FROM_TOP,0.75,chance_find_desired,0.7043478260869566,1,"25 remaining,8 desired; ignores p; exact find probability, not probability of winning"
+K_NIGHT_SELENE,STATIC/REVEAL_TOP_TO_OWNER,,visible_top_cards,1,0,"information only, not drawing one card; no universal scalar value"
+K_NIGHT_SELENE,STATIC/REVEAL_TOP_TO_OWNER,,visible_top_cards,1,0,"information only, not drawing one card; no universal scalar value"
+K_NIGHT_SELENE,STATIC/REVEAL_TOP_TO_OWNER,,visible_top_cards,1,0,"information only, not drawing one card; no universal scalar value"
+K_NIGHT_ZERO,ACTIVE/COPY_LAST_PLAYED,0.25,usable_copied_cards,0.25,1,opponent has public last card and free hand slot; p=copy useful after costDelta; no hidden-state inference
+K_NIGHT_ZERO,ACTIVE/COPY_LAST_PLAYED,0.5,usable_copied_cards,0.5,1,opponent has public last card and free hand slot; p=copy useful after costDelta; no hidden-state inference
+K_NIGHT_ZERO,ACTIVE/COPY_LAST_PLAYED,0.75,usable_copied_cards,0.75,1,opponent has public last card and free hand slot; p=copy useful after costDelta; no hidden-state inference
+K_NIGHT_ZERO,STATIC/OMEN_CAP_MOD,,additional_omen_slots,1,0,value only when previous cap binds; slots do not automatically create omens
+K_NIGHT_ZERO,STATIC/OMEN_CAP_MOD,,additional_omen_slots,1,0,value only when previous cap binds; slots do not automatically create omens
+K_NIGHT_ZERO,STATIC/OMEN_CAP_MOD,,additional_omen_slots,1,0,value only when previous cap binds; slots do not automatically create omens
+K_ETERNAL_GOULD,ACTIVE/STASIS,0.25,denied_ready_windows,0.5,2,one target initially ready; without extra refresh it misses current and first-new-chime windows; duration not global turns
+K_ETERNAL_GOULD,ACTIVE/STASIS,0.5,denied_ready_windows,1.0,2,one target initially ready; without extra refresh it misses current and first-new-chime windows; duration not global turns
+K_ETERNAL_GOULD,ACTIVE/STASIS,0.75,denied_ready_windows,1.5,2,one target initially ready; without extra refresh it misses current and first-new-chime windows; duration not global turns
+K_ETERNAL_GOULD,ON_FRIENDLY_UNIT_ENTER,,atk_and_hp_per_eligible_entry,1/1,0,conditional eligible entry only; do not assign unconditional 25% kairos chance
+K_ETERNAL_GOULD,ON_FRIENDLY_UNIT_ENTER,,atk_and_hp_per_eligible_entry,1/1,0,conditional eligible entry only; do not assign unconditional 25% kairos chance
+K_ETERNAL_GOULD,ON_FRIENDLY_UNIT_ENTER,,atk_and_hp_per_eligible_entry,1/1,0,conditional eligible entry only; do not assign unconditional 25% kairos chance
+K_ETERNAL_XIAOMAN,ACTIVE/PUSH_MARKER,0.25,raw_marker_ticks,2,1,"branch-specific raw movement before caps; may BENEFIT enemy by chime/growth, not valued as pure harm"
+K_ETERNAL_XIAOMAN,ACTIVE/PUSH_MARKER,0.25,raw_marker_ticks,1,1,"branch-specific raw movement before caps; may BENEFIT enemy by chime/growth, not valued as pure harm"
+K_ETERNAL_XIAOMAN,ACTIVE/PUSH_MARKER,0.5,raw_marker_ticks,2,1,"branch-specific raw movement before caps; may BENEFIT enemy by chime/growth, not valued as pure harm"
+K_ETERNAL_XIAOMAN,ACTIVE/PUSH_MARKER,0.5,raw_marker_ticks,1,1,"branch-specific raw movement before caps; may BENEFIT enemy by chime/growth, not valued as pure harm"
+K_ETERNAL_XIAOMAN,ACTIVE/PUSH_MARKER,0.75,raw_marker_ticks,2,1,"branch-specific raw movement before caps; may BENEFIT enemy by chime/growth, not valued as pure harm"
+K_ETERNAL_XIAOMAN,ACTIVE/PUSH_MARKER,0.75,raw_marker_ticks,1,1,"branch-specific raw movement before caps; may BENEFIT enemy by chime/growth, not valued as pure harm"
+K_ETERNAL_XIAOMAN,ON_YOUR_WAIT,,total_atk_and_separately_total_hp_added,1,0,"1 living growth units; 1 eligible waits per own bar, reference mutual-wait cadence2; no death; ordinary chime growth excluded"
+K_ETERNAL_XIAOMAN,ON_YOUR_WAIT,,total_atk_and_separately_total_hp_added,3,0,"3 living growth units; 1 eligible waits per own bar, reference mutual-wait cadence2; no death; ordinary chime growth excluded"
+K_ETERNAL_XIAOMAN,ON_YOUR_WAIT,,total_atk_and_separately_total_hp_added,5,0,"5 living growth units; 1 eligible waits per own bar, reference mutual-wait cadence2; no death; ordinary chime growth excluded"

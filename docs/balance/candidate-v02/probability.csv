@@ -1,0 +1,4 @@
+﻿variant,mean_information_count,variance,p_find_desired,pool_size,desired_copies,note
+fixed_base,1,0,0.32,25,8,not drawing cards; chance of seeing >=1 desired card in inspected top cards
+bounded_bonus,1.5,0.25,0.43333333333333335,25,8,not drawing cards; chance of seeing >=1 desired card in inspected top cards
+fixed_high,2,0,0.5466666666666666,25,8,not drawing cards; chance of seeing >=1 desired card in inspected top cards

@@ -1,0 +1,104 @@
+{
+  "schema": 1,
+  "base_version": "0.1.0",
+  "candidate_version": "0.2.0-candidate.1",
+  "name": "晨夜场面密度与昼永收益窗口重构候选",
+  "changes": [
+    {
+      "kind": "card", "key": "DAWN_COURIER",
+      "set": {"hp": 2},
+      "reason": "疾行信使生命1→2：区分于1刻斥候，面对1攻守卫不再必然一换零；不提高迅捷爆发攻击。"
+    },
+    {
+      "kind": "card", "key": "DAWN_INTERCEPTOR",
+      "set": {"interjectOnly": false, "text": "可正常部署。抢拍（仅限对手宣言攻击时）：该攻击的目标改为这名侍从。"},
+      "reason": "拦截者可常规部署；保留2/2与抢拍重定向。消除抽到侍从却无法主动建立场面的结构性死牌。"
+    },
+    {
+      "kind": "card", "key": "DAWN_GALE_CHORUS",
+      "set": {
+        "time": 1,
+        "text": "本小节内，友方侍从 +1 攻。连拍：重整一名友方侍从。"
+      },
+      "reason": "疾风连奏2→1刻：减少增攻刚生效便鸣钟过期的落点，仍须规划下一次鸣钟，不能无脑在钟点前施放。"
+    },
+    {
+      "kind": "card", "key": "DAWN_SUNRISE_TORRENT",
+      "set": {
+        "time": 4,
+        "abilities": [{"trigger": "ON_PLAY", "effects": [{"op": "IF", "cond": "CHAIN_BEAT", "then": [{"op": "DAMAGE_ALL", "selector": "ENEMY_UNITS", "amount": 4}], "else": [{"op": "DAMAGE_ALL", "selector": "ENEMY_UNITS", "amount": 3}]}]}],
+        "text": "对所有敌方侍从造成 3 点伤害。连拍：改为 4 点。"
+      },
+      "reason": "曙光洪流5刻2/3伤→4刻3/4伤：最低视界时点从12提前至8刻，提供对铺场的确定性回答；不越过护盾，不伤钟主。"
+    },
+    {
+      "kind": "card", "key": "NOON_SUNDIAL_JUDGE",
+      "set": {"hp": 5, "cadence": 2, "text": "（节奏 2）守卫。对手的咏唱牌时值 +1。"},
+      "reason": "日晷法官3/6节奏1→3/5节奏2：保留守卫与咏唱税的秩序身份，降低防守组件兼任低成本输出核心的效率。"
+    },
+    {
+      "kind": "card", "key": "NOON_COVENANT_OF_RADIANCE",
+      "set": {
+        "abilities": [{"trigger": "ON_YOUR_CHIME", "effects": [{"op": "HEAL", "target": "$youKeeper", "amount": 1}, {"op": "BUFF", "target": "FRIENDLY_UNIT_LOWEST_HP", "atk": 0, "hp": 1, "duration": "PERMANENT"}]}],
+        "text": "你每次鸣钟时，恢复 1 点命烛，并使你生命值最低的友方侍从 +0/+1。"
+      },
+      "reason": "光辉圣约每钟回复2→1：两张叠加由4回复/钟降为2；仍须后续设计刻印互动，不能凭无限存续上界认为已经平衡。"
+    },
+    {
+      "kind": "card", "key": "ETERNAL_MOSS_WATCHER",
+      "set": {"hp": 2},
+      "reason": "苔藓守望者1/3→1/2：不改蓄力核心，在第一次鸣钟前给予2伤解牌窗口；首钟后仍为2/3。"
+    },
+    {
+      "kind": "card", "key": "ETERNAL_RING_TREE",
+      "set": {"cadence": 2, "text": "（节奏 2）守卫。蓄力。"},
+      "reason": "年轮古树节奏1→2：成长体型不削，兑现高攻击必须付出时间，而非防守、成长、进攻三项都低代价。"
+    },
+    {
+      "kind": "keeper", "key": "K_DAWN_IRIN",
+      "set": {
+        "ability": {"name": "晨鸣", "cost": 1, "cooldownBars": 2, "targets": [{"id": "t1", "selector": "FRIENDLY_UNIT", "filter": {"exhausted": true, "notStasis": true, "maxBaseTime": 3}}], "effects": [{"op": "REFRESH", "target": "$t1"}]},
+        "text": "被动：每小节你的第一次抢拍免税。晨鸣（1刻，冷却2次己方鸣钟）：重整一名时值≤3、疲惫且未停滞的友方侍从。"
+      },
+      "reason": "伊琳从只能重整当节新入场未攻击侍从，改为低费侍从再行动；冷却1→2钟，限制高攻大体型连击。符合信使协作而非重复迅捷。"
+    },
+    {
+      "kind": "keeper", "key": "K_DAWN_AXUN",
+      "set": {
+        "ability": {"name": "二倍速", "cost": 1, "cooldownBars": 2, "effects": [{"op": "NEXT_CARD_COST", "player": "$you", "delta": -2, "minBaseTime": 2, "duration": "UNTIL_CONTROLLER_NEXT_CHIME"}]},
+        "text": "被动：每小节你第一次连续宣言达到3次时，抽1张。二倍速（1刻，冷却2次己方鸣钟）：本小节下一张时值≥2的牌，时值-2（最低1）。"
+      },
+      "reason": "阿迅减费1→2：旧技能先付1再减1通常净收益0，且可能立刻鸣钟失效。新技能最多净省1刻；必须展示跨钟失效，不能按无条件收益计价。"
+    },
+    {
+      "kind": "keeper", "key": "K_ETERNAL_XIAOMAN",
+      "set": {
+        "passive": {"abilities": [{"trigger": "ON_YOUR_WAIT", "limit": "ONCE_PER_YOUR_BAR", "effects": [{"op": "GROW_ALL", "selector": "FRIENDLY_GROWTH_UNITS", "times": 1}]}]},
+        "text": "被动：每小节第一次静候，使所有友方蓄力侍从蓄力1次。小满（1刻，冷却2次己方鸣钟）：推迟对手1刻；若你的命烛低于对手，改为2刻。"
+      },
+      "reason": "小满静候成长增加每小节一次上限：双方反复静候时通常每次前进2刻、每自己小节约2次额外全场蓄力；限制重复空操作收益，保留等待成长。"
+    },
+    {
+      "kind": "precon", "key": "PRECON_DAWN_NIGHT",
+      "set": {"cards": {
+        "DAWN_SCOUT": 2, "DAWN_COURIER": 2, "DAWN_FIRST_LIGHT_STRIKE": 2, "DAWN_INTERCEPTOR": 2,
+        "DAWN_GALE_CHORUS": 2, "DAWN_RIDER": 2, "DAWN_SUNRISE_TORRENT": 1,
+        "NIGHT_STARGAZER_APPRENTICE": 2, "NIGHT_STARFALL": 2, "NIGHT_VOID_GAZE": 2,
+        "NIGHT_TEMPORAL_REWIND": 1, "NIGHT_FATE_WEAVER": 2,
+        "N_GEAR_APPRENTICE": 2, "N_PENDULUM_BLADE": 2, "N_WANDERING_TIMEKEEPER": 2, "N_BRASS_GOLEM": 2
+      }},
+      "reason": "破晓星轨侍从12→18，保留两虚空凝视与两命运织者支撑伏笔/过牌，移除镜中之刻与天命预言，减少反制数量；新增流浪计时者/魔像形成中立场面骨架。不是把所有条件牌都改成纯体型。"
+    },
+    {
+      "kind": "precon", "key": "PRECON_NOON_ETERNAL",
+      "set": {"cards": {
+        "NOON_MORNING_PRAYER": 2, "NOON_ZENITH_WARDEN": 2, "NOON_RADIANT_BARRIER": 2, "NOON_MOMENT_OF_ORDER": 1,
+        "NOON_SUNDIAL_JUDGE": 2, "NOON_NOON_JUDGMENT": 2, "NOON_SOLAR_ANGEL": 1,
+        "ETERNAL_SPROUT": 2, "ETERNAL_MOSS_WATCHER": 2, "ETERNAL_AMBER_SEAL": 2, "ETERNAL_SLOW_CURRENT": 2,
+        "ETERNAL_RING_TREE": 2, "ETERNAL_EVERLASTING_GUARDIAN": 1,
+        "N_BELL_GUARD": 2, "N_WANDERING_TIMEKEEPER": 2, "N_HOURGLASS": 2, "ETERNAL_MILLENNIUM_INSTANT": 1
+      }},
+      "reason": "烈阳琥珀侍从20→18，用一张成长主题配合牌与一张过牌替换两魔像，维持防守成长身份而非全程纯体型密度压制。"
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+﻿key,name,school,type,rarity,time,atk,hp,cadence,keywords,ordinary_play,earliest_unmodified_marker,channel_delay,interject_tax_before_exemptions,text
+N_GEAR_APPRENTICE,齿轮学徒,NEUTRAL,UNIT,COMMON,1,1,2,1,,True,0,,,部署：预见 1。
+N_BELL_GUARD,钟楼守卫,NEUTRAL,UNIT,COMMON,2,1,3,1,GUARD,True,0,,,守卫。部署：恢复 2 点命烛。
+N_WANDERING_TIMEKEEPER,流浪计时者,NEUTRAL,UNIT,COMMON,3,2,2,1,,True,4,,,部署：抽 1 张牌。
+N_BRASS_GOLEM,黄铜魔像,NEUTRAL,UNIT,COMMON,4,5,5,2,,True,8,,,（节奏 2）
+N_HOURGLASS,沙漏,NEUTRAL,SPELL,COMMON,1,,,,,True,0,,,抽 1 张牌。契机：再抽 1 张。
+N_PENDULUM_BLADE,钟摆刃,NEUTRAL,SPELL,COMMON,2,,,,,True,0,,,造成 3 点伤害。如果它消灭了一名侍从，推迟对手时标 1 刻。
+DAWN_SCOUT,晨光斥候,DAWN,UNIT,COMMON,1,2,1,1,SWIFT,True,0,,,迅捷。
+DAWN_COURIER,疾行信使,DAWN,UNIT,COMMON,2,2,2,1,SWIFT,True,0,,,迅捷。连拍：抽 1 张牌。
+DAWN_FIRST_LIGHT_STRIKE,破晓一击,DAWN,SPELL,COMMON,1,,,,,True,0,,1,抢拍。造成 2 点伤害。
+DAWN_INTERCEPTOR,拦截者,DAWN,UNIT,RARE,2,2,2,1,,True,0,,1,可正常部署。抢拍（仅限对手宣言攻击时）：该攻击的目标改为这名侍从。
+DAWN_GALE_CHORUS,疾风连奏,DAWN,SPELL,COMMON,1,,,,,True,0,,,本小节内，友方侍从 +1 攻。连拍：重整一名友方侍从。
+DAWN_RIDER,黎明骑手,DAWN,UNIT,RARE,3,3,3,1,SWIFT,True,4,,,迅捷。连拍：+1/+1。
+DAWN_LAW_OF_INITIATIVE,先手之律,DAWN,SIGIL,RARE,2,,,,,True,0,,,每小节你的第一次连拍行动，时值 -1。
+DAWN_SUNRISE_TORRENT,曙光洪流,DAWN,SPELL,LEGENDARY,4,,,,,True,8,,,对所有敌方侍从造成 3 点伤害。连拍：改为 4 点。
+NOON_MORNING_PRAYER,晨祷修士,NOON,UNIT,COMMON,1,1,2,1,,True,0,,,部署：恢复 2 点命烛。
+NOON_ZENITH_WARDEN,正午卫士,NOON,UNIT,COMMON,2,1,4,1,GUARD,True,0,,,守卫。
+NOON_RADIANT_BARRIER,圣辉屏障,NOON,SPELL,COMMON,1,,,,,True,0,,1,抢拍。一名友方侍从获得护盾。
+NOON_MOMENT_OF_ORDER,秩序之刻,NOON,SPELL,RARE,1,,,,,True,0,,1,抢拍。推迟一个时轴物件 3 刻。
+NOON_SUNDIAL_JUDGE,日晷法官,NOON,UNIT,RARE,4,3,5,2,GUARD,True,8,,,（节奏 2）守卫。对手的咏唱牌时值 +1。
+NOON_NOON_JUDGMENT,正午审判,NOON,SPELL,COMMON,4,,,,,True,8,,,消灭一名攻击力 ≥4 的侍从。
+NOON_COVENANT_OF_RADIANCE,光辉圣约,NOON,SIGIL,RARE,3,,,,,True,4,,,你每次鸣钟时，恢复 1 点命烛，并使你生命值最低的友方侍从 +0/+1。
+NOON_SOLAR_ANGEL,烈阳天使,NOON,UNIT,LEGENDARY,6,5,7,2,GUARD,True,16,,,（节奏 2）守卫。部署：推迟所有敌方时轴物件 2 刻。
+DUSK_ASH_ACOLYTE,灰烬侍僧,DUSK,UNIT,COMMON,1,1,1,1,,True,0,,,余音：获得 1 时砂。
+DUSK_RITE_OF_OFFERING,献祭仪式,DUSK,SPELL,COMMON,1,,,,,True,0,,,牺牲一名友方侍从，获得等同于其时值的时砂（最多 3）。
+DUSK_WHISPERER_OF_PAST,往昔低语者,DUSK,UNIT,COMMON,2,2,2,1,,True,0,,,部署：如果本小节有侍从死亡，抽 1 张牌。
+DUSK_ECHO_OF_THE_DEAD,亡者回响,DUSK,UNIT,RARE,3,2,3,1,,True,4,,,部署：从你的往昔召回一名时值 ≤2 的侍从。
+DUSK_WITHERING_TOUCH,凋零之触,DUSK,SPELL,COMMON,2,,,,,True,0,,1,抢拍。一名侍从 -2/-2。
+DUSK_TWILIGHT_PACT,黄昏契约,DUSK,OMEN,RARE,0,,,,,False,,,,伏笔。揭示时：如果触发者是对手，消灭其攻击力最高的侍从；否则你获得 2 时砂。
+DUSK_REAPER,暮色收割者,DUSK,UNIT,EPIC,5,4,5,1,,True,12,,,每当一名侍从死亡，+1 攻。
+DUSK_EMBER_COLOSSUS,余烬巨像,DUSK,UNIT,LEGENDARY,6,6,6,2,,True,16,,,（节奏 2）余音：对所有侍从造成 3 点伤害。
+NIGHT_STARGAZER_APPRENTICE,观星学徒,NIGHT,UNIT,COMMON,1,1,2,1,,True,0,,,部署：预见 2。
+NIGHT_STARFALL,星陨,NIGHT,SPELL,COMMON,1,,,,,True,0,4,,咏唱 4。造成 4 点伤害。
+NIGHT_FATE_WEAVER,命运织者,NIGHT,UNIT,RARE,3,2,4,1,,True,4,,,你的伏笔上限 +1。每当你的伏笔揭示，抽 1 张牌。
+NIGHT_PROPHECY,天命预言,NIGHT,SPELL,RARE,1,,,,,True,0,,,宣言一种行动类型。如果对手的下一个行动属于该类型：你抽 2 张牌，且该行动时值 +1。
+NIGHT_VOID_GAZE,虚空凝视,NIGHT,OMEN,COMMON,0,,,,,False,,,,伏笔。揭示时：触发者打出的下一张牌时值 +2。
+NIGHT_TEMPORAL_REWIND,时空回溯,NIGHT,SPELL,EPIC,3,,,,,False,,,1,抢拍（仅限对手宣言术式或刻印时）。使其无效（对手照付时间），并将其置于对手牌库底。
+NIGHT_MIRROR_MOMENT,镜中之刻,NIGHT,OMEN,LEGENDARY,0,,,,,False,,,,伏笔。揭示时：将触发者最后打出的一张牌的复制置入你的手牌。
+NIGHT_STARS_REALIGN,群星归位,NIGHT,SPELL,LEGENDARY,2,,,,,True,0,6,,咏唱 6。消灭所有侍从。
+ETERNAL_SPROUT,萌芽种子,ETERNAL,UNIT,COMMON,1,0,2,1,GROWTH,True,0,,,蓄力。
+ETERNAL_MOSS_WATCHER,苔藓守望者,ETERNAL,UNIT,COMMON,2,1,2,1,GROWTH,True,0,,,蓄力。
+ETERNAL_AMBER_SEAL,琥珀封印,ETERNAL,SPELL,COMMON,2,,,,,True,0,,,停滞一名侍从。
+ETERNAL_SLOW_CURRENT,缓流,ETERNAL,SPELL,COMMON,2,,,,,True,0,,,推迟对手时标 2 刻。契机：改为 3 刻。
+ETERNAL_RING_TREE,年轮古树,ETERNAL,UNIT,RARE,5,3,6,2,GUARD|GROWTH,True,12,,,（节奏 2）守卫。蓄力。
+ETERNAL_STASIS_FIELD,静滞领域,ETERNAL,SIGIL,RARE,3,,,,,True,4,,,敌方侍从的节奏 +1。
+ETERNAL_MILLENNIUM_INSTANT,千年一瞬,ETERNAL,SPELL,EPIC,4,,,,,True,8,,,所有友方蓄力侍从立即蓄力 2 次。
+ETERNAL_EVERLASTING_GUARDIAN,永恒守护者,ETERNAL,UNIT,LEGENDARY,7,6,9,2,GUARD,True,20,,,（节奏 2）守卫。部署：停滞所有敌方侍从。

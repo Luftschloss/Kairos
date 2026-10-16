@@ -1,0 +1,7 @@
+{
+  "name": "Kairos.Progression",
+  "rootNamespace": "Kairos.Progression",
+  "references": ["Kairos.Engine"],
+  "noEngineReferences": true,
+  "autoReferenced": true
+}
