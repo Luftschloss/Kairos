@@ -55,6 +55,10 @@ TestResults/
 __pycache__/
 *.py[cod]
 
+# ===== Local image generation credentials / environment =====
+/.env.imagegen.local
+/.venv-imagegen/
+
 # ===== IDE =====
 .vs/
 .vscode/
@@ -71,3 +75,4 @@ Desktop.ini
 # ===== Locus =====
 # Locus 会自动把编辑器桥接包装进 Packages/；若不希望提交该包（~14MB，含 DLL），取消下一行注释
 # /Packages/com.farlocus.locus/
+KairosDemo/

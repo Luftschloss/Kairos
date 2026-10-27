@@ -1,0 +1,17 @@
+Use case: illustration-story
+Asset type: premium portrait collectible-card illustration for KAIROS; full-bleed artwork only.
+Style/medium: highly realistic dark-fantasy narrative painting, comparable to the cinematic realism and rich materials of Gwent-like card illustrations. Believable anatomy and individual expressive faces, refined restrained brushwork, tactile worn metal, cloth, leather, wood and stone, realistic light, compelling original story. Rich midtones, readable darks, one clear focal subject, layered foreground/midground/background. Not a photo shoot or a plastic 3D render.
+World: the original KAIROS clock-city is a vertical city of weathered brass, glass, stone bridges and immense clockworks. Its AI Sichen allocated people's time through wrist-clocks until the central clock shattered into five schools: efficiency, order, cost, prediction and continuity. Life-candles represent life; time-sand is wasted time crystallized. Ordinary people's dignity matters; the AI and its echoes are not automatically evil.
+
+School palette and visual direction: ivory cloth, aged gold, steel and stone; firm high-window sunlight with cool shadows; protective humane dignity
+Subject and scene: Oris, an idealistic former civic time-law officer and author of a law guaranteeing protected free time. A middle-aged man with a weathered thoughtful face, greying hair, ivory formal coat over worn bronze protection, one broad gloved hand firmly closing a factory gate behind departing workers. He holds a small sealed lawbook without readable text beneath his other arm. Mid-thigh portrait of humane resolve, not royal grandeur; high noon light, aged gold, white stone, quiet conflict in the eyes.
+Composition: portrait image designed for a small card; essential face, object and narrative gesture in the central 70 percent; faces around one third from the top; allow slight top/bottom crop to 3:4, no essential content at extreme edges. Use asymmetry and believable perspective where appropriate. A complete scene, not a symbol on a decorative backdrop.
+Constraints: original KAIROS characters and setting, no text, letters, numerals, logos, watermark, card border, UI, split panels or collage. Avoid geometric silhouettes, flat vector shapes, woodcut, engraving hatching, line-art, anime, cartoon, low-poly, plastic skin, generic glamour posing, excessive luminous particle effects and black-crushed backgrounds. Card rules and flavor text below are narrative context only: never render their words in the image.
+Card source context: {"key": "K_NOON_ORIS", "name": "执钟者 · 奥瑞斯", "school": "NOON", "type": null, "text": "被动：你的守卫侍从 +0/+1。正午裁定（1 刻，每 2 小节 1 次）：推迟一个时轴物件 2 刻。", "flavor": null}
+Keeper source biography (context, do not render text):
+- **身份**：前任“时律官”，八刻法的起草者。
+- **现实映照**：劳动保护、离线权立法者、体制内的理想主义者。
+- **动机**：他相信规则是弱者唯一的盾牌，想重建大钟，并把八刻法写进它的底层。
+- **台词**：“下班时间到了。这一条，我替你守着。”
+- **人物弧**：在第二幕中，他亲手建造的“八刻法典”守护者变成了阻碍所有人的 Boss。他必须承认：规则需要被不断修订，也需要被允许修订。
+- **机制对应**：守卫、推迟对手的物件，也就是给别人的计划设限。

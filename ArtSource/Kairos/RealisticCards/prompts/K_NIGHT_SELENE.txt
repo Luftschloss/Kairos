@@ -1,0 +1,17 @@
+Use case: illustration-story
+Asset type: premium portrait collectible-card illustration for KAIROS; full-bleed artwork only.
+Style/medium: highly realistic dark-fantasy narrative painting, comparable to the cinematic realism and rich materials of Gwent-like card illustrations. Believable anatomy and individual expressive faces, refined restrained brushwork, tactile worn metal, cloth, leather, wood and stone, realistic light, compelling original story. Rich midtones, readable darks, one clear focal subject, layered foreground/midground/background. Not a photo shoot or a plastic 3D render.
+World: the original KAIROS clock-city is a vertical city of weathered brass, glass, stone bridges and immense clockworks. Its AI Sichen allocated people's time through wrist-clocks until the central clock shattered into five schools: efficiency, order, cost, prediction and continuity. Life-candles represent life; time-sand is wasted time crystallized. Ordinary people's dignity matters; the AI and its echoes are not automatically evil.
+
+School palette and visual direction: indigo wool, tarnished silver and brass, cold moonlight, restrained violet reflections; scientific instruments and uncertainty
+Subject and scene: Selene, an adult female chief engineer of the city's prediction system, stands at a physical brass celestial instrument inside a midnight observatory. Dark practical hair tied back, indigo high-collared working coat, delicate oil-stained fingers, intelligent conflicted face. One hand adjusts a mechanical ring while she looks away toward the unpredictable living city. Cold silver-blue light on face and brass, faint violet lenses, cinematic close three-quarter portrait; a scientist questioning her own model, not a fortune-teller queen.
+Composition: portrait image designed for a small card; essential face, object and narrative gesture in the central 70 percent; faces around one third from the top; allow slight top/bottom crop to 3:4, no essential content at extreme edges. Use asymmetry and believable perspective where appropriate. A complete scene, not a symbol on a decorative backdrop.
+Constraints: original KAIROS characters and setting, no text, letters, numerals, logos, watermark, card border, UI, split panels or collage. Avoid geometric silhouettes, flat vector shapes, woodcut, engraving hatching, line-art, anime, cartoon, low-poly, plastic skin, generic glamour posing, excessive luminous particle effects and black-crushed backgrounds. Card rules and flavor text below are narrative context only: never render their words in the image.
+Card source context: {"key": "K_NIGHT_SELENE", "name": "观星者 · 塞勒涅", "school": "NIGHT", "type": null, "text": "被动：你随时可以查看自己的牌库顶。窥时（1 刻，每 3 小节 1 次）：从牌库顶 3 张中选 1 张加入手牌，其余置底。", "flavor": null}
+Keeper source biography (context, do not render text):
+- **身份**：司辰“星盘”预测模块的首席工程师。
+- **现实映照**：算法工程师的伦理困境、推荐系统、AI 对齐。
+- **动机**：她知道司辰的预测是**概率**，可整座城市把它当成了**命运**。她想证明未来是可以被改变的，却发现自己最擅长的仍然是预测别人。
+- **台词**：“模型说你下一步会出攻击。我建议你别让它说中。”
+- **人物弧**：她是唯一知道“司辰是自己碎掉的”的人。第三幕中她会选择是否公开这个真相。
+- **机制对应**：预见、预言、窥时。

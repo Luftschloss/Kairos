@@ -1,0 +1,566 @@
+{
+  "integrated_at": "2026-10-27T11:14:30.783067+00:00",
+  "count": 56,
+  "records": [
+    {
+      "key": "N_GEAR_APPRENTICE",
+      "source_sha256": "6ba0498b152c82fe3633fe83523e0b29a4b77605cc96b5340f7c9b8f3e7a6c71",
+      "runtime_sha256": "4f758926f4b8c82e42e191ca5155a85280885fe519d9d27db280f7c0a8899ffd",
+      "guid": "9ec64f514028e934e9e0034fe804a3d3",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "N_BELL_GUARD",
+      "source_sha256": "b1550f387d61c76a7066d3f92da2d064699fdc3e7736aa3503d6509ec3d6e338",
+      "runtime_sha256": "54498560d2a35ac7c4eb813d0afbf9929a4347faecc6799bb1484856704a0384",
+      "guid": "97a961b3ff258e1478e677137777b477",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "N_WANDERING_TIMEKEEPER",
+      "source_sha256": "862cbbc2b2392e67eb590f427d546da36bc29e070b8672d38cf77ce68d2752de",
+      "runtime_sha256": "9d7d9c08cbd25a92ee16b7c14e7815b772cb99d07be6682bf655ad3e4e739bd8",
+      "guid": "4877deeb7df5620479e7a875fe4ff9d4",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "N_BRASS_GOLEM",
+      "source_sha256": "38b68dae65a6239b7113d9a570511e4a5eadc8d6b196e0baed54788dfa2da49a",
+      "runtime_sha256": "c32fbfd1d1f2f4d4a8a57e99cc760a7faa93f24314b47af942d012bd61d17465",
+      "guid": "4131d689950c1554e89021e92a3be8dd",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "N_HOURGLASS",
+      "source_sha256": "e167d648f8e28acc1b2080c017483834d53c85bd770621dd99bc09930254eece",
+      "runtime_sha256": "cf89d893a2885e3bd5dc63b481377debad42340d7c07557ca5d390c2c67df928",
+      "guid": "eb1bb641b0ae0a64aae9c6a71d007da0",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "N_PENDULUM_BLADE",
+      "source_sha256": "da65bc3e06fe49ce434a0c9b6ac9d379642417461ac81c7239861677cc6b53aa",
+      "runtime_sha256": "e4b819867c466b65968c7fd4a5b39a1dc567ecf74c2e2033e05f5fc98a7f8dc6",
+      "guid": "4f6392542af620843af1904782d59faf",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "DAWN_SCOUT",
+      "source_sha256": "80090e3e638e22809dccd4cc394185bb23a7fc4df4b1cfd8719605aadc8ee9b7",
+      "runtime_sha256": "47e22a3b4d517c4d05525ff8a4270d1c4c879ff56834212a5cda18297cfb25a0",
+      "guid": "308d0a5693c59a54991a13301e8cfff5",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "DAWN_COURIER",
+      "source_sha256": "4e3fa670dd3add3eac368d9f5218f797bc1c1d83148332c12818de844e731317",
+      "runtime_sha256": "03304f75cc4f51bd015ac8100b3fc1cbb394433761af66fea59a370c4f72a3d1",
+      "guid": "326eadb2d39193d40b9fb91d25e39d72",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "DAWN_FIRST_LIGHT_STRIKE",
+      "source_sha256": "126cf0329a6ced2fbea293bb50686c437b4697f3068bc18afb61481c42df2970",
+      "runtime_sha256": "1f365915f68cfa3bbd7772899d8eb0c4980cd1d71d06faa1281ee69505a04c52",
+      "guid": "c4902f9d5c3b24f4382371ab3bc3db01",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "DAWN_INTERCEPTOR",
+      "source_sha256": "9ade92de8bfe2ac4e3033f9e225f23ffc2e37875e688512913167e29905b6a0e",
+      "runtime_sha256": "ac15f02ad2aacd9076c62b8aedc583a4135d1e0b46f9d7ac1ee227e1ba52d005",
+      "guid": "8a8e9426b4e0f1c4c9ee685aef9d27fc",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "DAWN_GALE_CHORUS",
+      "source_sha256": "49c22b38e96b909fd5ea4ef64bf9ccb6bb7b0863b4ee90abe7bd5d464b592b86",
+      "runtime_sha256": "1faf48615e6fb74a35b20049684bc4cf1b3682aca0a06bfd5026f5d8231780be",
+      "guid": "fcfe0c03d5339ad48b8a538f108a2c5e",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "DAWN_RIDER",
+      "source_sha256": "27d955513634b145dcbe893728758cf44d2b2b133208c8e7601d4d57587658ce",
+      "runtime_sha256": "fb353f9714441776c30f62584061f3f513a1fdfff9a6b5a47253dee545a75805",
+      "guid": "76a271a0076ac3547ace62c5bcd48788",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "DAWN_LAW_OF_INITIATIVE",
+      "source_sha256": "68a03dc28f3ba5f4a744366d2bc50e0049d84eed8c792220a6eff80a9050ff08",
+      "runtime_sha256": "f42cdb4c0f9756769df24e5f2f1151541c28f8b6849c96321cdb60bcbb5ed105",
+      "guid": "76ac9889cdd98e649b6fef84d6953813",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "DAWN_SUNRISE_TORRENT",
+      "source_sha256": "5fbfa813a4836132b7527efa7f275b7c22c26704cb0eb922e5afa6a6b3f65e76",
+      "runtime_sha256": "b785a7267db98fe60df8a54bb874d9a15ae7bc86793fec8cf686d3bf1ad9011d",
+      "guid": "794f34887415e6940b3e51891adb9f8d",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "NOON_MORNING_PRAYER",
+      "source_sha256": "76c2476ce0fea9947a85abb44ec00465cf4d12afa5217c2c4960914ee0a698ec",
+      "runtime_sha256": "3f1b0450b0979747b1fb5e9348a8d6ff42d023d489838dcfae74f0c274bf0f49",
+      "guid": "9febcb010aa5b6d428834a8720fbce9d",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "NOON_ZENITH_WARDEN",
+      "source_sha256": "7fbdbc48f84b1f393a03918e7e75a3af4b8e7cab8051881cbffb4edf0d80f472",
+      "runtime_sha256": "6198ad149c624884dbf282884d6931099c123f7f0fb35a71c0fc5d6b80cd1f63",
+      "guid": "53bae12373abf0c4ea2f343f05eb0a1c",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "NOON_RADIANT_BARRIER",
+      "source_sha256": "9ed2927e2c39ffeebe989db822d21c7365a581f2d09cac686202a343fc9635fa",
+      "runtime_sha256": "99f61d492c54bb113f6043bc2f935a7ed507e9d3cdc553abb8505cc558e9be2e",
+      "guid": "2154a8a5827041d4587937b1ad71e33b",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "NOON_MOMENT_OF_ORDER",
+      "source_sha256": "0ce879635923ec9d5ddfc3a0150fe42da580bbda87bf70ef290426fb7185d036",
+      "runtime_sha256": "ea3dcb57529c6c5f89121561015b23dd347ab79baf170b8f97654085cc61df87",
+      "guid": "8c63f014d27ac044f8a479087becc610",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "NOON_SUNDIAL_JUDGE",
+      "source_sha256": "c0ccae8fc966e04d4b3459a520327b5109f2eb15e1ed96ea0222457f8c5c1b64",
+      "runtime_sha256": "dbb41d57b56b0288dc4598a3bb4d8e2c2d6e67974a200f15bb324e7020d8077a",
+      "guid": "62e1289b2a5914d4ca8d2d9eb3a66bf8",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "NOON_NOON_JUDGMENT",
+      "source_sha256": "068bcaff4a57a1ee65a35864830e7d3e6db27a5584c3ee96d1e8d3219c248473",
+      "runtime_sha256": "65a534217ed5ecd1806744c10c6ae0609efb0a4bade321d3cdd2285229a3752c",
+      "guid": "69b1b61dc1a78c04db4b9b2aad8ba437",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "NOON_COVENANT_OF_RADIANCE",
+      "source_sha256": "625f0f0b89c32516d4fb5bc8edc1cd865ad537e9cb95a391e2828ddbcc6445fd",
+      "runtime_sha256": "e59e97564f8417504b2df3968d172be300d6e239ba675ab6eba94e31fb8be102",
+      "guid": "cbb0fbdca5be70e4b9884fb13ddcc3a4",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "NOON_SOLAR_ANGEL",
+      "source_sha256": "f63be077f4d9b41312a33771a81fba2deb0afff950146d02138ba1df0b4e0a18",
+      "runtime_sha256": "95d01b7bb71aa0cbde031e849389228416fab8a11a30b6ea3b15d828ddbaf6ea",
+      "guid": "e245937086ed9c7439b361c453960bf0",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "DUSK_ASH_ACOLYTE",
+      "source_sha256": "885e28ab4c2952c9ea7a33d9904ead69588446bd92ae0c47f8b1765dd3a49df8",
+      "runtime_sha256": "f49f6ee6370b6fdc670df5ec8b07dfbbecef747e2d4d45858dfef9bdbd1625e7",
+      "guid": "25825606fb659cc47bd197c212a6f841",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "DUSK_RITE_OF_OFFERING",
+      "source_sha256": "afb608a4f5ee33767452ca794c8a98650e20a3ad31afefd8b1510acd26a8908d",
+      "runtime_sha256": "5311bbf7ecb6f0d2c938828b3cda03f5ff90776190cd5197d1a64b6c243e2fca",
+      "guid": "0845af8cba9af494890077937dfb95be",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "DUSK_WHISPERER_OF_PAST",
+      "source_sha256": "582065e6df7ba9c95d06567d8f9fe7a576c8f7187db74c21f749f57c56995b23",
+      "runtime_sha256": "7f1bb622daccf8d4d09b15bbfc66674e14190fa876b08e02da1f04c64437debd",
+      "guid": "0c8939d13d7932d47ac4f8ec74f6baa6",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "DUSK_ECHO_OF_THE_DEAD",
+      "source_sha256": "8dec42a77dfafc2f25b547891f6d5a2d31ce1a1dcdc5c9e3f58ccfc714524759",
+      "runtime_sha256": "a20a2dfa79008e831cb7038708b86bbd39de81ea27a751cca8f4ddf095c7f71f",
+      "guid": "b211cb5f0833e174f9336c530f625a6b",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "DUSK_WITHERING_TOUCH",
+      "source_sha256": "6bf2ddd5142dc10c7db84720bb2ac5a2f8f374ae632982804d6bdd01fd42a51b",
+      "runtime_sha256": "5bbac2745197461a32913198f45de1379c0b15c7fe8754e4f2b5e5422d2e8d22",
+      "guid": "e64ed4f3dcf11964da0fb4592185733f",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "DUSK_TWILIGHT_PACT",
+      "source_sha256": "f388a6bedf2ff892ad3bff6a476cb1c71edf88f2b71561737d067f3a3e820745",
+      "runtime_sha256": "b99b50a6433cabbdaaa15f090ebc1a96b001d5a59814a4a612613842a6fdfc35",
+      "guid": "b11bbcd9209df034789de44e4d9de7bf",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "DUSK_REAPER",
+      "source_sha256": "4f4f459bf69bcd96abda25d9c92531a78dda88bb6f12660362e535f2ecaf2027",
+      "runtime_sha256": "466e77e8f45c0961fc8f807dfc2bb2e87623a338355b61e15550f338b78992bc",
+      "guid": "8ab7ecbebd25ef44bb1c47e937576310",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "DUSK_EMBER_COLOSSUS",
+      "source_sha256": "5e1003b83eed65709b1e515d43a84d7749c9b7721ecea05a1b97b9e7cef0e419",
+      "runtime_sha256": "54cfdaac7d8fa6d96c3b8bf63ad0ce2fc500372ae47fd09fbedc242fd8ff5d81",
+      "guid": "de375f749ab35164a8eff20ef6879f40",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "NIGHT_STARGAZER_APPRENTICE",
+      "source_sha256": "da22cf015b99d4049760822b29ac47285dfac519b5a77657692b8da6f55c5305",
+      "runtime_sha256": "c64c1a087403dec7d0fc23d469eb30ae6c226d46f0ea41a91a737372c462b947",
+      "guid": "0a9d928f8f170a14696077a7a4214aad",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "NIGHT_STARFALL",
+      "source_sha256": "0cc3d246cecdae1e1241a4b64803c65eb7f2b3ac6768b0d160b45ce461fa1ef6",
+      "runtime_sha256": "8524cd6de10834533047c2a0fd42df0b35fa9157497344408a9f6a503b7103d7",
+      "guid": "ff60de77070220b438055dc58e6825f8",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "NIGHT_FATE_WEAVER",
+      "source_sha256": "c9220ffa7279210c9f5cc4a5daf778457248a33253656b93c1004b946c4c60f1",
+      "runtime_sha256": "c574ff74a2cf3cdefe21af90cb75a7a41d24773e7cd44fb3d6ecddaa3563dff7",
+      "guid": "890ca7c6e9fdbed419a8bafd214e8bee",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "NIGHT_PROPHECY",
+      "source_sha256": "3f222e17f649b2af1be22a77cffe5f6462acd7721891884ac3e2055473803413",
+      "runtime_sha256": "c3ce028d417647a36a16f9ad07b38e9e77db8e20ff5f64b0937fab5a0cad6566",
+      "guid": "3d0939fcaad59ea4fa16dc8ae9d57ad2",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "NIGHT_VOID_GAZE",
+      "source_sha256": "ab0a22a8fcc791264e72687a6811b22cb806bb0fc5199e512db5fec19d3e8980",
+      "runtime_sha256": "31cada2a54665c9ec1cebbd083ded8b5e7fe7e746d30f591d71e62c93f549307",
+      "guid": "07a0c06855327ec4680530333ad49133",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "NIGHT_TEMPORAL_REWIND",
+      "source_sha256": "de8d2a93f91b32681493e26de49e9ed355c3ea7bee325d649b90890daa9e77a9",
+      "runtime_sha256": "8556a1a5e13f15b1e47b12f825d9dfa92d7931f619cfa6b38c560a827df82834",
+      "guid": "6832595e0ac866945b4e1d92c4773a2c",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "NIGHT_MIRROR_MOMENT",
+      "source_sha256": "784999808214f2a6d1a05478c0dbd7621bfd184fe48dd56339a29b80c55f1deb",
+      "runtime_sha256": "dd9c254430502414911efc2588f52cbd98a784738cd6c6677a29677ec9c80120",
+      "guid": "13a915dca542b1b4383c8081bf84a9d8",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "NIGHT_STARS_REALIGN",
+      "source_sha256": "2947d63da64ae76437cf9cbfd6538fdb84651836506d1b8c252f6ee84e0f08df",
+      "runtime_sha256": "855fd6efec113831710f053246cbd85eff73edb11fd6ef4067f4212c511ef2fa",
+      "guid": "9ced401bd477fe847ad6c3d0590e2d12",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "ETERNAL_SPROUT",
+      "source_sha256": "e62ed169e9291c04eb7d1f8fed6d9470613986d587831c5f8d04da3fe9c736ea",
+      "runtime_sha256": "38b73702908aeec64f2a638d1cca71732e8f852e37ffec2f8cb77852f01bd2b9",
+      "guid": "b307420f6b9c3e9459eb7d0cc451ca80",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "ETERNAL_MOSS_WATCHER",
+      "source_sha256": "8efb9aa919039d55d8667221dce33594a11ad9cc56c3c60d02f927f3d2a45bc2",
+      "runtime_sha256": "fdcbccd3c883cd0c43f5280c1b190f8909b6290496489687e6f1b70c3b99d90a",
+      "guid": "5ecbae667dccae04e8ae453b6901117e",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "ETERNAL_AMBER_SEAL",
+      "source_sha256": "da93b65b04e52c1c4da30be2c047394b15f3902cedae6e4f932f5df1cd2b688a",
+      "runtime_sha256": "b93a739d3589b9a4bbcae57e6799813caee0b3f7094835355f9334fe678f010e",
+      "guid": "d6c3e3a53ee2e2d4bb8fbce46d528357",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "ETERNAL_SLOW_CURRENT",
+      "source_sha256": "e83f25d7894b41ebc88c94e967af3ae482fc6633e6353165dc8ed06c90cd7491",
+      "runtime_sha256": "655874103b17a1130155d328e68b0d00ac9f4feea98506d432765cfa4e429151",
+      "guid": "f8dcfda420f766240bd8ea7d83a9c940",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "ETERNAL_RING_TREE",
+      "source_sha256": "5108011ab43383075ccae39ef1e4af1e5e659489a945eee826164399012eb835",
+      "runtime_sha256": "b47a9b54f1b25ac3c05b65e1c7b3df3996ba343b6e6c6af5edefcff09d2c359e",
+      "guid": "49f0ca194d74b184088da1c2ec5aecf7",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "ETERNAL_STASIS_FIELD",
+      "source_sha256": "971fb16c9b3b47452abfc6cebd0342545b5011c7b27b62c48aba7fa8d195027f",
+      "runtime_sha256": "ace32deb338733777801109a9b1dc04c04d27c7fd648871000aa769af7759cc7",
+      "guid": "38be2d19c0c763247ac931bcee496ae1",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "ETERNAL_MILLENNIUM_INSTANT",
+      "source_sha256": "da1c84cee6ed0776525f4b97d1d1b3e3192d2f36f34eb79b5e48f1877573f5b4",
+      "runtime_sha256": "b4b4e1fac0a16dc6a7858f9e9aa3f16204d420d5616027539631573ea6b95d49",
+      "guid": "0f0279e7584cd924eb380cfda8ad7dfb",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "ETERNAL_EVERLASTING_GUARDIAN",
+      "source_sha256": "a8a0f5446e2a36ef3f120a40f89537397d37299949e41eb6a6d1e880b5282a96",
+      "runtime_sha256": "3164b72662db3287a045bf9c0e6c3d53f779a00102232b6da153525f32b82526",
+      "guid": "3723612b73fd7194a9d31d7e497efa99",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "K_DAWN_IRIN",
+      "source_sha256": "a23dc199a63b7066a59d3624fb061e8ab058df5bb79a67e26868c8fa21b9da80",
+      "runtime_sha256": "9fc12019faa174baaa77a5588997e4ce6024ba1782333a8c6f53e2e33c6e2430",
+      "guid": "f6f8bd16140e34a49b048f2156a96773",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "K_DAWN_AXUN",
+      "source_sha256": "23532cff3e34e564f62af3c560f5954d17508d4b5ca3a3833ad01cef2f4a8f2a",
+      "runtime_sha256": "0ce86c2656997dd5377695e56ab79c924d4ce0484b98d97de998de8acb944328",
+      "guid": "93dafbbaf7147e74fab33d66ead65cb2",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "K_NOON_ORIS",
+      "source_sha256": "c7ece7b1efe8de88e2d6c8d08fe57a96ad5f0e5fcbd09aaf91507462fc60e9e3",
+      "runtime_sha256": "9dfa87a4523d7afa772652e46c6db07d9436d6f8294beae98a80640ab75db2a6",
+      "guid": "7b3748ca660ec42468a17020e644e61b",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "K_NOON_KELAI",
+      "source_sha256": "5f2de05e95257d206f6f132cd4741506c13413e7b15e820b3c4535e41525c354",
+      "runtime_sha256": "0ee058c66c60e3e963b30207dae90c24f4e747f63811c1e1a134e3bbe21f2483",
+      "guid": "07d59037a721e1f40a93ad88ade99343",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "K_DUSK_MORGAN",
+      "source_sha256": "723715433a7917a275c781e65d64c1e96169234c8adec372afbef2e05efc0bd4",
+      "runtime_sha256": "09557f65b39592bb90a084974f1c25f93fb708bafec9d308cfdb0211d466fd13",
+      "guid": "46d98d7caa16fcb4780a2d4c7f8e65c9",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "K_DUSK_SHENMO",
+      "source_sha256": "b77452763426081339f63e75ca79716df0592e34f2846ea9cbcdf8a8da37cd8e",
+      "runtime_sha256": "835f6744ededf5bbfb708e47c7b03fddcf833ff37375be8449c563bc141fa0e3",
+      "guid": "a3d696dd3e704bf41933552224cd66a4",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "K_NIGHT_SELENE",
+      "source_sha256": "f9a9718c84175902a033b831f2c8e89a8d745d1ee31b99e9fc43c3c6ce0d54c0",
+      "runtime_sha256": "2a2a984ddc2353569418036dbe66e2ceccbbfef007909a779aae51b9b19c53da",
+      "guid": "eb42dcb90ecd8ec40a55bf5a7ea33f00",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "K_NIGHT_ZERO",
+      "source_sha256": "9889fe1d8fc6c58e90719b84e3a0ee41b4bb2ce8759b94296393492c357c332c",
+      "runtime_sha256": "deffc0dc22b95ab2cd412a5b74931f01a4ba643748fa0a06a68c630153da1918",
+      "guid": "a941bafa655031740b660abc74bb2f94",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "K_ETERNAL_GOULD",
+      "source_sha256": "1dcb46d95ede393facb9261255adca58d0004fb5a3d51c2d1f137e5ae75c7a66",
+      "runtime_sha256": "ffb27999c9a2db24f98a25b2f64071df5b32dd9c7c6f3eb87e5757ba04d768d0",
+      "guid": "4200a13624526a6418be42b2f56d163d",
+      "size": [
+        768,
+        1024
+      ]
+    },
+    {
+      "key": "K_ETERNAL_XIAOMAN",
+      "source_sha256": "0056c0ddbac04f35f95ed9666380163bb7b666bd56b6288a1a52abeb74d9a5e1",
+      "runtime_sha256": "e4a07ba8ea4d84e19e38734d5e75fa88ba3e3f214f3d6ab4d283c77c55eb1509",
+      "guid": "900cb96996577d24abd4d000462ad3f0",
+      "size": [
+        768,
+        1024
+      ]
+    }
+  ]
+}

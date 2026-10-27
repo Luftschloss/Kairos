@@ -11,60 +11,71 @@ namespace Kairos.Client
     {
         RectTransform root;
         Font font;
-        Text timerLabel, previewLabel;
+        Text timerLabel, previewLabel, cardDetailsLabel;
         readonly Color background = new Color32(13, 20, 30, 255), panel = new Color32(23, 34, 46, 255), gold = new Color32(225, 190, 116, 255), ink = new Color32(219, 225, 226, 255), muted = new Color32(137, 157, 170, 255), teal = new Color32(74, 181, 176, 255), red = new Color32(207, 115, 103, 255);
+        UiFramework ui;
+        bool uiCaptured => ui != null && ui.CaptureMode;
         void BuildCanvas()
         {
             if (root != null) return;
-            font = Font.CreateDynamicFontFromOSFont(new[] { "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", "Arial" }, 20);
-            var canvasObject = new GameObject("KAIROS Canvas", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
-            canvasObject.transform.SetParent(transform, false);
-            var canvas = canvasObject.GetComponent<Canvas>(); canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            var scaler = canvasObject.GetComponent<CanvasScaler>(); scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize; scaler.referenceResolution = new Vector2(1600, 900); scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.Expand;
-            var area = new GameObject("Screen", typeof(RectTransform), typeof(Image)); area.transform.SetParent(canvasObject.transform, false);
-            root = area.GetComponent<RectTransform>(); root.anchorMin = root.anchorMax = new Vector2(0.5f, 0.5f); root.sizeDelta = new Vector2(1600, 900); area.GetComponent<Image>().color = background;
+            font = UiFonts.Regular;
+            if (!uiCaptured)
+            {
+                var prefab = Resources.Load<GameObject>("KairosUI/UIRoot");
+                if (prefab == null) throw new InvalidOperationException("Missing UIRoot Prefab");
+                ui = Instantiate(prefab, transform, false).GetComponent<UiFramework>(); root = ui.screen;
+            }
+            else root = ui.screen;
             if (FindObjectOfType<EventSystem>() == null) new GameObject("EventSystem", typeof(EventSystem), typeof(StandaloneInputModule));
         }
+        void BeginPage(string id)
+        { BuildCanvas(); root = ui.ShowPage(id); }
+        void FinishPage() => ui.EndBinding();
         RectTransform Element(Transform parent, string name, Rect rect)
-        {
-            var go = new GameObject(name, typeof(RectTransform)); go.transform.SetParent(parent, false); var rt = (RectTransform)go.transform;
-            rt.anchorMin = rt.anchorMax = new Vector2(0, 1); rt.pivot = new Vector2(0, 1); rt.anchoredPosition = new Vector2(rect.x, -rect.y); rt.sizeDelta = rect.size; return rt;
-        }
+        { return ui.Resolve(parent, "Element:" + name, name, rect, out _); }
         RectTransform Box(Transform parent, Rect rect, Color color)
-        { var rt = Element(parent, "Panel", rect); rt.gameObject.AddComponent<Image>().color = color; return rt; }
+        {
+            var rt = ui.Resolve(parent, "Box", "Panel", rect, out bool created); var image = rt.GetComponent<Image>();
+            if (image == null) image = rt.gameObject.AddComponent<Image>(); if (created || rt.GetComponent<UiElementSlot>().bindColor) image.color = color; return rt;
+        }
         Text Label(Transform parent, Rect rect, string text, int size = 18, Color? color = null, TextAnchor align = TextAnchor.UpperLeft)
         {
-            var rt = Element(parent, "Text", rect); var t = rt.gameObject.AddComponent<Text>(); t.font = font; t.fontSize = size; t.color = color ?? ink; t.text = text; t.alignment = align; t.raycastTarget = false; t.supportRichText = true; t.horizontalOverflow = HorizontalWrapMode.Wrap; t.verticalOverflow = VerticalWrapMode.Truncate; return t;
+            var rt = ui.Resolve(parent, "Label", "Text", rect, out bool created); var t = rt.GetComponent<Text>(); if (t == null) t = rt.gameObject.AddComponent<Text>();
+            if (created) { t.font = size >= 23 ? UiFonts.Bold : font; t.fontSize = size; t.color = color ?? ink; t.alignment = align; t.raycastTarget = false; t.supportRichText = true; t.horizontalOverflow = HorizontalWrapMode.Wrap; t.verticalOverflow = VerticalWrapMode.Truncate; }
+            else if (rt.GetComponent<UiElementSlot>().bindColor) t.color = color ?? ink;
+            t.text = text; return t;
         }
         Button Button(Transform parent, Rect rect, string text, Action action, bool enabled = true, Color? color = null, int size = 18)
         {
-            var rt = Box(parent, rect, color ?? panel); var b = rt.gameObject.AddComponent<Button>(); b.targetGraphic = rt.GetComponent<Image>(); b.interactable = enabled;
-            var colors = b.colors; colors.highlightedColor = new Color(1.25f, 1.25f, 1.25f); colors.pressedColor = new Color(0.7f, 0.8f, 0.85f); colors.disabledColor = new Color(0.45f, 0.45f, 0.45f, 0.8f); b.colors = colors;
+            var rt = ui.Resolve(parent, "Button", "Button", rect, out bool created); var image = rt.GetComponent<Image>(); if (image == null) image = rt.gameObject.AddComponent<Image>(); if (created || rt.GetComponent<UiElementSlot>().bindColor) image.color = color ?? panel;
+            var b = rt.GetComponent<Button>(); if (b == null) b = rt.gameObject.AddComponent<Button>(); b.targetGraphic = image; b.interactable = enabled;
+            if (created) { var colors = b.colors; colors.highlightedColor = new Color(1.25f, 1.25f, 1.25f); colors.pressedColor = new Color(.7f, .8f, .85f); colors.disabledColor = new Color(.45f, .45f, .45f, .8f); b.colors = colors; }
             Label(rt, new Rect(8, 4, rect.width - 16, rect.height - 8), text, size, null, TextAnchor.MiddleCenter);
-            b.onClick.AddListener(() => action()); return b;
+            b.onClick.RemoveAllListeners(); b.onClick.AddListener(() => action()); return b;
         }
         void Clear()
         {
-            timerLabel = previewLabel = timeSummary = windowTitle = null;
+            timerLabel = previewLabel = cardDetailsLabel = timeSummary = windowTitle = null;
             dragging = false; targetRects.Clear(); sourceRect = futureRect = null;
-            for (int i = root.childCount - 1; i >= 0; i--) { var go = root.GetChild(i).gameObject; go.SetActive(false); Destroy(go); }
+            if (ui != null) ui.ClearViews();
         }
         void Header(string subtitle)
         {
-            Label(root, new Rect(32, 17, 430, 43), "K A I R O S   /   契机", 31, gold);
-            Label(root, new Rect(500, 28, 820, 28), subtitle, 17, muted);
-            Box(root, new Rect(32, 70, 1536, 1), gold * new Color(1, 1, 1, 0.35f));
+            var header = ui.Subpanel(root, "Header", new Rect(0, 0, 1600, 73));
+            Label(header, new Rect(32, 17, 430, 43), "K A I R O S   /   契机", 31, gold);
+            Label(header, new Rect(500, 28, 820, 28), subtitle, 17, muted);
+            Box(header, new Rect(32, 70, 1536, 1), gold * new Color(1, 1, 1, .35f));
         }
         void ShowMenu()
         {
             lesson = null; tutorialIntro = false; help = false; leaving = false; retrySave = null; aiCommand = null;
-            State = null; PrivacyCurtain = false; Clear();
+            State = null; PrivacyCurtain = false; Clear(); BeginPage("Home");
             if (progression == null) { InitFailure(new Exception("档案尚未加载")); return; }
-            SyncRun(); DrawMetaHome();
+            SyncRun(); DrawMetaHome(); FinishPage();
         }
         void RebuildBattle()
         {
-            if (State == null) return; Clear();
+            if (State == null) return; Clear(); BeginPage(PrivacyCurtain ? "PrivacyCurtain" : "Battle");
             Header(lesson != null ? "新手教学 / 固定残局 · 跟随金色高亮" : Mode == DemoMode.Hotseat ? "本地 PVP  /  双人热座" : Mode == DemoMode.Tower ? "逆流之塔  /  " + CampaignRun.EnemyNames[Run.Encounter] : trialMatch ? "全卡试用 / 无成长收益" : "收藏 AI 对战 / 永久成长收益");
             if (PrivacyCurtain)
             {
@@ -72,7 +83,7 @@ namespace Kairos.Client
                 Label(root, new Rect(350, 260, 900, 85), "请把屏幕交给 P" + (next + 1), 44, gold, TextAnchor.MiddleCenter);
                 Label(root, new Rect(380, 365, 840, 80), "手牌与伏笔已隐藏。\n对方移开视线后，再揭开你的牌面。", 24, muted, TextAnchor.MiddleCenter);
                 Button(root, new Rect(600, 505, 400, 76), "我是 P" + (next + 1) + "，开始操作", AcceptHandoff, true, new Color32(30, 75, 79, 255), 25);
-                Button(root, new Rect(600, 615, 400, 58), "保存并返回菜单", ShowMenu, true, panel, 21); return;
+                Button(root, new Rect(600, 615, 400, 58), "保存并返回菜单", ShowMenu, true, panel, 21); FinishPage(); return;
             }
             View = ViewRedactor.For(State, viewer);
             actionWindow = ActionAvailability.For(View); DrawActionWindow();
@@ -87,45 +98,45 @@ namespace Kairos.Client
             if (State.Outcome != Outcome.Ongoing) { if (lesson != null) DrawTutorialComplete(); else DrawResult(); }
             if (tutorialIntro) DrawTutorialIntro();
             if (help) DrawHelp();
-            if (leaving) DrawLeave();
+            if (leaving) DrawLeave(); FinishPage();
         }
         void DrawPlayer(int p, int y, bool friendly)
         {
+            var side = ui.Subpanel(root, "PlayerInfo" + p, new Rect(0, y, 1188, friendly ? 73 : 65));
             var player = View.Players[p]; var k = Database.Keeper(player.Keeper); Color accent = friendly ? teal : red;
             var target = new Target(TargetKind.Keeper, p);
-            var keeperButton = Button(root, new Rect(32, y, 298, friendly ? 73 : 65), (friendly ? "P" + (p + 1) + "  " : EnemyName + "  ") + k.Name + "\n命烛 " + player.Life + " / " + View.Config.LifeMax, () => SelectTarget(target), lesson == null ? CanAct : TargetAvailable(target), selectedTarget.Equals(target) ? new Color32(92, 77, 43, 255) : panel, 20);
-            BindTarget(keeperButton, target);
-            Highlight(keeperButton, TargetAvailable(target));
-            Label(root, new Rect(350, y + 2, 725, 31), "时标 " + player.Marker + "   |   视界 " + Math.Min(View.Config.HorizonMax, View.Config.HorizonBase + player.ChimesRung) + "   |   时砂 " + player.Sand + "   |   牌库 " + View.DeckCounts[p] + "   |   手牌 " + View.HandCounts[p], 21, accent);
+            DrawKeeperPanel(k, p, 0, friendly, target, side);
+            Label(side, new Rect(350, 2, 725, 31), "时标 " + player.Marker + "   |   视界 " + Math.Min(View.Config.HorizonMax, View.Config.HorizonBase + player.ChimesRung) + "   |   时砂 " + player.Sand + "   |   牌库 " + View.DeckCounts[p] + "   |   手牌 " + View.HandCounts[p], 21, accent);
             string sigils = "刻印："; foreach (var c in player.Sigils) sigils += Database.Card(c.Key).Name + "  ";
             if (player.Sigils.Count == 0) sigils += friendly && actionWindow.CanUseHand ? "—  /  无目标牌可拖到此处打出" : "—";
             if (friendly)
             {
-                var playZone = Box(root, new Rect(345, y + 35, 843, 37), background); playZone.name = "PlayZone";
+                var playZone = Box(side, new Rect(345, 35, 843, 37), background); playZone.name = "PlayZone";
                 BindHit(playZone, BattleHitKind.Deploy);
             }
-            Label(root, new Rect(350, y + 39, 810, 32), sigils + (player.Prophecy != null ? "  /  预言 " + player.Prophecy : ""), 17, muted);
+            Label(side, new Rect(350, 39, 810, 32), sigils + (player.Prophecy != null ? "  /  预言 " + player.Prophecy : ""), 17, muted);
         }
         void DrawBoard(int p, int y)
         {
+            var side = ui.Subpanel(root, "Board" + p, new Rect(32, y, 1156, p == viewer ? 110 : 76));
             var board = View.Players[p].Board;
-            int height = p == viewer ? 110 : 76;
-            if (p == viewer)
-            {
-                var zone = Box(root, new Rect(32, y, 1156, 110), background); zone.name = "DeployZone";
-                BindHit(zone, BattleHitKind.Deploy);
-            }
+            var layout = side.GetComponent<UiRepeaterLayout>();
+            if (layout == null && uiCaptured) { layout = side.gameObject.AddComponent<UiRepeaterLayout>(); layout.cellSize = new Vector2(220, p == viewer ? 110 : 76); }
+            if (p == viewer) { side.gameObject.name = "DeployZone"; BindHit(side, BattleHitKind.Deploy); }
             for (int i = 0; i < 5; i++)
             {
-                int x = 32 + i * 234;
-                if (i >= board.Count) { var empty = Box(root, new Rect(x, y, 220, height), panel * new Color(1, 1, 1, 0.4f)); if (p == viewer) BindHit(empty, BattleHitKind.Deploy); Label(empty, new Rect(0, 10, 220, height - 15), p == viewer && i == board.Count ? actionWindow.Normal ? "拖到此处出牌\n侍从从最右侧入场" : "部署区\n" + (actionWindow.Response ? "仅可部署合法抢拍侍从" : "等待行动权") : "—", 16, muted, TextAnchor.MiddleCenter); continue; }
+                var area = layout.Area(i);
+                if (i >= board.Count) { var empty = Box(side, area, panel * new Color(1, 1, 1, 0.4f)); if (p == viewer) BindHit(empty, BattleHitKind.Deploy); Label(empty, new Rect(0, 10, 220, area.height - 15), p == viewer && i == board.Count ? actionWindow.Normal ? "拖到此处出牌\n侍从从最右侧入场" : "部署区\n" + (actionWindow.Response ? "仅可部署合法抢拍侍从" : "等待行动权") : "—", 16, muted, TextAnchor.MiddleCenter); continue; }
                 var u = board[i]; var d = Database.Card(u.Card.Key); int id = u.Id;
                 bool canAttack = p == viewer && BattleInput && HasAction(CommandKind.Attack, id);
                 string state = u.Stasis ? "停滞" : u.Exhausted ? "疲惫" : p != viewer ? "就绪" : canAttack ? "可攻击" : "就绪 · 暂不能攻击";
                 string tags = ((u.Keywords & Keyword.Guard) != 0 ? " 守卫" : "") + ((u.Keywords & Keyword.Growth) != 0 ? " 蓄力" : "") + (u.Shield ? " 护盾" : "");
                 bool chosen = selectedUnit == id || selectedTarget.Equals(new Target(TargetKind.Unit, id));
-                var unitButton = Button(root, new Rect(x, y, 220, height), d.Name + "\n" + u.Atk + " 攻 / " + u.Hp + " 血 / " + u.Cadence + " 刻\n" + state + tags,
-                    () => { if (p == viewer && selectedCard == 0 && !ability) { ClearSelection(); selectedUnit = id; RebuildBattle(); } else SelectTarget(new Target(TargetKind.Unit, id)); }, BattleInput && (p == viewer && selectedCard == 0 && !ability ? canAttack : TargetAvailable(new Target(TargetKind.Unit, id))), chosen ? new Color32(92, 77, 43, 255) : panel, p == viewer ? 18 : 16);
+                var visual = CardWidget(side, "BoardUnit", area);
+                visual.Bind(d.Key, d.School, d.Rarity, d.Name, "", u.Atk + "攻 / " + u.Hp + "血 / " + u.Cadence + "刻", tags.Trim(), "", state, !u.Exhausted, chosen);
+                var unitButton = visual.Interaction;
+                unitButton.interactable = BattleInput && (p == viewer && selectedCard == 0 && !ability ? canAttack : TargetAvailable(new Target(TargetKind.Unit, id)));
+                unitButton.onClick.AddListener(() => { if (p == viewer && selectedCard == 0 && !ability) { ClearSelection(); selectedUnit = id; RebuildBattle(); } else SelectTarget(new Target(TargetKind.Unit, id)); });
                 BindTarget(unitButton, new Target(TargetKind.Unit, id));
                 if (p == viewer) BindSource(unitButton.GetComponent<RectTransform>(), 0, id);
                 if (canAttack && Draft() == null) ActionOutline(unitButton, teal);
@@ -134,15 +145,19 @@ namespace Kairos.Client
         }
         void DrawHand()
         {
+            var side = ui.Subpanel(root, "Hand", new Rect(32, 702, 1156, 188));
+            var layout = side.GetComponent<UiRepeaterLayout>();
+            if (layout == null && uiCaptured) { layout = side.gameObject.AddComponent<UiRepeaterLayout>(); layout.cellSize = new Vector2(136, 188); layout.spacing = new Vector2(9, 0); layout.columns = 8; }
             var hand = View.Players[viewer].Hand;
             for (int i = 0; i < hand.Count; i++)
             {
                 var c = hand[i]; var d = Database.Card(c.Key); int id = c.Id;
                 var available = ActionAvailability.Card(View, id);
                 bool selectable = CanAct && TutorialCardSelectable(id) && (actionWindow.Window == ActionWindow.Mulligan || actionWindow.CanUseHand);
-                Color color = selectedCard == id || selection.Contains(id) ? new Color32(93, 77, 44, 255) : selectable && available.CanPlay ? new Color32(28, 53, 61, 255) : panel;
-                var rt = Box(root, new Rect(32 + i * 145, 702, 136, 171), color); rt.name = "HandCard-" + id;
-                var button = rt.gameObject.AddComponent<Button>(); button.targetGraphic = rt.GetComponent<Image>(); button.interactable = selectable;
+                var visual = CardWidget(side, "HandCard", layout.Area(i)); var rt = visual.Rect; rt.name = "HandCard-" + id;
+                visual.Bind(d.Key, d.School, d.Rarity, d.Name, d.Type == "OMEN" ? "伏笔2" : (d.Time + c.CostDelta) + "刻", d.Type == "UNIT" ? d.Atk + "/" + d.Hp + " 节" + d.Cadence : KindName(d.Type), d.Text, "", HandStatus(id, available), selectable && available.CanPlay, selectedCard == id || selection.Contains(id));
+                visual.SetStatusColor(selectable && available.CanPlay ? actionWindow.Response ? gold : teal : muted);
+                var button = visual.Interaction; button.interactable = selectable;
                 var colors = button.colors; colors.disabledColor = new Color(.65f, .65f, .65f, 1); button.colors = colors;
                 if (selectable && available.CanPlay) ActionOutline(button, actionWindow.Response ? gold : teal);
                 else Highlight(button, lesson != null && button.interactable);
@@ -151,13 +166,8 @@ namespace Kairos.Client
                     if (!View.MainPhase) { if (!selection.Remove(id)) selection.Add(id); RebuildBattle(); return; }
                     SelectHand(id); RebuildBattle();
                 });
-                Label(rt, new Rect(7, 7, 122, 26), (d.Type == "OMEN" ? "伏笔 2" : (d.Time + c.CostDelta) + " 刻") + (d.Type == "UNIT" ? " · " + d.Atk + "/" + d.Hp + " 节" + d.Cadence : " · " + KindName(d.Type)), 14, gold);
-                Label(rt, new Rect(10, 38, 116, 45), d.Name, 20, ink);
-                Label(rt, new Rect(10, 84, 116, 64), d.Text, 14, muted);
-                var badge = Box(rt, new Rect(4, 148, 128, 21), selectable && available.CanPlay ? new Color32(30, 78, 78, 255) : background); badge.GetComponent<Image>().raycastTarget = false;
-                Label(badge, new Rect(0, 0, 128, 21), HandStatus(id, available), 14, selectable && available.CanPlay ? actionWindow.Response ? gold : teal : muted, TextAnchor.MiddleCenter).name = "Availability";
                 BindSource(rt, id, 0);
-                var trigger = rt.gameObject.AddComponent<EventTrigger>(); var entry = new EventTrigger.Entry { eventID = EventTriggerType.PointerEnter };
+                var trigger = rt.GetComponent<EventTrigger>() ?? rt.gameObject.AddComponent<EventTrigger>(); trigger.triggers.Clear(); var entry = new EventTrigger.Entry { eventID = EventTriggerType.PointerEnter };
                 entry.callback.AddListener(_ => HoverCard(id)); trigger.triggers.Add(entry);
                 var exit = new EventTrigger.Entry { eventID = EventTriggerType.PointerExit };
                 exit.callback.AddListener(_ => { if (!dragging && timeSummary != null) timeSummary.text = PreviewText(Draft()); }); trigger.triggers.Add(exit);
@@ -166,6 +176,7 @@ namespace Kairos.Client
         void HoverCard(int id)
         {
             if (previewLabel == null || selectedCard != 0 || selectedUnit != 0 || ability || selectedAction.HasValue) return;
+            if (cardDetailsLabel != null) cardDetailsLabel.text = Database.Card(GameEngine.FindCard(View.Players[viewer].Hand, id).Key).Text;
             var availability = ActionAvailability.Card(View, id);
             previewLabel.text = CardUnavailableReason(id, availability);
             if (!BattleInput || !availability.CanPlay) return;

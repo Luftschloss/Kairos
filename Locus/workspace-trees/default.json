@@ -3,8 +3,8 @@
   "presetId": "default",
   "name": "Default",
   "projectId": "unity-e389140b901271e25313d8a3",
-  "revision": 16,
-  "lastOperationId": "722e9327-bf83-425c-ab6f-3fab5179ee93",
+  "revision": 17,
+  "lastOperationId": "76b713b7-7264-4b40-a35f-8e1357f0095e",
   "nodes": [
     {
       "nodeId": "resource:system:318e9931-1aab-4281-adb2-a75287b62243",
@@ -13,7 +13,7 @@
       "resourceKind": "system",
       "resourceId": "newSession",
       "hidden": true,
-      "position": 6
+      "position": 7
     },
     {
       "nodeId": "resource:system:4f4516ab-7dfa-429e-bf91-4636d83a426e",
@@ -31,7 +31,7 @@
       "resourceKind": "system",
       "resourceId": "collaboration",
       "hidden": false,
-      "position": 5
+      "position": 6
     },
     {
       "nodeId": "resource:system:31e5276f-d85f-48c6-89d6-645f0534eab8",
@@ -76,7 +76,17 @@
       "resourceKind": "session",
       "resourceId": "d2365570-7c4f-499c-918b-c5b62bc384dd",
       "hidden": false,
-      "position": 7
+      "position": 8
+    },
+    {
+      "nodeId": "resource:knowledge:4503a541-53aa-4cb0-add0-75e92668b074",
+      "projectId": "unity-e389140b901271e25313d8a3",
+      "nodeKind": "resource",
+      "resourceKind": "knowledge",
+      "resourceId": "kd_af2b18ca-0697-476c-9b2e-3f422f7914e4",
+      "hidden": false,
+      "sourceKind": "knowledge",
+      "position": 5
     }
   ],
   "itemStates": []

@@ -11,7 +11,7 @@ namespace Kairos.Client
         {
             var controls = Box(root, new Rect(32, 681, 1156, 19), background);
             Label(controls, new Rect(0, 0, 1156, 19), ActionHint(), 15, WindowColor);
-            var side = Box(root, new Rect(1210, 90, 358, 783), panel);
+            var side = ui.Subpanel(root, "BattleSidebar", new Rect(1210, 90, 358, 783));
             bool active = BattleInput;
             bool normal = active && actionWindow.Normal;
             timerLabel = Label(side, new Rect(16, 12, 326, 30), actionWindow.Response ? "仅可抢拍" : actionWindow.Normal ? "你可行动 · 选择下一步" : "暂不可出牌 · 等待提示", 21, WindowColor);
@@ -26,7 +26,7 @@ namespace Kairos.Client
             if (View.Pending?.Kind == PendingKind.Interject) details = DeclarationText();
             else if (Mode == DemoMode.Tower && !CanAct) details = AiIntent() ?? details;
             else if (selectedAction.HasValue) details = selectedAction == CommandKind.Focus ? "蓄势：抽 1 张牌，随后支付时间。\n先看中央鸣钟预览，再确认。" : "静候不是结束回合：付出时间前进到对手时标 +1（最多到终点）。\n先看中央预览，再确认。";
-            Label(side, new Rect(16, 152, 324, 79), details, 16, ink);
+            cardDetailsLabel = Label(side, new Rect(16, 152, 324, 79), details, 17, ink);
             if (selectedCard != 0)
             {
                 Button(side, new Rect(14, 236, 160, 35), placingOmen ? "盖放伏笔" : "正面打出", () => { placingOmen = !placingOmen; selectedTarget = default; offset = View.Config.OmenOffsetMin; timelineStart = -1; RebuildBattle(); }, normal && Database.Card(GameEngine.FindCard(View.Players[viewer].Hand, selectedCard).Key).Type != "OMEN", background, 16);
@@ -58,8 +58,8 @@ namespace Kairos.Client
             if (View.Pending?.Kind == PendingKind.Interject) Button(side, new Rect(14, 467, 330, 36), "放弃抢拍", () => Submit(new Command { Player = viewer, Kind = CommandKind.Pass }), active, background);
             else Label(side, new Rect(16, 467, 326, 33), "未来物件（可点击选取）", 17, gold);
             var scrollRoot = Box(side, new Rect(14, 507, 330, 98), background);
-            var scroll = scrollRoot.gameObject.AddComponent<ScrollRect>(); scroll.horizontal = false;
-            var viewport = Box(scrollRoot, new Rect(0, 0, 330, 98), background); viewport.gameObject.AddComponent<RectMask2D>();
+            var scroll = scrollRoot.GetComponent<ScrollRect>() ?? scrollRoot.gameObject.AddComponent<ScrollRect>(); scroll.horizontal = false;
+            var viewport = Box(scrollRoot, new Rect(0, 0, 330, 98), background); if (viewport.GetComponent<RectMask2D>() == null) viewport.gameObject.AddComponent<RectMask2D>();
             var content = Element(viewport, "Objects", new Rect(0, 0, 326, Math.Max(98, View.Timeline.Count * 36))); scroll.viewport = viewport; scroll.content = content; scroll.movementType = ScrollRect.MovementType.Clamped;
             int row = 0; foreach (var o in View.Timeline)
             {
@@ -78,33 +78,34 @@ namespace Kairos.Client
         }
         void DrawMulligan()
         {
-            var bar = Box(root, new Rect(80, 345, 1060, 105), background);
+            var bar = ui.Subpanel(root, "Mulligan", new Rect(80, 345, 1060, 105));
             Label(bar, new Rect(20, 15, 665, 76), "起手调度 · P" + (viewer + 1) + "\n点击下方手牌标记换牌；也可全部保留。已选择 " + selection.Count + " 张", 21, gold);
             Button(bar, new Rect(730, 29, 290, 53), "确认调度", () => Submit(new Command { Player = viewer, Kind = CommandKind.Mulligan, Selection = selection.ToArray() }), true, new Color32(30, 88, 85, 255), 23);
         }
-        RectTransform Modal(string title)
+        RectTransform Modal(string id, string title)
         {
-            var shade = Box(root, new Rect(0, 73, 1600, 827), new Color(0.025f, 0.04f, 0.06f, 0.97f));
-            var box = Box(shade, new Rect(230, 95, 1140, 620), panel);
+            var box = ui.ShowModal(id);
             Label(box, new Rect(40, 30, 1055, 70), title, 33, gold); return box;
         }
         void DrawChoice()
         {
             var pending = View.Pending;
-            var box = Modal(pending.Kind == PendingKind.Summon ? "往昔召回" : pending.Kind == PendingKind.Scry ? "预见 · 编排未来" : "窥时 · 选择一张加入手牌");
+            var box = Modal("Choice", pending.Kind == PendingKind.Summon ? "往昔召回" : pending.Kind == PendingKind.Scry ? "预见 · 编排未来" : "窥时 · 选择一张加入手牌");
             Label(box, new Rect(40, 107, 1050, 66), pending.Kind == PendingKind.Summon ? "点击一张侍从召回；不会再次触发部署。" : "按希望的顺序点击卡牌。可再次点击取消。\n预见：前 N 张置顶，其余按所选顺序置底；窥时：第一张入手，其余置底。", 20, ink);
             var cards = pending.Kind == PendingKind.Summon ? View.Players[viewer].Past : View.Players[viewer].Deck;
-            var area = Box(box, new Rect(40, 188, 1060, 230), background); var scroll = area.gameObject.AddComponent<ScrollRect>(); scroll.vertical = false;
-            var vp = Box(area, new Rect(0, 0, 1060, 230), background); vp.gameObject.AddComponent<RectMask2D>();
+            var area = Box(box, new Rect(40, 188, 1060, 230), background); var scroll = area.GetComponent<ScrollRect>() ?? area.gameObject.AddComponent<ScrollRect>(); scroll.vertical = false;
+            var vp = Box(area, new Rect(0, 0, 1060, 230), background); if (vp.GetComponent<RectMask2D>() == null) vp.gameObject.AddComponent<RectMask2D>();
             var content = Element(vp, "Choices", new Rect(0, 0, Math.Max(1060, pending.Options.Count * 240), 230)); scroll.viewport = vp; scroll.content = content; scroll.movementType = ScrollRect.MovementType.Clamped;
             for (int i = 0; i < pending.Options.Count; i++)
             {
                 int id = pending.Options[i]; var card = GameEngine.FindCard(cards, id); var d = Database.Card(card.Key); int order = selection.IndexOf(id);
-                Button(content, new Rect(12 + i * 240, 12, 220, 205), (order >= 0 ? "顺序 " + (order + 1) + "\n" : "") + d.Name + "  " + d.Time + "刻\n\n" + d.Text, () =>
+                var visual = CardWidget(content, "CollectionTile", new Rect(12 + i * 240, 12, 220, 205));
+                BindCard(visual, d, order >= 0 ? "顺序 " + (order + 1) : "点击选择", true, order >= 0);
+                visual.Interaction.onClick.AddListener(() =>
                 {
                     if (pending.Kind == PendingKind.Summon) { Submit(new Command { Player = viewer, Kind = CommandKind.Choose, Selection = new[] { id } }); return; }
                     if (!selection.Remove(id)) selection.Add(id); choiceTop = Math.Min(choiceTop, selection.Count); RebuildBattle();
-                }, true, order >= 0 ? new Color32(92, 77, 43, 255) : panel, 20);
+                });
             }
             if (pending.Kind != PendingKind.Summon)
             {
@@ -115,7 +116,7 @@ namespace Kairos.Client
         }
         void DrawResult()
         {
-            var box = Modal(State.Outcome == Outcome.Draw ? "时间账单 · 平局" : "时间账单 · " + (State.Outcome == Outcome.P0Win ? "P1" : "P2") + " 获胜");
+            var box = Modal("Result", State.Outcome == Outcome.Draw ? "时间账单 · 平局" : "时间账单 · " + (State.Outcome == Outcome.P0Win ? "P1" : "P2") + " 获胜");
             for (int p = 0; p < 2; p++)
             {
                 int attacks = 0, cards = 0, waits = 0; foreach (var c in State.Commands) if (c.Player == p) { if (c.Kind == CommandKind.Attack) attacks++; if (c.Kind == CommandKind.Play || c.Kind == CommandKind.Interject) cards++; if (c.Kind == CommandKind.Wait) waits++; }
@@ -132,7 +133,7 @@ namespace Kairos.Client
         void DrawHelp()
         {
             string[] tabs = { "入门与操作", "时轴与鸣钟", "战斗与关键词", "抢拍与未来", "资源与终局" };
-            var box = Modal("规则手册 · 不必一次记住所有规则");
+            var box = Modal("Rules", "规则手册 · 不必一次记住所有规则");
             for (int i = 0; i < tabs.Length; i++)
             {
                 int page = i;
@@ -171,12 +172,12 @@ namespace Kairos.Client
         {
             if (lesson != null)
             {
-                var tutorialBox = Modal("暂时离开教学？");
+                var tutorialBox = Modal("TutorialLeave", "暂时离开教学？");
                 Label(tutorialBox, new Rect(40, 160, 1050, 120), "退出不会记为完成。\n可以随时从主菜单重新开始；教学内没有时间压力。", 25, ink);
                 Button(tutorialBox, new Rect(40, 380, 500, 70), "继续教学", () => { leaving = false; RebuildBattle(); });
                 Button(tutorialBox, new Rect(600, 380, 500, 70), "退出到主菜单", ShowMenu); return;
             }
-            var box = Modal("离开本局？");
+            var box = Modal("Leave", "离开本局？");
             Label(box, new Rect(40, 160, 1050, 110), "每次确认行动后自动保存，返回菜单可稍后继续。\n认输不产生本场成长收益；已入账的永久收益保留。", 24, ink);
             Button(box, new Rect(40, 370, 300, 68), "继续游戏", () => { leaving = false; RebuildBattle(); });
             Button(box, new Rect(400, 370, 300, 68), "认输", () => { leaving = false; Submit(new Command { Player = viewer, Kind = CommandKind.Concede }); }, State.Outcome == Outcome.Ongoing);
@@ -185,7 +186,7 @@ namespace Kairos.Client
         void ShowCampaign()
         {
             SyncRun();
-            Clear(); Header("逆流之塔  /  已自动保存 · 临时牌组不属于永久收藏");
+            Clear(); BeginPage("Campaign"); Header("逆流之塔 / 已自动保存 · 临时牌组不属于永久收藏");
             Label(root, new Rect(100, 126, 1400, 70), Run.Stage == RunStage.Complete ? "你不必按它的指标赢。" : Run.Stage == RunStage.Failed ? "命烛熄灭，但时间还会重来。" : "腕钟失灵之后", 43, gold);
             Label(root, new Rect(104, 209, 1350, 65), "命烛 " + Run.Life + " / 20    |    牌组 " + Run.Deck.Cards.Count + " 张    |    " + Database.Keeper(Run.Deck.Keeper).Name + "\n短流程：战斗 → 奖励 → 休整 → 战斗 → 奖励 → 休整 → Boss", 22, muted);
             if (Run.Stage == RunStage.Map)
@@ -220,17 +221,17 @@ namespace Kairos.Client
                 Label(root, new Rect(104, 346, 1330, 160), Run.Stage == RunStage.Complete ? "第一幕短流程已完成。\n完整三幕、专属敌人、遗物与叙事分支，将在后续版本展开。" : "本次旅程结束。已经入账的收藏收益仍属于你。\n临时牌组已清空，可重新出发或返回收藏调整配方。", 28, ink);
                 Button(root, new Rect(104, 612, 500, 80), "重新出发", RestartJourney, true, new Color32(30, 75, 79, 255), 27);
             }
-            Button(root, new Rect(1230, 800, 280, 54), "返回主菜单", ShowMenu);
+            Button(root, new Rect(1230, 800, 280, 54), "返回主菜单", ShowMenu); FinishPage();
         }
         void ShowRemoveCard()
         {
-            Clear(); Header("调律 / 选择移除一张牌");
+            Clear(); BeginPage("RemoveCard"); Header("调律 / 选择移除一张牌");
             for (int i = 0; i < Run.Deck.Cards.Count; i++)
             {
                 int index = i; var d = Database.Card(Run.Deck.Cards[i]);
                 Button(root, new Rect(70 + i % 5 * 295, 140 + i / 5 * 185, 275, 165), d.Name + "\n" + d.Text, () => RestJourney(index), true, panel, 20);
             }
-            Button(root, new Rect(1190, 810, 300, 50), "取消", ShowCampaign);
+            Button(root, new Rect(1190, 810, 300, 50), "取消", ShowCampaign); FinishPage();
         }
     }
 }

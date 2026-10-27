@@ -5,8 +5,17 @@
 - Unity **2022.3.62f3**，Built-in Pipeline，Legacy Input Manager；未升级项目版本。
 - 最新 Windows 时轴交互版：`Builds/KairosDemo-Timeline/KairosDemo.exe`，保留同目录的 `_Data`、`MonoBleedingEdge` 与 DLL 一起运行；窗口关闭或 Alt+F4 退出。旧教学版 `Builds/KairosDemo-Tutorial/` 与首版 `Builds/KairosDemo/` 保留不覆盖。
 - 打开 `Assets/Kairos/Scenes/KairosDemo.unity`，点击 **Play**。也可用菜单 **KAIROS → Open Demo**。
-- 建议 Game 窗口最大化、16:9、至少 1280×720；界面按 1600×900 等比适配。中文字体使用系统 Microsoft YaHei 等字体，不含可分发字体资产。
+- 建议 Game 窗口最大化、16:9、至少 1280×720；界面按 1600×900 等比适配。编辑器最新UI已改项目内 MiSans-Regular/Bold，字形HintedSmooth、Canvas像素对齐；旧Windows包尚未包含本次字体/美术更新。
 - 主菜单点击预组按钮切换双方卡组，种子相同时可重现洗牌与先行者。
+
+### 分层美术与可编辑卡牌Prefab（编辑器最新版本）
+
+- 当前46牌＋10钟主已换成768×1024写实插画，六学派边框九宫格显示；选中用独立牌框高光，不改变插画颜色。
+- UI已迁移为UIRoot、12页面、14弹窗、嵌套子面板与卡牌控件Prefab。静态布局/样式由Prefab控制，动态列表与时轴由数据驱动；KAIROS → UI → Navigator可定位页面/面板，完整说明见[UI框架](../Assets/Kairos/UI/README.md)。
+- 旧600×800分层SVG/PNG/ORA保留于`ArtSource/Kairos/EtchedCards/`；新写实原图和整套审阅图库位于`ArtSource/Kairos/RealisticCards/`，新位图不宣称存在绘画图层。
+- 收藏七类筛选（学派、类型、稀有度、时值、拥有、关键词、兼容）使用Dropdown，保留单项筛选含义；关键词支持滚动、取消关闭。样式Prefab：`Assets/Kairos/UI/Resources/KairosUI/CollectionFilter.prefab`。
+- MiSans正文与粗体标题替换系统字体；手牌不再缩到9px塞规则，悬停/选中在侧栏查看完整效果。
+- 说明：[写实卡面与九宫格适配](../ArtSource/Kairos/RealisticCards/README.md)、[Prefab与字体说明](../ArtSource/Kairos/EtchedCards/README.md)。尚未重新打包Windows版本。
 
 ### 新手教学（建议先玩）
 

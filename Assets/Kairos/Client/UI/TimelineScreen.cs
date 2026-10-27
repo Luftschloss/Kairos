@@ -48,7 +48,7 @@ namespace Kairos.Client
         }
         void DrawTimeline()
         {
-            var strip = Box(root, new Rect(32, 296, 1156, 182), panel);
+            var strip = ui.Subpanel(root, "Timeline", new Rect(32, 296, 1156, 182));
             strip.name = "Timeline";
             int end = View.Config.TimelineEnd, span = Math.Min(16, end);
             var draft = Draft(); var preview = Preview(draft);

@@ -1,0 +1,228 @@
+{
+  "portraits": [
+    {
+      "key": "N_GEAR_APPRENTICE",
+      "focusY": 0.3
+    },
+    {
+      "key": "N_BELL_GUARD",
+      "focusY": 0.3
+    },
+    {
+      "key": "N_WANDERING_TIMEKEEPER",
+      "focusY": 0.3
+    },
+    {
+      "key": "N_BRASS_GOLEM",
+      "focusY": 0.3
+    },
+    {
+      "key": "N_HOURGLASS",
+      "focusY": 0.45
+    },
+    {
+      "key": "N_PENDULUM_BLADE",
+      "focusY": 0.45
+    },
+    {
+      "key": "DAWN_SCOUT",
+      "focusY": 0.3
+    },
+    {
+      "key": "DAWN_COURIER",
+      "focusY": 0.3
+    },
+    {
+      "key": "DAWN_FIRST_LIGHT_STRIKE",
+      "focusY": 0.3
+    },
+    {
+      "key": "DAWN_INTERCEPTOR",
+      "focusY": 0.3
+    },
+    {
+      "key": "DAWN_GALE_CHORUS",
+      "focusY": 0.3
+    },
+    {
+      "key": "DAWN_RIDER",
+      "focusY": 0.3
+    },
+    {
+      "key": "DAWN_LAW_OF_INITIATIVE",
+      "focusY": 0.3
+    },
+    {
+      "key": "DAWN_SUNRISE_TORRENT",
+      "focusY": 0.45
+    },
+    {
+      "key": "NOON_MORNING_PRAYER",
+      "focusY": 0.3
+    },
+    {
+      "key": "NOON_ZENITH_WARDEN",
+      "focusY": 0.3
+    },
+    {
+      "key": "NOON_RADIANT_BARRIER",
+      "focusY": 0.3
+    },
+    {
+      "key": "NOON_MOMENT_OF_ORDER",
+      "focusY": 0.3
+    },
+    {
+      "key": "NOON_SUNDIAL_JUDGE",
+      "focusY": 0.3
+    },
+    {
+      "key": "NOON_NOON_JUDGMENT",
+      "focusY": 0.45
+    },
+    {
+      "key": "NOON_COVENANT_OF_RADIANCE",
+      "focusY": 0.45
+    },
+    {
+      "key": "NOON_SOLAR_ANGEL",
+      "focusY": 0.3
+    },
+    {
+      "key": "DUSK_ASH_ACOLYTE",
+      "focusY": 0.3
+    },
+    {
+      "key": "DUSK_RITE_OF_OFFERING",
+      "focusY": 0.45
+    },
+    {
+      "key": "DUSK_WHISPERER_OF_PAST",
+      "focusY": 0.3
+    },
+    {
+      "key": "DUSK_ECHO_OF_THE_DEAD",
+      "focusY": 0.3
+    },
+    {
+      "key": "DUSK_WITHERING_TOUCH",
+      "focusY": 0.45
+    },
+    {
+      "key": "DUSK_TWILIGHT_PACT",
+      "focusY": 0.3
+    },
+    {
+      "key": "DUSK_REAPER",
+      "focusY": 0.3
+    },
+    {
+      "key": "DUSK_EMBER_COLOSSUS",
+      "focusY": 0.3
+    },
+    {
+      "key": "NIGHT_STARGAZER_APPRENTICE",
+      "focusY": 0.3
+    },
+    {
+      "key": "NIGHT_STARFALL",
+      "focusY": 0.45
+    },
+    {
+      "key": "NIGHT_FATE_WEAVER",
+      "focusY": 0.3
+    },
+    {
+      "key": "NIGHT_PROPHECY",
+      "focusY": 0.3
+    },
+    {
+      "key": "NIGHT_VOID_GAZE",
+      "focusY": 0.3
+    },
+    {
+      "key": "NIGHT_TEMPORAL_REWIND",
+      "focusY": 0.45
+    },
+    {
+      "key": "NIGHT_MIRROR_MOMENT",
+      "focusY": 0.3
+    },
+    {
+      "key": "NIGHT_STARS_REALIGN",
+      "focusY": 0.45
+    },
+    {
+      "key": "ETERNAL_SPROUT",
+      "focusY": 0.3
+    },
+    {
+      "key": "ETERNAL_MOSS_WATCHER",
+      "focusY": 0.3
+    },
+    {
+      "key": "ETERNAL_AMBER_SEAL",
+      "focusY": 0.45
+    },
+    {
+      "key": "ETERNAL_SLOW_CURRENT",
+      "focusY": 0.45
+    },
+    {
+      "key": "ETERNAL_RING_TREE",
+      "focusY": 0.3
+    },
+    {
+      "key": "ETERNAL_STASIS_FIELD",
+      "focusY": 0.45
+    },
+    {
+      "key": "ETERNAL_MILLENNIUM_INSTANT",
+      "focusY": 0.45
+    },
+    {
+      "key": "ETERNAL_EVERLASTING_GUARDIAN",
+      "focusY": 0.3
+    },
+    {
+      "key": "K_DAWN_IRIN",
+      "focusY": 0.3
+    },
+    {
+      "key": "K_DAWN_AXUN",
+      "focusY": 0.3
+    },
+    {
+      "key": "K_NOON_ORIS",
+      "focusY": 0.3
+    },
+    {
+      "key": "K_NOON_KELAI",
+      "focusY": 0.3
+    },
+    {
+      "key": "K_DUSK_MORGAN",
+      "focusY": 0.3
+    },
+    {
+      "key": "K_DUSK_SHENMO",
+      "focusY": 0.3
+    },
+    {
+      "key": "K_NIGHT_SELENE",
+      "focusY": 0.3
+    },
+    {
+      "key": "K_NIGHT_ZERO",
+      "focusY": 0.3
+    },
+    {
+      "key": "K_ETERNAL_GOULD",
+      "focusY": 0.3
+    },
+    {
+      "key": "K_ETERNAL_XIAOMAN",
+      "focusY": 0.3
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+Use case: illustration-story
+Asset type: premium portrait collectible-card illustration for KAIROS; full-bleed artwork only.
+Style/medium: highly realistic dark-fantasy narrative painting, comparable to the cinematic realism and rich materials of Gwent-like card illustrations. Believable anatomy and individual expressive faces, refined restrained brushwork, tactile worn metal, cloth, leather, wood and stone, realistic light, compelling original story. Rich midtones, readable darks, one clear focal subject, layered foreground/midground/background. Not a photo shoot or a plastic 3D render.
+World: the original KAIROS clock-city is a vertical city of weathered brass, glass, stone bridges and immense clockworks. Its AI Sichen allocated people's time through wrist-clocks until the central clock shattered into five schools: efficiency, order, cost, prediction and continuity. Life-candles represent life; time-sand is wasted time crystallized. Ordinary people's dignity matters; the AI and its echoes are not automatically evil.
+
+School palette and visual direction: moss green, warm honey amber, soft reflected light; aged wood, living roots, quiet rain and patient growth
+Subject and scene: Xiaoman, a 28-year-old woman who left corporate life to farm and run a bookshop that opens only on rainy days. Natural East Asian features, dark hair loosely tied, simple moss-green linen clothes and a work apron. She leans comfortably in the doorway of her small rural bookshop, one hand around a warm ceramic cup, rain falling just beyond the awning. Books without legible text, herbs and damp earth at depth; warm amber interior against cool green rain. A composed adult with an unhurried half-smile, grounded rather than glamorous.
+Composition: portrait image designed for a small card; essential face, object and narrative gesture in the central 70 percent; faces around one third from the top; allow slight top/bottom crop to 3:4, no essential content at extreme edges. Use asymmetry and believable perspective where appropriate. A complete scene, not a symbol on a decorative backdrop.
+Constraints: original KAIROS characters and setting, no text, letters, numerals, logos, watermark, card border, UI, split panels or collage. Avoid geometric silhouettes, flat vector shapes, woodcut, engraving hatching, line-art, anime, cartoon, low-poly, plastic skin, generic glamour posing, excessive luminous particle effects and black-crushed backgrounds. Card rules and flavor text below are narrative context only: never render their words in the image.
+Card source context: {"key": "K_ETERNAL_XIAOMAN", "name": "归乡人 · 小满", "school": "ETERNAL", "type": null, "text": "被动：你静候时，所有友方蓄力侍从蓄力 1 次。小满（1 刻，每 2 小节 1 次）：推迟对手时标 1 刻；如果你的命烛低于对手，改为 2 刻。", "flavor": null}
+Keeper source biography (context, do not render text):
+- **身份**：二十八岁，从大公司辞职，回到城郊的老家种地，开了一家只在下雨天营业的书店。
+- **现实映照**：躺平、回乡青年、松弛感、四天工作制。
+- **名字来源**：二十四节气中的“小满”，寓意“小满胜万全”，不求圆满。
+- **动机**：她不想赢，只想不输给焦虑。被卷入钟主之争，是因为她的书店恰好建在一块碎片落地的位置。
+- **台词**：“急什么。”
+- **人物弧**：她必须面对一个质疑：“你躺平，是因为你有退路。”她的回答构成了游戏里关于“慢下来是不是特权”最诚实的一段对话。
+- **机制对应**：静候（什么都不做）时，蓄力侍从会成长。**整个游戏只有她把“休息”本身变成了战斗力。**

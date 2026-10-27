@@ -1,0 +1,17 @@
+Use case: illustration-story
+Asset type: premium portrait collectible-card illustration for KAIROS; full-bleed artwork only.
+Style/medium: highly realistic dark-fantasy narrative painting, comparable to the cinematic realism and rich materials of Gwent-like card illustrations. Believable anatomy and individual expressive faces, refined restrained brushwork, tactile worn metal, cloth, leather, wood and stone, realistic light, compelling original story. Rich midtones, readable darks, one clear focal subject, layered foreground/midground/background. Not a photo shoot or a plastic 3D render.
+World: the original KAIROS clock-city is a vertical city of weathered brass, glass, stone bridges and immense clockworks. Its AI Sichen allocated people's time through wrist-clocks until the central clock shattered into five schools: efficiency, order, cost, prediction and continuity. Life-candles represent life; time-sand is wasted time crystallized. Ordinary people's dignity matters; the AI and its echoes are not automatically evil.
+
+School palette and visual direction: ember copper, muted burgundy, violet-grey twilight; tactile worn objects, memory, emotional cost
+Subject and scene: Morgan, an adult female former emergency physician who sells future years of her own life to gain time to save patients now. Short practical hair, visibly exhausted focused eyes, worn burgundy medical coat and plain leather instrument case. She stands in a dim emergency doorway, holding a nearly spent life-candle near her brass wrist-clock; tiny ember grains drift from it. Warm copper light reveals tenderness and resolve through fatigue, violet hospital shadows behind. A humane professional, no witch costume, no gore.
+Composition: portrait image designed for a small card; essential face, object and narrative gesture in the central 70 percent; faces around one third from the top; allow slight top/bottom crop to 3:4, no essential content at extreme edges. Use asymmetry and believable perspective where appropriate. A complete scene, not a symbol on a decorative backdrop.
+Constraints: original KAIROS characters and setting, no text, letters, numerals, logos, watermark, card border, UI, split panels or collage. Avoid geometric silhouettes, flat vector shapes, woodcut, engraving hatching, line-art, anime, cartoon, low-poly, plastic skin, generic glamour posing, excessive luminous particle effects and black-crushed backgrounds. Card rules and flavor text below are narrative context only: never render their words in the image.
+Card source context: {"key": "K_DUSK_MORGAN", "name": "焚时者 · 摩尔甘", "school": "DUSK", "type": null, "text": "被动：每小节第一个死亡的友方侍从使你获得 1 时砂。焚时（1 刻，每小节 1 次）：支付 2 点命烛，抽 1 张。", "flavor": null}
+Keeper source biography (context, do not render text):
+- **身份**：前急诊科医生，后来成了一名“透支者”：她向黑市出售自己未来的命烛，换取眼下更多的时间去救人。
+- **现实映照**：燃烧式工作、医护过劳、“用命换钱”、健康焦虑。
+- **动机**：她认为燃烧是值得的，只是想让代价不再被忽视。
+- **台词**：“我知道这是在透支。可是那位病人等不到我‘可持续’。”
+- **人物弧**：她的结局是全游戏最克制的一个：她终于为自己请了一天假。那天的城市没有因此停摆。
+- **机制对应**：支付命烛换抽牌，以及侍从死亡后获得时砂。

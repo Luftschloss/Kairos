@@ -31,16 +31,16 @@ namespace Kairos.Client
         void ShowMetaError(string reason, Action retry)
         {
             retrySave = retry;
-            var box = Modal("操作未完成 · 数据不会部分扣除");
+            var box = Modal("SaveError", "操作未完成 · 数据不会部分扣除");
             Label(box, new Rect(40, 120, 1050, 235), reason + "\n\n已确认的数据保留。写入成功前不会显示已入账。", 23, gold);
             Button(box, new Rect(40, 430, 495, 65), "重试", () => { retrySave = null; MetaTry(retry); }, true, panel, 24);
-            Button(box, new Rect(590, 430, 510, 65), "返回菜单 / 保留存档", () => { retrySave = null; ShowMenu(); }, true, panel, 24);
+            Button(box, new Rect(590, 430, 510, 65), "返回菜单 / 保留存档", () => { retrySave = null; ShowMenu(); }, true, panel, 24); FinishPage();
         }
         void InitFailure(Exception ex)
         {
-            BuildCanvas(); Clear(); Header("档案加载失败");
+            BuildCanvas(); Clear(); BeginPage("LoadFailure"); Header("档案加载失败");
             Label(root, new Rect(160, 220, 1280, 260), ex.Message + "\n\n原文件没有被重置。存档位置：\n" + SavePath, 24, gold);
-            Button(root, new Rect(510, 570, 580, 80), "重新读取档案", () => { try { LoadProgression(); ShowMenu(); } catch (Exception e) { InitFailure(e); } });
+            Button(root, new Rect(510, 570, 580, 80), "重新读取档案", () => { try { LoadProgression(); ShowMenu(); } catch (Exception e) { InitFailure(e); } }); FinishPage();
         }
         void SyncRun() { Run = progression?.Data.ActiveRun?.Progress; }
         void EnterSavedMatch(bool resume)
@@ -68,10 +68,10 @@ namespace Kairos.Client
         }
         void ConfirmAbandon()
         {
-            var box = Modal("确认放弃保存的进度？");
+            var box = Modal("Abandon", "确认放弃保存的进度？");
             Label(box, new Rect(40, 140, 1060, 185), "未完成的本场不产生收益。\n本次旅程牌组将结束；已经入账的收藏与铸片不会丢失。\n只是想暂时离开？返回菜单即可，下次可以继续。", 25, ink);
             Button(box, new Rect(40, 440, 500, 65), "保留并返回", ShowMenu);
-            Button(box, new Rect(600, 440, 500, 65), "确认放弃", () => MetaTry(() => { progression.AbandonActive(); State = null; Run = null; ShowMenu(); }));
+            Button(box, new Rect(600, 440, 500, 65), "确认放弃", () => MetaTry(() => { progression.AbandonActive(); State = null; Run = null; ShowMenu(); })); FinishPage();
         }
         void CloseResultTo(Action next) => MetaTry(() =>
         { progression.CloseResult(); State = null; SyncRun(); next(); });
@@ -132,14 +132,14 @@ namespace Kairos.Client
         }
         void ShowDeckPicker(bool opponent)
         {
-            Clear(); Header(opponent ? "选择对手牌组 / 可试用" : "选择你的牌组");
+            Clear(); BeginPage("DeckPicker"); Header(opponent ? "选择对手牌组 / 可试用" : "选择你的牌组");
             var decks = progression.Data.Profile.Decks;
             for (int i = 0; i < decks.Count; i++)
             {
                 var d = decks[i]; Button(root, new Rect(60 + i % 3 * 496, 105 + i / 3 * 160, 474, 140), d.Name + "\n" + Database.Keeper(d.Keeper).Name + " · " + d.Cards.Count + " 张\n" + (progression.DeckReason(d, !opponent) ?? "可用"), () => { if (opponent) opponentDeck = d.Clone(); else chosenDeck = d.Clone(); ShowMenu(); }, true, panel, 19);
             }
             Button(root, new Rect(60, 790, 480, 60), "返回菜单", ShowMenu);
-            Button(root, new Rect(1060, 790, 480, 60), "进入工坊新建 / 编辑", () => OpenCollection());
+            Button(root, new Rect(1060, 790, 480, 60), "进入工坊新建 / 编辑", () => OpenCollection()); FinishPage();
         }
     }
 }

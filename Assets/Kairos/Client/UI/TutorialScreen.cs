@@ -22,12 +22,12 @@ namespace Kairos.Client
         }
         void ShowTutorialWelcome(Action skip)
         {
-            var box = Modal("第一次来到刻律之城？");
+            var box = Modal("TutorialWelcome", "第一次来到刻律之城？");
             Label(box, new Rect(40, 115, 1050, 64), "先玩一场约 2 分钟的教学残局。无需记住全部规则。", 26, ink);
             Label(box, new Rect(40, 213, 1050, 155), "你会亲手完成：出牌 → 攻击 → 鸣钟 → 击败训练钟偶。\n每一步都有目标与高亮；无需应付倒计时或 AI 催促。\n学完后，再挑战本地 PVP 或 AI。教学可以随时退出、重玩。", 24, muted);
             Button(box, new Rect(40, 459, 610, 77), "开始新手教学（推荐）", StartTutorial, true, new Color32(30, 88, 85, 255), 27);
             Button(box, new Rect(690, 459, 410, 77), skip == null ? "暂时跳过，返回菜单" : "跳过，直接进入对局", () => { if (skip == null) ShowMenu(); else skip(); }, true, background, 21);
-            Label(box, new Rect(40, 557, 1050, 32), "仅完成教学后才会记录“已学会”；跳过不会标记通关。", 17, muted);
+            Label(box, new Rect(40, 557, 1050, 32), "仅完成教学后才会记录“已学会”；跳过不会标记通关。", 17, muted); FinishPage();
         }
         public void StartTutorial()
         {
@@ -37,7 +37,7 @@ namespace Kairos.Client
         }
         void DrawTutorialIntro()
         {
-            var box = Modal("新手教学 · 把时间交还给你");
+            var box = Modal("TutorialIntro", "新手教学 · 把时间交还给你");
             Label(box, new Rect(40, 108, 1040, 62), "目标：把训练钟偶的 4 点命烛降到 0。", 29, teal);
             Label(box, new Rect(40, 203, 1050, 190), "命烛就是生命。你在下方，对手在上方。\n本作没有“结束回合”：谁的时标较小，谁行动。\n卡牌左上角的“刻”就是费用；先发生效果，再向前移动时标。\n跟着右侧教学目标，点击金色高亮的牌、目标和按钮。", 24, ink);
             Label(box, new Rect(40, 415, 1050, 65), "这是固定教学残局：跳过调度，钟偶在第 2 刻、4 命烛且逆流已用。\n普通对局双方从第 0 刻与 20 命烛开始；这里的出牌和战斗仍使用相同规则。", 18, muted);
@@ -57,7 +57,7 @@ namespace Kairos.Client
         }
         void DrawTutorialSidebar()
         {
-            var side = Box(root, new Rect(1210, 90, 358, 783), panel);
+            var side = ui.Subpanel(root, "TutorialSidebar", new Rect(1210, 90, 358, 783));
             Label(side, new Rect(18, 16, 322, 40), "新手教学 · 无倒计时", 23, gold);
             for (int i = 0; i < 5; i++) Box(side, new Rect(18 + i * 65, 66, 57, 5), i <= (int)lesson.Step ? teal : background);
             Label(side, new Rect(18, 89, 322, 71), TutorialTitle(), 24, gold);
@@ -97,7 +97,7 @@ namespace Kairos.Client
         }
         void DrawTutorialComplete()
         {
-            var box = Modal("教学完成 · 你掌握了第一段时间");
+            var box = Modal("TutorialComplete", "教学完成 · 你掌握了第一段时间");
             Label(box, new Rect(40, 112, 1050, 86), "你亲手击败了训练钟偶。\n出牌、战斗与胜负均由正式规则引擎结算。", 26, teal);
             Label(box, new Rect(40, 243, 1050, 142), "记住三件事就可以开始：\n① 落后者行动；相同时，后到者先行。\n② 先结算效果，再支付时间；每到新钟点抽牌、重整、扩大视界。\n③ 攻击需要未疲惫的侍从：拖到敌人；或点来源、点目标、再确认。", 23, ink);
             Label(box, new Rect(40, 405, 1050, 64), "正式对局有起手调度和更多机制。抢拍、伏笔、咏唱可随时在「规则手册」查阅。\n建议下一步先选 AI 练习，熟悉后再与朋友热座对战。", 19, muted);
@@ -117,17 +117,19 @@ namespace Kairos.Client
         }
         void Highlight(Button button, bool active)
         {
+            var visual = button.GetComponent<CardVisual>();
+            if (visual != null) { if (active) visual.SetActionHint(true, gold); return; }
             if (!active) return;
             var outline = button.gameObject.AddComponent<Outline>(); outline.effectColor = gold; outline.effectDistance = new Vector2(2, -2);
         }
         void OpenRules(int page = 0)
         {
             helpPage = page; help = true;
-            if (State != null) RebuildBattle(); else { ShowMenu(); help = true; DrawHelp(); }
+            if (State != null) RebuildBattle(); else { help = true; DrawHelp(); FinishPage(); }
         }
         void CloseRules()
         {
-            help = false; if (State != null) RebuildBattle(); else ShowMenu();
+            help = false; if (State != null) RebuildBattle(); else ui.CloseModal();
         }
         string ActionHint()
         {

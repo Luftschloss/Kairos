@@ -14,7 +14,8 @@ namespace Kairos.Client
         { foreach (var c in View.Legal) if (c.Kind == kind && (unit == 0 || c.UnitId == unit) && LessonAllows(c)) return true; return false; }
         void DrawActionWindow()
         {
-            var strip = Box(root, new Rect(32, 78, 1156, 56), actionWindow.Normal ? new Color32(24, 65, 67, 255) : actionWindow.Response ? new Color32(76, 59, 28, 255) : new Color32(33, 40, 51, 255));
+            var strip = ui.Subpanel(root, "ActionWindow", new Rect(32, 78, 1156, 56));
+            strip.GetComponent<Image>().color = actionWindow.Normal ? new Color32(24, 65, 67, 255) : actionWindow.Response ? new Color32(76, 59, 28, 255) : new Color32(33, 40, 51, 255);
             strip.name = "ActionWindow";
             Box(strip, new Rect(0, 0, 5, 56), WindowColor).GetComponent<Image>().raycastTarget = false;
             string title = actionWindow.Title;
@@ -28,7 +29,7 @@ namespace Kairos.Client
             Label(strip, new Rect(580, 7, 560, 46), actionWindow.Explanation, 17, ink, TextAnchor.MiddleLeft).name = "ActionWindowReason";
         }
         void ActionOutline(Button b, Color color)
-        { var outline = b.gameObject.AddComponent<Outline>(); outline.effectColor = color; outline.effectDistance = new Vector2(2, -2); }
+        { var visual = b.GetComponent<CardVisual>(); if (visual != null) { visual.SetActionHint(true, color); return; } var outline = b.gameObject.AddComponent<Outline>(); outline.effectColor = color; outline.effectDistance = new Vector2(2, -2); }
         string CardUnavailableReason(int id, HandAvailability available)
         {
             if (!actionWindow.CanUseHand || !TutorialCardSelectable(id)) return !TutorialCardSelectable(id) && lesson != null ? "教学中请按右侧目标操作；此牌暂未开放。" : available.Reason;

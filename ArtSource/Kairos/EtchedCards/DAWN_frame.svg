@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800"><rect x="5" y="5" width="590" height="790" fill="none" stroke="#c78152" stroke-width="10" opacity="1.0000"/>
+<rect x="18" y="18" width="564" height="764" fill="none" stroke="#c78152" stroke-width="2" opacity="1.0000"/>
+<rect x="28" y="28" width="544" height="744" fill="none" stroke="#c78152" stroke-width="2" opacity="1.0000"/>
+<polygon points="28,28 105,28 63,42 42,63 28,105" fill="#c78152" stroke="#eed8a3" stroke-width="1" opacity="1.0000"/>
+<ellipse cx="52.0" cy="52.0" rx="5.0" ry="5.0" fill="#7497a0" stroke="#eed8a3" stroke-width="1" opacity="1.0000"/>
+<polygon points="572,28 495,28 537,42 558,63 572,105" fill="#c78152" stroke="#eed8a3" stroke-width="1" opacity="1.0000"/>
+<ellipse cx="548.0" cy="52.0" rx="5.0" ry="5.0" fill="#7497a0" stroke="#eed8a3" stroke-width="1" opacity="1.0000"/>
+<polygon points="28,772 105,772 63,758 42,737 28,695" fill="#c78152" stroke="#eed8a3" stroke-width="1" opacity="1.0000"/>
+<ellipse cx="52.0" cy="748.0" rx="5.0" ry="5.0" fill="#7497a0" stroke="#eed8a3" stroke-width="1" opacity="1.0000"/>
+<polygon points="572,772 495,772 537,758 558,737 572,695" fill="#c78152" stroke="#eed8a3" stroke-width="1" opacity="1.0000"/>
+<ellipse cx="548.0" cy="748.0" rx="5.0" ry="5.0" fill="#7497a0" stroke="#eed8a3" stroke-width="1" opacity="1.0000"/></svg>

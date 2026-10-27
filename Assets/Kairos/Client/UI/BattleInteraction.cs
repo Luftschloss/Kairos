@@ -17,15 +17,15 @@ namespace Kairos.Client
         bool BattleInput => CanAct && !help && !leaving && View.MainPhase && (View.Pending == null || View.Pending.Kind == PendingKind.Interject);
 
         void BindHit(Transform rect, BattleHitKind kind, int value = 0)
-        { var h = rect.gameObject.AddComponent<BattleHit>(); h.Kind = kind; h.Value = value; }
+        { var h = rect.gameObject.GetComponent<BattleHit>() ?? rect.gameObject.AddComponent<BattleHit>(); h.Kind = kind; h.Value = value; }
         void BindTarget(Button button, Target target)
         {
-            var h = button.gameObject.AddComponent<BattleHit>(); h.Kind = BattleHitKind.Target; h.Target = target;
+            var h = button.gameObject.GetComponent<BattleHit>() ?? button.gameObject.AddComponent<BattleHit>(); h.Kind = BattleHitKind.Target; h.Target = target;
             if (!targetRects.ContainsKey(target)) targetRects[target] = button.GetComponent<RectTransform>();
         }
         void BindSource(RectTransform rect, int card, int unit)
         {
-            var source = rect.gameObject.AddComponent<BattleDragSource>(); source.Owner = this; source.CardId = card; source.UnitId = unit;
+            var source = rect.gameObject.GetComponent<BattleDragSource>() ?? rect.gameObject.AddComponent<BattleDragSource>(); source.Owner = this; source.CardId = card; source.UnitId = unit;
             if (selectedCard != 0 && selectedCard == card || selectedUnit != 0 && selectedUnit == unit) sourceRect = rect;
         }
         void SelectHand(int id)
@@ -46,9 +46,9 @@ namespace Kairos.Client
             if (dragRouter == null) { dragRouter = gameObject.AddComponent<BattleDragRouter>(); dragRouter.Owner = this; }
             e.pointerDrag = dragRouter.gameObject; e.eligibleForClick = false; e.pointerPress = null;
             dragging = true; dragSerial = decisionSerial;
-            dragLine = Box(root, new Rect(0, 0, 1, 4), gold); dragLine.name = "DragArrow"; dragLine.GetComponent<Image>().raycastTarget = false;
-            dragTip = Box(root, new Rect(0, 0, 330, 62), background); dragTip.GetComponent<Image>().raycastTarget = false;
-            dragText = Label(dragTip, new Rect(8, 4, 314, 54), "", 16, gold);
+            dragLine = EffectWidget("ActionLine", new Rect(0, 0, 1, 4)); dragLine.name = "DragArrow";
+            dragTip = EffectWidget("DragTip", new Rect(0, 0, 330, 62));
+            dragText = dragTip.GetComponentInChildren<Text>();
             MoveBattleDrag(e);
         }
         BattleHit HitAt(PointerEventData e)
@@ -117,9 +117,9 @@ namespace Kairos.Client
         }
         void DrawLink(RectTransform from, RectTransform to)
         {
-            var line = Box(root, new Rect(0, 0, 1, 3), new Color(gold.r, gold.g, gold.b, .6f)); line.GetComponent<Image>().raycastTarget = false;
+            var line = EffectWidget("ActionLine", new Rect(0, 0, 1, 3)); line.GetComponent<Image>().color = new Color(gold.r, gold.g, gold.b, .6f);
             SetLine(line, Center(from), Center(to));
-            var end = Center(to); Label(root, new Rect(end.x - 10, end.y - 12, 24, 26), "◆", 18, gold);
+            var end = Center(to); EffectWidget("TargetDot", new Rect(end.x - 10, end.y - 12, 24, 26));
         }
     }
 }

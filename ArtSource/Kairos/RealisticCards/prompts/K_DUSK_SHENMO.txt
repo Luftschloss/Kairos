@@ -1,0 +1,17 @@
+Use case: illustration-story
+Asset type: premium portrait collectible-card illustration for KAIROS; full-bleed artwork only.
+Style/medium: highly realistic dark-fantasy narrative painting, comparable to the cinematic realism and rich materials of Gwent-like card illustrations. Believable anatomy and individual expressive faces, refined restrained brushwork, tactile worn metal, cloth, leather, wood and stone, realistic light, compelling original story. Rich midtones, readable darks, one clear focal subject, layered foreground/midground/background. Not a photo shoot or a plastic 3D render.
+World: the original KAIROS clock-city is a vertical city of weathered brass, glass, stone bridges and immense clockworks. Its AI Sichen allocated people's time through wrist-clocks until the central clock shattered into five schools: efficiency, order, cost, prediction and continuity. Life-candles represent life; time-sand is wasted time crystallized. Ordinary people's dignity matters; the AI and its echoes are not automatically evil.
+
+School palette and visual direction: ember copper, muted burgundy, violet-grey twilight; tactile worn objects, memory, emotional cost
+Subject and scene: Shenmo, a grieving middle-aged father and proprietor of a brass-and-glass Echo House. He sits beside a small recording apparatus in whose warm dust the faint memory of his lost daughter is suggested. His face, realistic tired eyes and poised hand above an unpressed stop lever carry the composition; a decision he cannot yet make. Dark wine-colored wool coat, worn wood and glass with fingerprints, copper lamp light against violet dusk, restrained intimate sadness rather than ghost-story horror.
+Composition: portrait image designed for a small card; essential face, object and narrative gesture in the central 70 percent; faces around one third from the top; allow slight top/bottom crop to 3:4, no essential content at extreme edges. Use asymmetry and believable perspective where appropriate. A complete scene, not a symbol on a decorative backdrop.
+Constraints: original KAIROS characters and setting, no text, letters, numerals, logos, watermark, card border, UI, split panels or collage. Avoid geometric silhouettes, flat vector shapes, woodcut, engraving hatching, line-art, anime, cartoon, low-poly, plastic skin, generic glamour posing, excessive luminous particle effects and black-crushed backgrounds. Card rules and flavor text below are narrative context only: never render their words in the image.
+Card source context: {"key": "K_DUSK_SHENMO", "name": "忆者 · 沈默", "school": "DUSK", "type": null, "text": "被动：你的往昔中每有 5 张侍从牌，你的侍从入场时 +1 攻。回声（2 刻，每 3 小节 1 次）：从往昔召回一名时值 ≤3 的侍从。", "flavor": null}
+Keeper source biography (context, do not render text):
+- **身份**：经营一家“回声馆”，用逝者生前的信息训练 AI，让家属和他们再说说话。
+- **现实映照**：AI 复活逝者、数字遗产、哀悼与告别。
+- **动机**：他自己的女儿在乱时代去世。回声馆里第一个“回声”就是她。
+- **台词**：“它说话的语气和她一模一样。可我知道，那只是我记得的她。”
+- **人物弧**：他最终要决定，要不要关掉女儿的回声。游戏不替他做选择，由玩家决定。
+- **机制对应**：从往昔召回侍从，往昔越满越强。

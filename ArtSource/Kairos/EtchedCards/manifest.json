@@ -1,0 +1,469 @@
+{
+  "version": 1,
+  "style": "Original dark clock-city woodcut; procedural vector illustration",
+  "source_resolution": [
+    600,
+    800
+  ],
+  "runtime_resolution": [
+    384,
+    512
+  ],
+  "layers": [
+    "01_atmosphere",
+    "02_clock_city",
+    "03_subject",
+    "04_foreground",
+    "05_engraving"
+  ],
+  "entries": [
+    {
+      "key": "N_GEAR_APPRENTICE",
+      "name": "齿轮学徒",
+      "school": "NEUTRAL",
+      "kind": "card",
+      "motif": "artisan",
+      "seed": 2734939474
+    },
+    {
+      "key": "N_BELL_GUARD",
+      "name": "钟楼守卫",
+      "school": "NEUTRAL",
+      "kind": "card",
+      "motif": "bellguard",
+      "seed": 3076726473
+    },
+    {
+      "key": "N_WANDERING_TIMEKEEPER",
+      "name": "流浪计时者",
+      "school": "NEUTRAL",
+      "kind": "card",
+      "motif": "wanderer",
+      "seed": 1836513700
+    },
+    {
+      "key": "N_BRASS_GOLEM",
+      "name": "黄铜魔像",
+      "school": "NEUTRAL",
+      "kind": "card",
+      "motif": "golem",
+      "seed": 1414060891
+    },
+    {
+      "key": "N_HOURGLASS",
+      "name": "沙漏",
+      "school": "NEUTRAL",
+      "kind": "card",
+      "motif": "hourglass",
+      "seed": 796523403
+    },
+    {
+      "key": "N_PENDULUM_BLADE",
+      "name": "钟摆刃",
+      "school": "NEUTRAL",
+      "kind": "card",
+      "motif": "blade",
+      "seed": 2535843808
+    },
+    {
+      "key": "DAWN_SCOUT",
+      "name": "晨光斥候",
+      "school": "DAWN",
+      "kind": "card",
+      "motif": "runner",
+      "seed": 789620818
+    },
+    {
+      "key": "DAWN_COURIER",
+      "name": "疾行信使",
+      "school": "DAWN",
+      "kind": "card",
+      "motif": "courier",
+      "seed": 1714502276
+    },
+    {
+      "key": "DAWN_FIRST_LIGHT_STRIKE",
+      "name": "破晓一击",
+      "school": "DAWN",
+      "kind": "card",
+      "motif": "strike",
+      "seed": 1334048931
+    },
+    {
+      "key": "DAWN_INTERCEPTOR",
+      "name": "拦截者",
+      "school": "DAWN",
+      "kind": "card",
+      "motif": "interceptor",
+      "seed": 646504230
+    },
+    {
+      "key": "DAWN_GALE_CHORUS",
+      "name": "疾风连奏",
+      "school": "DAWN",
+      "kind": "card",
+      "motif": "wind",
+      "seed": 1173090708
+    },
+    {
+      "key": "DAWN_RIDER",
+      "name": "黎明骑手",
+      "school": "DAWN",
+      "kind": "card",
+      "motif": "rider",
+      "seed": 3823182467
+    },
+    {
+      "key": "DAWN_LAW_OF_INITIATIVE",
+      "name": "先手之律",
+      "school": "DAWN",
+      "kind": "card",
+      "motif": "law",
+      "seed": 3882215985
+    },
+    {
+      "key": "DAWN_SUNRISE_TORRENT",
+      "name": "曙光洪流",
+      "school": "DAWN",
+      "kind": "card",
+      "motif": "sunburst",
+      "seed": 2915396638
+    },
+    {
+      "key": "NOON_MORNING_PRAYER",
+      "name": "晨祷修士",
+      "school": "NOON",
+      "kind": "card",
+      "motif": "monk",
+      "seed": 373541947
+    },
+    {
+      "key": "NOON_ZENITH_WARDEN",
+      "name": "正午卫士",
+      "school": "NOON",
+      "kind": "card",
+      "motif": "shieldguard",
+      "seed": 3049569943
+    },
+    {
+      "key": "NOON_RADIANT_BARRIER",
+      "name": "圣辉屏障",
+      "school": "NOON",
+      "kind": "card",
+      "motif": "shield",
+      "seed": 1088363529
+    },
+    {
+      "key": "NOON_MOMENT_OF_ORDER",
+      "name": "秩序之刻",
+      "school": "NOON",
+      "kind": "card",
+      "motif": "dial",
+      "seed": 3217906914
+    },
+    {
+      "key": "NOON_SUNDIAL_JUDGE",
+      "name": "日晷法官",
+      "school": "NOON",
+      "kind": "card",
+      "motif": "judge",
+      "seed": 940540863
+    },
+    {
+      "key": "NOON_NOON_JUDGMENT",
+      "name": "正午审判",
+      "school": "NOON",
+      "kind": "card",
+      "motif": "scales",
+      "seed": 2217942689
+    },
+    {
+      "key": "NOON_COVENANT_OF_RADIANCE",
+      "name": "光辉圣约",
+      "school": "NOON",
+      "kind": "card",
+      "motif": "covenant",
+      "seed": 2066500140
+    },
+    {
+      "key": "NOON_SOLAR_ANGEL",
+      "name": "烈阳天使",
+      "school": "NOON",
+      "kind": "card",
+      "motif": "angel",
+      "seed": 3630322873
+    },
+    {
+      "key": "DUSK_ASH_ACOLYTE",
+      "name": "灰烬侍僧",
+      "school": "DUSK",
+      "kind": "card",
+      "motif": "acolyte",
+      "seed": 3624846173
+    },
+    {
+      "key": "DUSK_RITE_OF_OFFERING",
+      "name": "献祭仪式",
+      "school": "DUSK",
+      "kind": "card",
+      "motif": "offering",
+      "seed": 1218837218
+    },
+    {
+      "key": "DUSK_WHISPERER_OF_PAST",
+      "name": "往昔低语者",
+      "school": "DUSK",
+      "kind": "card",
+      "motif": "whisperer",
+      "seed": 1468894894
+    },
+    {
+      "key": "DUSK_ECHO_OF_THE_DEAD",
+      "name": "亡者回响",
+      "school": "DUSK",
+      "kind": "card",
+      "motif": "echo",
+      "seed": 3704615444
+    },
+    {
+      "key": "DUSK_WITHERING_TOUCH",
+      "name": "凋零之触",
+      "school": "DUSK",
+      "kind": "card",
+      "motif": "hand",
+      "seed": 2050244752
+    },
+    {
+      "key": "DUSK_TWILIGHT_PACT",
+      "name": "黄昏契约",
+      "school": "DUSK",
+      "kind": "card",
+      "motif": "pact",
+      "seed": 1374376594
+    },
+    {
+      "key": "DUSK_REAPER",
+      "name": "暮色收割者",
+      "school": "DUSK",
+      "kind": "card",
+      "motif": "reaper",
+      "seed": 1891577400
+    },
+    {
+      "key": "DUSK_EMBER_COLOSSUS",
+      "name": "余烬巨像",
+      "school": "DUSK",
+      "kind": "card",
+      "motif": "colossus",
+      "seed": 795425172
+    },
+    {
+      "key": "NIGHT_STARGAZER_APPRENTICE",
+      "name": "观星学徒",
+      "school": "NIGHT",
+      "kind": "card",
+      "motif": "astronomer",
+      "seed": 2014456346
+    },
+    {
+      "key": "NIGHT_STARFALL",
+      "name": "星陨",
+      "school": "NIGHT",
+      "kind": "card",
+      "motif": "meteor",
+      "seed": 1264747822
+    },
+    {
+      "key": "NIGHT_FATE_WEAVER",
+      "name": "命运织者",
+      "school": "NIGHT",
+      "kind": "card",
+      "motif": "weaver",
+      "seed": 2988579932
+    },
+    {
+      "key": "NIGHT_PROPHECY",
+      "name": "天命预言",
+      "school": "NIGHT",
+      "kind": "card",
+      "motif": "eye",
+      "seed": 3747952143
+    },
+    {
+      "key": "NIGHT_VOID_GAZE",
+      "name": "虚空凝视",
+      "school": "NIGHT",
+      "kind": "card",
+      "motif": "void",
+      "seed": 1991038343
+    },
+    {
+      "key": "NIGHT_TEMPORAL_REWIND",
+      "name": "时空回溯",
+      "school": "NIGHT",
+      "kind": "card",
+      "motif": "spiral",
+      "seed": 2761115550
+    },
+    {
+      "key": "NIGHT_MIRROR_MOMENT",
+      "name": "镜中之刻",
+      "school": "NIGHT",
+      "kind": "card",
+      "motif": "mirror",
+      "seed": 4002530360
+    },
+    {
+      "key": "NIGHT_STARS_REALIGN",
+      "name": "群星归位",
+      "school": "NIGHT",
+      "kind": "card",
+      "motif": "constellation",
+      "seed": 2797744346
+    },
+    {
+      "key": "ETERNAL_SPROUT",
+      "name": "萌芽种子",
+      "school": "ETERNAL",
+      "kind": "card",
+      "motif": "sprout",
+      "seed": 803394538
+    },
+    {
+      "key": "ETERNAL_MOSS_WATCHER",
+      "name": "苔藓守望者",
+      "school": "ETERNAL",
+      "kind": "card",
+      "motif": "moss",
+      "seed": 2317200020
+    },
+    {
+      "key": "ETERNAL_AMBER_SEAL",
+      "name": "琥珀封印",
+      "school": "ETERNAL",
+      "kind": "card",
+      "motif": "amber",
+      "seed": 431643368
+    },
+    {
+      "key": "ETERNAL_SLOW_CURRENT",
+      "name": "缓流",
+      "school": "ETERNAL",
+      "kind": "card",
+      "motif": "river",
+      "seed": 860382945
+    },
+    {
+      "key": "ETERNAL_RING_TREE",
+      "name": "年轮古树",
+      "school": "ETERNAL",
+      "kind": "card",
+      "motif": "tree",
+      "seed": 1541480271
+    },
+    {
+      "key": "ETERNAL_STASIS_FIELD",
+      "name": "静滞领域",
+      "school": "ETERNAL",
+      "kind": "card",
+      "motif": "field",
+      "seed": 516837379
+    },
+    {
+      "key": "ETERNAL_MILLENNIUM_INSTANT",
+      "name": "千年一瞬",
+      "school": "ETERNAL",
+      "kind": "card",
+      "motif": "rings",
+      "seed": 1558579377
+    },
+    {
+      "key": "ETERNAL_EVERLASTING_GUARDIAN",
+      "name": "永恒守护者",
+      "school": "ETERNAL",
+      "kind": "card",
+      "motif": "guardian",
+      "seed": 946666130
+    },
+    {
+      "key": "K_DAWN_IRIN",
+      "name": "破晓者 · 伊琳",
+      "school": "DAWN",
+      "kind": "keeper",
+      "motif": "irin",
+      "seed": 585686725
+    },
+    {
+      "key": "K_DAWN_AXUN",
+      "name": "倍速者 · 阿迅",
+      "school": "DAWN",
+      "kind": "keeper",
+      "motif": "axun",
+      "seed": 1502319314
+    },
+    {
+      "key": "K_NOON_ORIS",
+      "name": "执钟者 · 奥瑞斯",
+      "school": "NOON",
+      "kind": "keeper",
+      "motif": "oris",
+      "seed": 434641298
+    },
+    {
+      "key": "K_NOON_KELAI",
+      "name": "守夜人 · 珂莱",
+      "school": "NOON",
+      "kind": "keeper",
+      "motif": "kelai",
+      "seed": 3404182483
+    },
+    {
+      "key": "K_DUSK_MORGAN",
+      "name": "焚时者 · 摩尔甘",
+      "school": "DUSK",
+      "kind": "keeper",
+      "motif": "morgan",
+      "seed": 2304468531
+    },
+    {
+      "key": "K_DUSK_SHENMO",
+      "name": "忆者 · 沈默",
+      "school": "DUSK",
+      "kind": "keeper",
+      "motif": "shenmo",
+      "seed": 95524281
+    },
+    {
+      "key": "K_NIGHT_SELENE",
+      "name": "观星者 · 塞勒涅",
+      "school": "NIGHT",
+      "kind": "keeper",
+      "motif": "selene",
+      "seed": 213171086
+    },
+    {
+      "key": "K_NIGHT_ZERO",
+      "name": "未名代理 · 零",
+      "school": "NIGHT",
+      "kind": "keeper",
+      "motif": "zero",
+      "seed": 3040781175
+    },
+    {
+      "key": "K_ETERNAL_GOULD",
+      "name": "守年人 · 古尔德",
+      "school": "ETERNAL",
+      "kind": "keeper",
+      "motif": "gould",
+      "seed": 73440441
+    },
+    {
+      "key": "K_ETERNAL_XIAOMAN",
+      "name": "归乡人 · 小满",
+      "school": "ETERNAL",
+      "kind": "keeper",
+      "motif": "xiaoman",
+      "seed": 2167198384
+    }
+  ]
+}
