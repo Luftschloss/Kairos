@@ -5,6 +5,7 @@ namespace Kairos.Client
 {
     // A transparent, non-interactive highlight over the existing card frame.
     [AddComponentMenu("KAIROS UI/Card Frame Highlight")]
+    [RequireComponent(typeof(CanvasRenderer))]
     public sealed class CardFrameHighlight : MaskableGraphic
     {
         [SerializeField, Min(1)] float thickness = 2;

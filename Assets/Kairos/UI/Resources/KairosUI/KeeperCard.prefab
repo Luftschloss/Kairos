@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6962536234998131927}
   - component: {fileID: 1026138152624240907}
+  - component: {fileID: 5013551432880217732}
   m_Layer: 0
   m_Name: ActionHintHighlight
   m_TagString: Untagged
@@ -58,6 +59,14 @@ MonoBehaviour:
       m_Calls: []
   thickness: 1
   glowWidth: 1
+--- !u!222 &5013551432880217732
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914682213471123803}
+  m_CullTransparentMesh: 1
 --- !u!1 &1501776423965790521
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,6 +235,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1625784905953877986}
   - component: {fileID: 8174661848742853928}
+  - component: {fileID: 4527817334078531782}
   m_Layer: 0
   m_Name: SelectionHighlight
   m_TagString: Untagged
@@ -274,6 +284,14 @@ MonoBehaviour:
       m_Calls: []
   thickness: 2.5
   glowWidth: 4
+--- !u!222 &4527817334078531782
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1963084543667318746}
+  m_CullTransparentMesh: 1
 --- !u!1 &2393806073315268847
 GameObject:
   m_ObjectHideFlags: 0

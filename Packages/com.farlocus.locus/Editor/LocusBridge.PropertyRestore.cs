@@ -29,7 +29,7 @@ namespace Locus
 
         private static void SetPropertyIntegerValue(SerializedProperty prop, string json)
         {
-            if (prop.type == "ulong") { prop.ulongValue = ulong.Parse(TrimJsonString(json), System.Globalization.CultureInfo.InvariantCulture); return; }
+            if (prop.type == "ulong") { SetSerializedUInt64(prop, ulong.Parse(TrimJsonString(json), System.Globalization.CultureInfo.InvariantCulture)); return; }
             long value = long.Parse(TrimJsonString(json), System.Globalization.CultureInfo.InvariantCulture);
             if (prop.type == "long") { prop.longValue = value; return; }
             Type type = ResolveSerializedPropertyFieldType(prop);
@@ -78,7 +78,7 @@ namespace Locus
 
         private static string WithPropertyBeforeSnapshot(string response, SerializedPropertySnapshot before)
         {
-            return response.Substring(0, response.Length - 1) + ",\"beforeSnapshot\":" + SerializedPropertySnapshotToJson(before) + "}";
+            return response.Substring(0, response.Length - 1) + ",\"applied\":true,\"persisted\":false,\"beforeSnapshot\":" + SerializedPropertySnapshotToJson(before) + "}";
         }
 
         private static UnityEngine.Object ResolvePropertyReferenceValue(SerializedProperty prop, string json)

@@ -33,7 +33,6 @@ namespace Locus
         private const int NativeInitialBufferSize = 64 * 1024;
         private const int MaxNativeRequestsPerUpdate = 16;
         private const int MaxNativeActiveManagedRequests = 32;
-        private const double NativeStatusPublishIntervalSeconds = 0.25;
         private const double NativeBackgroundHookRefreshIntervalSeconds = 1.0;
         private const string SessionKey_NativeGeneration = "Locus_NativeGeneration";
         private const string NativePipePrefix = @"\\.\pipe\";
@@ -47,13 +46,17 @@ namespace Locus
         // Capabilities the managed executor advertises (mirrors the managed
         // executor features the broker can route through this domain).
         private const string ManagedCapabilities =
-            "managed_executor_v1,status_cached,set_editor_status_async,execute_idempotency_v1,recompile_result_idempotent_v1,recompile_operation_id_v1";
+            "managed_executor_v1,status_cached,set_editor_status_async,execute_idempotency_v1,recompile_result_idempotent_v1,recompile_operation_id_v1,recompile_in_progress_operation_v1,execute_loop_guard_v1";
 
         private static volatile bool _nativeBridgeActive;
         private static long _nativeGeneration;
         private static byte[] _nativeBuffer;
         private static int _nativeActiveRequests;
-        private static double _lastNativeStatusPublishAt = -1.0;
+        private static bool _nativeExecutionTrackingAvailable = true;
+        private static bool _nativePublishedPlaying;
+        private static bool _nativePublishedPaused;
+        private static string _nativePublishedScene;
+        private static string _nativePublishedAdditionalScenes;
         private static double _lastNativeBackgroundHookCheckAt = -1.0;
         private static bool _nativeBackgroundHookApplied;
 
@@ -81,6 +84,9 @@ namespace Locus
         private static extern void locus_managed_heartbeat(long generation);
 
         [DllImport(NativeDll, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void locus_managed_execution(int active);
+
+        [DllImport(NativeDll, CallingConvention = CallingConvention.Cdecl)]
         private static extern void locus_set_capabilities(byte[] caps, int capsLen);
 
         [DllImport(NativeDll, CallingConvention = CallingConvention.Cdecl)]
@@ -105,6 +111,27 @@ namespace Locus
 
         [DllImport(NativeDll, CallingConvention = CallingConvention.Cdecl)]
         private static extern void locus_overlay_push(byte[] line, int lineLen);
+
+        // Optional exports (newer locus_native). An editor that updated the
+        // plugin keeps the previously loaded DLL until restart, so every call
+        // below tolerates a missing entry point and falls back.
+        [DllImport(NativeDll, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void locus_set_compile_result(
+            byte[] operationId, int operationIdLen, byte[] result, int resultLen);
+
+        [DllImport(NativeDll, CallingConvention = CallingConvention.Cdecl)]
+        private static extern ulong locus_execution_cancel_seq();
+
+        [DllImport(NativeDll, CallingConvention = CallingConvention.Cdecl)]
+        private static extern int locus_execution_cancel_requested(
+            byte[] executionId, int executionIdLen, ulong sinceSeq);
+
+        [DllImport(NativeDll, CallingConvention = CallingConvention.Cdecl)]
+        private static extern long locus_main_thread_stall_ms();
+
+        private static volatile bool _nativeCompileResultAvailable = true;
+        private static volatile bool _nativeExecutionCancelAvailable = true;
+        private static volatile bool _nativeMainThreadStallAvailable = true;
 
         private static volatile bool _nativeOverlayConnected;
 
@@ -142,6 +169,15 @@ namespace Locus
             NativeSetCapabilities(ManagedCapabilities);
             NativeSetManagedState(ManagedStateReady);
             _nativeBridgeActive = true;
+            // A freshly loaded broker starts without the register; seed it so
+            // native get_compile_result never answers with a stale view.
+            string persistedCompileResult = SessionState.GetString(SessionKey_RecompileResult, "");
+            if (!string.IsNullOrEmpty(persistedCompileResult))
+            {
+                NativePublishCompileResult(
+                    SessionState.GetString(SessionKey_RecompileOperationId, ""),
+                    persistedCompileResult);
+            }
             Debug.Log("[Locus] Native broker bridge active (generation " + _nativeGeneration + ").");
 
             // Reconcile the in-process background hook (Phase 6). The native
@@ -396,16 +432,98 @@ namespace Locus
 
         private static void NativePublishHeartbeat()
         {
-            double now = EditorApplication.timeSinceStartup;
-            if (_lastNativeStatusPublishAt < 0 || now - _lastNativeStatusPublishAt >= NativeStatusPublishIntervalSeconds)
-            {
-                RefreshCachedEditorState();
-                NativeSetManagedState(ManagedStateReady);
-                _lastNativeStatusPublishAt = now;
-                return;
-            }
-
+            // A fixed-cost pulse only. Scene enumeration, clocks, JSON and
+            // publication must not be part of the Editor heartbeat.
             locus_managed_heartbeat(_nativeGeneration);
+        }
+
+        private static void NativeReportExecution(bool active)
+        {
+            if (!_nativeBridgeActive || !_nativeExecutionTrackingAvailable) return;
+            try { locus_managed_execution(active ? 1 : 0); }
+            catch (EntryPointNotFoundException) { _nativeExecutionTrackingAvailable = false; }
+        }
+
+        /// <summary>
+        /// Mirror the recompile register into the broker so it can answer
+        /// get_compile_result while a compile, import or post-reload
+        /// initializer holds the main thread. Runs only on register changes.
+        /// </summary>
+        private static void NativePublishCompileResult(string operationId, string result)
+        {
+            // Changes made before the bridge registers in this domain are
+            // published by the seed in NativeStartIfEnabled.
+            if (!_nativeCompileResultAvailable || !_nativeBridgeActive)
+                return;
+            try
+            {
+                byte[] op = Utf8NoBom.GetBytes(operationId ?? "");
+                byte[] value = Utf8NoBom.GetBytes(result ?? "");
+                locus_set_compile_result(op, op.Length, value, value.Length);
+            }
+            catch (EntryPointNotFoundException)
+            {
+                _nativeCompileResultAvailable = false;
+            }
+            catch (DllNotFoundException)
+            {
+                _nativeCompileResultAvailable = false;
+            }
+        }
+
+        /// <summary>Current native cancel sequence, or 0 when unsupported.</summary>
+        internal static ulong NativeExecutionCancelSeq()
+        {
+            if (!_nativeBridgeActive || !_nativeExecutionCancelAvailable)
+                return 0;
+            try
+            {
+                return locus_execution_cancel_seq();
+            }
+            catch (EntryPointNotFoundException)
+            {
+                _nativeExecutionCancelAvailable = false;
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// True when the broker recorded a cancel for this execution after
+        /// <paramref name="sinceSeq"/>. Safe off the main thread.
+        /// </summary>
+        internal static bool NativeExecutionCancelRequested(string executionId, ulong sinceSeq)
+        {
+            if (!_nativeBridgeActive || !_nativeExecutionCancelAvailable)
+                return false;
+            try
+            {
+                byte[] id = Utf8NoBom.GetBytes(executionId ?? "");
+                return locus_execution_cancel_requested(id, id.Length, sinceSeq) != 0;
+            }
+            catch (EntryPointNotFoundException)
+            {
+                _nativeExecutionCancelAvailable = false;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Milliseconds since the editor loop last pulsed, -1 when unknown or
+        /// unsupported. Read off the main thread; costs the editor nothing.
+        /// </summary>
+        internal static long NativeMainThreadStallMs()
+        {
+            if (!_nativeBridgeActive || !_nativeMainThreadStallAvailable)
+                return -1;
+            try
+            {
+                return locus_main_thread_stall_ms();
+            }
+            catch (EntryPointNotFoundException)
+            {
+                _nativeMainThreadStallAvailable = false;
+                return -1;
+            }
         }
 
         private static void NativePublishEditorStatusNow()
@@ -415,7 +533,15 @@ namespace Locus
 
             RefreshCachedEditorState();
             NativeSetManagedState(ManagedStateReady);
-            _lastNativeStatusPublishAt = EditorApplication.timeSinceStartup;
+        }
+
+        private static void NativePublishChangedEditorState()
+        {
+            if (!_nativeBridgeActive) return;
+            if (_nativePublishedPlaying == _isPlaying && _nativePublishedPaused == _isPaused
+                && _nativePublishedScene == _activeScenePath
+                && _nativePublishedAdditionalScenes == _additionalOpenScenePathsStatus) return;
+            NativeSetManagedState(ManagedStateReady);
         }
 
         private static void NativeSetManagedState(int state)
@@ -427,6 +553,10 @@ namespace Locus
                 {
                     int statusLen = EncodeUtf8Reusing(status, ref _nativeEncodeBufferA);
                     locus_set_managed_state(state, _nativeGeneration, _nativeEncodeBufferA, statusLen);
+                    _nativePublishedPlaying = _isPlaying;
+                    _nativePublishedPaused = _isPaused;
+                    _nativePublishedScene = _activeScenePath;
+                    _nativePublishedAdditionalScenes = _additionalOpenScenePathsStatus;
                 }
             }
             catch (Exception ex)
@@ -543,7 +673,10 @@ namespace Locus
             bool wasApplied = _nativeBackgroundHookApplied;
             _nativeBackgroundHookApplied = rc > 0;
             if (_nativeBackgroundHookApplied && !wasApplied)
+            {
+                LocusEditorScheduling.RefreshInteractionMode();
                 Debug.Log("[Locus] Native background hook active (" + rc + " symbols).");
+            }
         }
 
         private static void NativeRefreshBackgroundHook(bool force)
@@ -559,7 +692,7 @@ namespace Locus
             if (NativeBackgroundHookEnabled())
                 NativeApplyBackgroundHook();
             else
-                NativeRestoreBackgroundHook();
+                NativeRestoreBackgroundHook(force);
         }
 
         private static void NativeRefreshBackgroundHook()
@@ -567,14 +700,19 @@ namespace Locus
             NativeRefreshBackgroundHook(false);
         }
 
-        private static void NativeRestoreBackgroundHook()
+        private static void NativeRestoreBackgroundHook(bool forceRefresh = false)
         {
             if (!_nativeBridgeActive)
                 return;
 
             int rc = NativeSetBackgroundHookActive(false);
             if (rc >= 0)
+            {
+                bool shouldRefresh = _nativeBackgroundHookApplied || forceRefresh;
                 _nativeBackgroundHookApplied = false;
+                if (shouldRefresh)
+                    LocusEditorScheduling.RefreshInteractionMode();
+            }
         }
 
         private static int NativeSetBackgroundHookActive(bool active)

@@ -1,6 +1,6 @@
 {
   "name": "Kairos.Engine.Tests",
-  "references": ["Kairos.Engine", "Kairos.Ai", "Kairos.Progression"],
+  "references": ["Kairos.Engine", "Kairos.Ai", "Kairos.Progression", "Kairos.Client", "Unity.ugui"],
   "overrideReferences": true,
   "precompiledReferences": ["nunit.framework.dll", "Newtonsoft.Json.dll"],
   "includePlatforms": ["Editor"],
